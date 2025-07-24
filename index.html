@@ -4,147 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher's Worksheet</title>
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS CDN for modern styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for 'Inter' font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Base styles for the body and container */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-            color: #374151;
+            background-color: #f3f4f6; /* Light gray background */
+            color: #374151; /* Dark gray text */
         }
         .container {
-            max-width: 1200px;
-            margin: 2rem auto;
+            max-width: 1200px; /* Max width for content */
+            margin: 2rem auto; /* Center container with margin */
             padding: 2rem;
-            background-color: #ffffff;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff; /* White background for the main content area */
+            border-radius: 1rem; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
         }
+
+        /* Table specific styles */
         table {
             width: 100%;
-            border-collapse: separate;
+            border-collapse: separate; /* Allows for rounded corners on table */
             border-spacing: 0;
             margin-top: 1rem;
-            border-radius: 0.75rem;
+            border-radius: 0.75rem; /* Rounded corners for the entire table */
             overflow: hidden; /* Ensures rounded corners apply to table content */
         }
         th, td {
             padding: 0.75rem 1rem;
             text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-            white-space: nowrap; /* Prevent text wrapping in date/week headers */
+            border-bottom: 1px solid #e5e7eb; /* Light gray border for rows */
+            white-space: nowrap; /* Prevent text wrapping in headers and cells */
         }
         th {
-            background-color: #f9fafb;
-            font-weight: 600;
-            color: #1f2937;
-            text-transform: uppercase;
-            font-size: 0.875rem;
+            background-color: #f9fafb; /* Lightest gray for table headers */
+            font-weight: 600; /* Semi-bold font */
+            color: #1f2937; /* Darker text for headers */
+            text-transform: uppercase; /* Uppercase text */
+            font-size: 0.875rem; /* Smaller font size for headers */
         }
         tr:last-child td {
-            border-bottom: none;
+            border-bottom: none; /* No border for the last row */
         }
+        /* Alternating row colors for better readability */
         tr:nth-child(odd) {
-            background-color: #f9fafb; /* Alternating row color */
+            background-color: #f9fafb;
         }
         tr:nth-child(even) {
-            background-color: #ffffff; /* Alternating row color */
+            background-color: #ffffff;
         }
+
+        /* Input field styling */
         input[type="text"] {
             padding: 0.5rem 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
+            border: 1px solid #d1d5db; /* Light gray border */
+            border-radius: 0.5rem; /* Rounded corners */
             width: 100%;
-            box-sizing: border-box;
-            background-color: #f9fafb;
-            transition: border-color 0.2s;
+            box-sizing: border-box; /* Include padding and border in width */
+            background-color: #f9fafb; /* Light background */
+            transition: border-color 0.2s; /* Smooth transition for focus effect */
         }
         input[type="text"]:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+            outline: none; /* Remove default outline */
+            border-color: #3b82f6; /* Blue border on focus */
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); /* Blue shadow on focus */
         }
+
+        /* Checkbox styling */
         input[type="checkbox"] {
             width: 1.25rem;
             height: 1.25rem;
-            border-radius: 0.25rem;
-            border: 1px solid #9ca3af;
-            appearance: none;
+            border-radius: 0.25rem; /* Slightly rounded corners */
+            border: 1px solid #9ca3af; /* Gray border */
+            appearance: none; /* Remove default browser styling */
             -webkit-appearance: none;
             -moz-appearance: none;
             cursor: pointer;
             display: inline-block;
             vertical-align: middle;
             position: relative;
-            background-color: #ffffff;
-            transition: background-color 0.2s, border-color 0.2s;
+            background-color: #ffffff; /* White background */
+            transition: background-color 0.2s, border-color 0.2s; /* Smooth transitions */
         }
         input[type="checkbox"]:checked {
-            background-color: #2563eb;
-            border-color: #2563eb;
+            background-color: #2563eb; /* Blue background when checked */
+            border-color: #2563eb; /* Blue border when checked */
         }
         input[type="checkbox"]:checked::after {
-            content: '✔';
+            content: '✔'; /* Checkmark symbol */
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
+            transform: translate(-50%, -50%); /* Center the checkmark */
+            color: white; /* White checkmark */
             font-size: 0.75rem;
             line-height: 1;
         }
         input[type="checkbox"]:disabled {
-            background-color: #e5e7eb;
+            background-color: #e5e7eb; /* Lighter gray when disabled */
             cursor: not-allowed;
-            opacity: 0.7;
+            opacity: 0.7; /* Slightly faded */
         }
+
+        /* Button styling */
         .btn {
             padding: 0.75rem 1.5rem;
-            background-color: #2563eb;
-            color: white;
-            border-radius: 0.75rem;
-            font-weight: 600;
+            background-color: #2563eb; /* Blue background */
+            color: white; /* White text */
+            border-radius: 0.75rem; /* Rounded corners */
+            font-weight: 600; /* Semi-bold font */
             cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
+            transition: background-color 0.2s, transform 0.1s; /* Smooth transitions */
             border: none;
         }
         .btn:hover {
-            background-color: #1d4ed8;
-            transform: translateY(-1px);
+            background-color: #1d4ed8; /* Darker blue on hover */
+            transform: translateY(-1px); /* Slight lift effect */
         }
         .btn:active {
-            transform: translateY(0);
+            transform: translateY(0); /* Return to original position on click */
         }
         .btn:disabled {
-            background-color: #9ca3af;
+            background-color: #9ca3af; /* Gray when disabled */
             cursor: not-allowed;
         }
+
+        /* Loading Overlay */
         .loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 1000; /* On top of other content */
             font-size: 1.2rem;
             color: #374151;
             border-radius: 1rem;
         }
+
+        /* Message Box (for alerts) */
         .message-box {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%); /* Center the box */
             background-color: #fff;
             padding: 2rem;
             border-radius: 0.75rem;
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-            z-index: 1001;
+            z-index: 1001; /* On top of overlay */
             text-align: center;
             display: none; /* Hidden by default */
         }
@@ -157,16 +172,18 @@
             border-radius: 0.5rem;
             cursor: pointer;
         }
+
+        /* Modal for notes */
         .modal {
             display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1002; /* Sit on top */
+            position: fixed;
+            z-index: 1002;
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
             justify-content: center;
             align-items: center;
         }
@@ -219,12 +236,14 @@
         .note-icon-btn:hover {
             color: #2563eb;
         }
+
+        /* Print specific styles */
         @media print {
             body * {
-                visibility: hidden;
+                visibility: hidden; /* Hide everything by default */
             }
             .container, .container * {
-                visibility: visible;
+                visibility: visible; /* Make container and its children visible */
             }
             .container {
                 position: absolute;
@@ -236,19 +255,23 @@
                 box-shadow: none;
                 border-radius: 0;
             }
+            /* Hide specific UI elements when printing */
             .btn, .mb-6.p-4, .add-time-slot-btn, .note-icon-btn, .teacher-mode-controls,
             #generateLessonIdeaBtn, .generate-insight-btn {
                 display: none !important;
             }
+            /* Ensure table borders are visible in print */
             table, th, td {
                 border-color: #000 !important;
             }
+            /* Ensure alternating row colors are visible in print */
             tr:nth-child(odd) {
                 background-color: #f0f0f0 !important;
             }
             tr:nth-child(even) {
                 background-color: #fff !important;
             }
+            /* Ensure text inputs and checkboxes look correct in print */
             input[type="text"], input[type="checkbox"] {
                 border: none !important;
                 background-color: transparent !important;
@@ -263,29 +286,33 @@
     <div class="container">
         <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Teacher's Worksheet</h1>
 
+        <!-- User ID Display -->
         <div class="mb-6 p-4 bg-blue-50 rounded-lg shadow-inner">
             <p class="text-sm text-blue-700">Your User ID: <span id="userIdDisplay" class="font-mono text-blue-900 break-all">Loading...</span></p>
             <p class="text-xs text-blue-600 mt-1">This ID identifies your session. Data is shared publicly for this app.</p>
         </div>
 
+        <!-- Month and Year Selectors -->
         <div class="mb-6 flex items-center justify-center space-x-4">
             <label for="monthSelect" class="font-medium text-gray-700">Month:</label>
             <select id="monthSelect" class="p-2 border border-gray-300 rounded-md">
-                <!-- Options will be dynamically populated -->
+                <!-- Options will be dynamically populated by JavaScript -->
             </select>
 
             <label for="yearSelect" class="font-medium text-gray-700">Year:</label>
             <select id="yearSelect" class="p-2 border border-gray-300 rounded-md">
-                <!-- Options will be dynamically populated -->
+                <!-- Options will be dynamically populated by JavaScript -->
             </select>
         </div>
 
+        <!-- Teacher Edit Mode Controls -->
         <div class="mb-8 teacher-mode-controls text-center">
             <button id="enableTeacherModeBtn" class="btn bg-purple-600 hover:bg-purple-700">Enable Teacher Edit Mode</button>
             <button id="disableTeacherModeBtn" class="btn bg-gray-500 hover:bg-gray-600 hidden">Disable Teacher Edit Mode</button>
             <p class="text-sm text-gray-600 mt-2">Attendance checkboxes are disabled for students. Use this button to enable them for editing.</p>
         </div>
 
+        <!-- Attendance Sheet Section -->
         <div class="mb-8">
             <h2 class="text-2xl font-semibold mb-4 text-gray-700">Attendance Sheet</h2>
             <div id="attendanceTableContainer" class="overflow-x-auto rounded-lg shadow-md">
@@ -294,19 +321,20 @@
                         <tr id="attendanceHeaderWeekRow">
                             <th class="w-1/6" rowspan="2">Student Name</th>
                             <th rowspan="2">Notes</th>
-                            <!-- Week headers will be dynamically inserted here -->
+                            <!-- Week headers will be dynamically inserted here by JavaScript -->
                         </tr>
                         <tr id="attendanceHeaderDayRow">
-                            <!-- Day headers will be dynamically inserted here -->
+                            <!-- Day headers will be dynamically inserted here by JavaScript -->
                         </tr>
                     </thead>
                     <tbody id="attendanceBody">
-                        <!-- Attendance rows will be dynamically inserted here -->
+                        <!-- Attendance rows will be dynamically inserted here by JavaScript -->
                     </tbody>
                 </table>
             </div>
         </div>
 
+        <!-- Timetable Section -->
         <div class="mb-8">
             <h2 class="text-2xl font-semibold mb-4 text-gray-700">Timetable</h2>
             <div id="timetableTableContainer" class="overflow-x-auto rounded-lg shadow-md">
@@ -314,11 +342,11 @@
                     <thead>
                         <tr id="timetableHeaderRow">
                             <th class="w-1/6">Time Slot</th>
-                            <!-- Date headers will be dynamically inserted here -->
+                            <!-- Date headers will be dynamically inserted here by JavaScript -->
                         </tr>
                     </thead>
                     <tbody id="timetableBody">
-                        <!-- Timetable rows will be dynamically inserted here -->
+                        <!-- Timetable rows will be dynamically inserted here by JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -328,6 +356,7 @@
             </div>
         </div>
 
+        <!-- Student Contact Information Section (Teacher Private) -->
         <div class="mb-8">
             <h2 class="text-2xl font-semibold mb-4 text-gray-700">Student Contact Information (Teacher Private)</h2>
             <div id="privateContactTableContainer" class="overflow-x-auto rounded-lg shadow-md">
@@ -341,12 +370,13 @@
                         </tr>
                     </thead>
                     <tbody id="privateContactBody">
-                        <!-- Private contact rows will be dynamically inserted here -->
+                        <!-- Private contact rows will be dynamically inserted here by JavaScript -->
                     </tbody>
                 </table>
             </div>
         </div>
 
+        <!-- Overall Attendance Summary Section -->
         <div class="mb-8">
             <h2 class="text-2xl font-semibold mb-4 text-gray-700">Overall Attendance Summary</h2>
             <div id="overallAttendanceTableContainer" class="overflow-x-auto rounded-lg shadow-md">
@@ -360,28 +390,31 @@
                         </tr>
                     </thead>
                     <tbody id="overallAttendanceBody">
-                        <!-- Overall attendance summary will be dynamically inserted here -->
+                        <!-- Overall attendance summary will be dynamically inserted here by JavaScript -->
                     </tbody>
                 </table>
             </div>
         </div>
 
+        <!-- Action Buttons -->
         <div class="text-center mt-8 space-x-4">
             <button id="saveDataBtn" class="btn">Save All Data</button>
             <button id="printWorksheetBtn" class="btn bg-gray-600 hover:bg-gray-700">Print Worksheet</button>
         </div>
     </div>
 
+    <!-- Loading Overlay -->
     <div id="loadingOverlay" class="loading-overlay hidden">
         <p>Loading data...</p>
     </div>
 
+    <!-- Message Box for user feedback -->
     <div id="messageBox" class="message-box">
         <p id="messageText"></p>
         <button onclick="document.getElementById('messageBox').style.display='none'">OK</button>
     </div>
 
-    <!-- Note Modal -->
+    <!-- Note Modal for adding/editing notes -->
     <div id="noteModal" class="modal flex">
         <div class="modal-content">
             <span class="close-button" onclick="document.getElementById('noteModal').style.display='none'">&times;</span>
@@ -391,28 +424,30 @@
         </div>
     </div>
 
-    <!-- Firebase SDKs -->
+    <!-- Firebase SDKs - Imported as modules -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Global variables for Firebase (will be populated by Canvas environment)
+        // --- Firebase Configuration and Initialization ---
+        // Global variables provided by the Canvas environment for Firebase setup
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
-        let app;
-        let db;
-        let auth;
-        let userId = null; // Will be set after auth
-        let isAuthReady = false;
+        let app; // Firebase app instance
+        let db;  // Firestore database instance
+        let auth; // Firebase Auth instance
+        let userId = null; // Current user's ID (set after authentication)
+        let isAuthReady = false; // Flag to indicate if Firebase authentication is complete
 
-        let currentMonth = new Date().getMonth(); // 0-indexed (e.g., 7 for August)
-        let currentYear = new Date().getFullYear(); // e.g., 2025
-        let monthDates = []; // Array to hold all dates for the selected month
+        // --- Date and Student Data Setup ---
+        let currentMonth = new Date().getMonth(); // Current month (0-indexed)
+        let currentYear = new Date().getFullYear(); // Current year
+        let monthDates = []; // Array to store all date objects for the selected month
 
-        // Student names as provided by the user
+        // Hardcoded student names as per user's request
         const studentNames = [
             "NAJMA ABSHIR",
             "HAMDA AHMED",
@@ -423,12 +458,12 @@
         ];
         const numStudents = studentNames.length;
 
-        // Data structures
-        let attendanceData = []; // Public data
-        let timetableData = []; // Public data
-        let privateContactData = []; // Private data
+        // --- Data Structures for Worksheet Content ---
+        let attendanceData = []; // Stores attendance records (public data)
+        let timetableData = []; // Stores timetable entries (public data)
+        let privateContactData = []; // Stores private student contact info (private data)
 
-        // UI Elements
+        // --- UI Element References ---
         const monthSelect = document.getElementById('monthSelect');
         const yearSelect = document.getElementById('yearSelect');
         const attendanceBody = document.getElementById('attendanceBody');
@@ -453,22 +488,32 @@
         const enableTeacherModeBtn = document.getElementById('enableTeacherModeBtn');
         const disableTeacherModeBtn = document.getElementById('disableTeacherModeBtn');
 
-        let activeNoteElement = null; // To store which note element is being edited
+        // Variables for handling the note modal's state
+        let activeNoteElement = null; // Reference to the data object being edited (student or subject)
         let activeNoteType = null; // 'attendance-student' or 'timetable'
-        let activeNoteIndices = {}; // { studentIndex, date } or { slotIndex, date }
+        let activeNoteIndices = {}; // Stores relevant indices/keys for the active note (e.g., studentIndex, date)
 
-        // Function to show a custom message box
+        // --- Utility Functions ---
+
+        /**
+         * Displays a custom message box to the user.
+         * @param {string} message - The message to display.
+         */
         function showMessageBox(message) {
             messageText.textContent = message;
             messageBox.style.display = 'block';
         }
 
-        // Populate month and year dropdowns
+        /**
+         * Populates the month and year dropdown selectors.
+         * Sets up event listeners for changes to trigger data fetching.
+         */
         function populateMonthYearSelectors() {
             const months = [
                 "January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"
             ];
+            // Populate month dropdown
             months.forEach((month, index) => {
                 const option = document.createElement('option');
                 option.value = index;
@@ -476,6 +521,7 @@
                 monthSelect.appendChild(option);
             });
 
+            // Populate year dropdown (5 years before and 5 years after current year)
             const currentYearFull = new Date().getFullYear();
             for (let i = currentYearFull - 5; i <= currentYearFull + 5; i++) {
                 const option = document.createElement('option');
@@ -484,56 +530,70 @@
                 yearSelect.appendChild(option);
             }
 
+            // Set initial selected values to current month and year
             monthSelect.value = currentMonth;
             yearSelect.value = currentYear;
 
+            // Add event listeners to update data when month or year changes
             monthSelect.addEventListener('change', () => {
                 currentMonth = parseInt(monthSelect.value);
-                fetchAndRenderData();
+                fetchAndRenderData(); // Re-fetch and re-render data for the new month/year
             });
             yearSelect.addEventListener('change', () => {
                 currentYear = parseInt(yearSelect.value);
-                fetchAndRenderData();
+                fetchAndRenderData(); // Re-fetch and re-render data for the new month/year
             });
         }
 
-        // Generate all dates for a given month and year
+        /**
+         * Generates an array of date objects for all days in a given month and year.
+         * @param {number} year - The full year (e.g., 2025).
+         * @param {number} monthIndex - The 0-indexed month (0 for January, 11 for December).
+         * @returns {Array<Object>} An array of date objects with fullDate, displayDate, and shortDay.
+         */
         function generateMonthDates(year, monthIndex) {
             const dates = [];
-            const date = new Date(year, monthIndex, 1);
-            while (date.getMonth() === monthIndex) {
+            const date = new Date(year, monthIndex, 1); // Start from the 1st of the month
+            while (date.getMonth() === monthIndex) { // Loop until the month changes
                 const yyyy = date.getFullYear();
-                const mm = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-                const dd = String(date.getDate()).padStart(2, '0');
-                const fullDate = `${yyyy}-${mm}-${dd}`;
+                const mm = String(date.getMonth() + 1).padStart(2, '0'); // Month (1-12), padded
+                const dd = String(date.getDate()).padStart(2, '0'); // Day, padded
+                const fullDate = `${yyyy}-${mm}-${dd}`; // YYYY-MM-DD format for data keys
                 const shortDay = date.toLocaleDateString('en-US', { weekday: 'short' }).substring(0,2).toUpperCase(); // SU, MO, TU etc.
                 dates.push({
                     fullDate: fullDate,
-                    displayDate: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                    displayDate: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), // e.g., "Aug 1"
                     shortDay: shortDay
                 });
-                date.setDate(date.getDate() + 1);
+                date.setDate(date.getDate() + 1); // Move to the next day
             }
             return dates;
         }
 
-        // Initialize Firebase
+        // --- Firebase Initialization and Data Fetching ---
+
+        /**
+         * Initializes Firebase app, authentication, and Firestore.
+         * Sets up the authentication state listener.
+         */
         function initializeFirebase() {
             try {
                 app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
 
+                // Listen for authentication state changes
                 onAuthStateChanged(auth, async (user) => {
                     if (user) {
+                        // User is signed in
                         userId = user.uid;
                         userIdDisplay.textContent = userId;
                         isAuthReady = true;
                         console.log("Firebase Auth Ready. User ID:", userId);
-                        populateMonthYearSelectors(); // Populate selectors
-                        fetchAndRenderData(); // Initial data fetch and render
+                        populateMonthYearSelectors(); // Populate selectors on auth ready
+                        fetchAndRenderData(); // Fetch initial data
                     } else {
-                        // Attempt to sign in with custom token or anonymously
+                        // User is signed out, attempt anonymous or custom token sign-in
                         try {
                             if (initialAuthToken) {
                                 await signInWithCustomToken(auth, initialAuthToken);
@@ -553,33 +613,41 @@
             }
         }
 
-        // Function to fetch and render data based on selected month/year
+        /**
+         * Fetches public (attendance, timetable) and private (contacts) data from Firestore
+         * based on the current month/year and user ID.
+         * Sets up real-time listeners for data updates.
+         */
         async function fetchAndRenderData() {
             if (!isAuthReady) {
                 console.log("Auth not ready, delaying data fetch.");
                 return;
             }
 
-            monthDates = generateMonthDates(currentYear, currentMonth);
+            monthDates = generateMonthDates(currentYear, currentMonth); // Regenerate dates for selected month/year
 
-            loadingOverlay.classList.remove('hidden'); // Show loading overlay
+            loadingOverlay.classList.remove('hidden'); // Show loading overlay while fetching
 
-            // Fetch Public Data (Attendance, Timetable)
-            const publicDocId = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`; // e.g., "2025-08"
+            // --- Fetch Public Data (Attendance, Timetable) ---
+            // Public data is stored per month/year
+            const publicDocId = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`; // Format: YYYY-MM (e.g., "2025-08")
             const publicDocRef = doc(db, `artifacts/${appId}/public/data/teacherWorksheetPublic`, publicDocId);
-            console.log("Fetching public data from:", publicDocRef.path);
+            console.log("Setting up Firestore listener for public data:", publicDocRef.path);
 
+            // onSnapshot provides real-time updates
             onSnapshot(publicDocRef, (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     console.log("Public data loaded:", data);
+                    // Use existing data or initialize with defaults if not present
                     attendanceData = data.attendance || initializeAttendanceData();
                     timetableData = data.timetable || initializeTimetableData();
                 } else {
-                    console.log("No public data found, initializing with defaults.");
+                    console.log("No public data found for this month, initializing with defaults.");
                     attendanceData = initializeAttendanceData();
                     timetableData = initializeTimetableData();
                 }
+                // Render tables after public data is loaded/initialized
                 renderAttendance();
                 renderTimetable();
                 renderOverallAttendance();
@@ -588,10 +656,12 @@
                 showMessageBox("Error loading public data: " + error.message);
             });
 
-            // Fetch Private Data (Student Contacts)
+            // --- Fetch Private Data (Student Contacts) ---
+            // Private data is stored per user, not per month
             const privateDocRef = doc(db, `artifacts/${appId}/users/${userId}/privateTeacherData`, 'studentContacts');
-            console.log("Fetching private data from:", privateDocRef.path);
+            console.log("Setting up Firestore listener for private data:", privateDocRef.path);
 
+            // onSnapshot provides real-time updates
             onSnapshot(privateDocRef, (docSnap) => {
                 loadingOverlay.classList.add('hidden'); // Hide loading overlay after both fetches are attempted
                 if (docSnap.exists()) {
@@ -602,35 +672,45 @@
                     console.log("No private data found, initializing with defaults.");
                     privateContactData = initializePrivateContactData();
                 }
-                renderPrivateContactInfo();
+                renderPrivateContactInfo(); // Render private contact info
             }, (error) => {
                 console.error("Error fetching private document:", error);
                 showMessageBox("Error loading private data: " + error.message);
-                loadingOverlay.classList.add('hidden'); // Hide loading overlay even on error
+                loadingOverlay.classList.add('hidden'); // Ensure overlay hides even on error
             });
         }
 
-        // Initialize attendance data with provided student names and all unchecked for each day
+        // --- Data Initialization Functions ---
+
+        /**
+         * Initializes the attendance data structure with predefined student names.
+         * Each student has attendance and notes for every day of the selected month.
+         * @returns {Array<Object>} Initialized attendance data.
+         */
         function initializeAttendanceData() {
             const data = [];
             studentNames.forEach(name => {
                 const dailyAttendance = {};
-                const dailyNotes = {}; // For daily notes
+                const dailyNotes = {};
                 monthDates.forEach(dateInfo => {
-                    dailyAttendance[dateInfo.fullDate] = false;
-                    dailyNotes[dateInfo.fullDate] = "";
+                    dailyAttendance[dateInfo.fullDate] = false; // Default to not attended
+                    dailyNotes[dateInfo.fullDate] = ""; // Initialize empty daily note
                 });
                 data.push({
                     name: name,
-                    attendance: dailyAttendance,
-                    notes: dailyNotes, // Store daily notes here
-                    studentNote: "" // A general note for the student, not tied to a specific day
+                    attendance: dailyAttendance, // Daily attendance checkboxes
+                    notes: dailyNotes, // Daily notes for attendance
+                    studentNote: "" // General student note (not date-specific)
                 });
             });
             return data;
         }
 
-        // Initialize timetable data with default time slots and "Tajweed" for each date
+        /**
+         * Initializes the timetable data structure with default time slots and "Tajweed" subject.
+         * Each time slot has subject name, checked status, and note for every day.
+         * @returns {Array<Object>} Initialized timetable data.
+         */
         function initializeTimetableData() {
             const initialSlots = [
                 { time: "9:00 AM" },
@@ -640,7 +720,7 @@
             return initialSlots.map(slot => {
                 const dailySubjects = {};
                 monthDates.forEach(dateInfo => {
-                    dailySubjects[dateInfo.fullDate] = { name: "Tajweed", checked: false, note: "" }; // Add note field
+                    dailySubjects[dateInfo.fullDate] = { name: "Tajweed", checked: false, note: "" }; // Default subject and empty note
                 });
                 return {
                     time: slot.time,
@@ -649,7 +729,10 @@
             });
         }
 
-        // Initialize private contact data with student names
+        /**
+         * Initializes the private student contact data with predefined student names.
+         * @returns {Array<Object>} Initialized private contact data.
+         */
         function initializePrivateContactData() {
             return studentNames.map(name => ({
                 name: name,
@@ -659,58 +742,64 @@
             }));
         }
 
-        // Render Attendance Sheet
+        // --- Rendering Functions ---
+
+        /**
+         * Renders the Attendance Sheet table.
+         * Dynamically creates week and day headers based on `monthDates`.
+         * Populates student rows with attendance checkboxes and note buttons.
+         */
         function renderAttendance() {
-            attendanceBody.innerHTML = '';
-            attendanceHeaderWeekRow.innerHTML = '<th class="w-1/6" rowspan="2">Student Name</th><th rowspan="2">Notes</th>'; // Reset header
+            attendanceBody.innerHTML = ''; // Clear existing rows
+            attendanceHeaderWeekRow.innerHTML = '<th class="w-1/6" rowspan="2">Student Name</th><th rowspan="2">Notes</th>'; // Reset week header
             attendanceHeaderDayRow.innerHTML = ''; // Reset day header
 
-            const daysInWeekShort = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
-
-            // Group dates into weeks
+            // Group dates into weeks for header display
             const weeks = [];
             let tempWeek = [];
             monthDates.forEach((dateInfo, index) => {
                 tempWeek.push(dateInfo);
+                // If it's the 7th day of a week or the last day of the month, push the week
                 if ((index + 1) % 7 === 0 || index === monthDates.length - 1) {
                     weeks.push(tempWeek);
                     tempWeek = [];
                 }
             });
 
-            // Render week headers
+            // Render week headers (e.g., "Week 1", "Week 2")
             weeks.forEach((week, weekIndex) => {
                 const weekTh = document.createElement('th');
                 weekTh.className = `text-center ${weekIndex % 2 === 0 ? 'bg-green-500' : 'bg-blue-500'} text-white rounded-t-lg`;
-                weekTh.colSpan = week.length; // Span based on actual days in the week
+                weekTh.colSpan = week.length; // Span across the number of days in that week
                 weekTh.textContent = `Week ${weekIndex + 1}`;
                 attendanceHeaderWeekRow.appendChild(weekTh);
 
-                // Render day headers for each week
+                // Render day headers (e.g., "SU", "MO") for each day within the week
                 week.forEach(dateInfo => {
                     const dayTh = document.createElement('th');
                     dayTh.className = "text-center";
-                    dayTh.textContent = dateInfo.shortDay; // Use short day name (SU, MO, etc.)
+                    dayTh.textContent = dateInfo.shortDay; // Display short day name
                     attendanceHeaderDayRow.appendChild(dayTh);
                 });
             });
 
-
+            // Render student attendance rows
             attendanceData.forEach((student, studentIndex) => {
                 const row = document.createElement('tr');
                 let rowContent = `<td><input type="text" class="student-name-input" data-index="${studentIndex}" value="${student.name}"></td>`;
 
-                // Student-level notes (overall note for the student)
+                // Add button for student-level notes
                 rowContent += `
                     <td>
                         <button class="note-icon-btn" data-type="attendance-student" data-student-index="${studentIndex}">
-                            &#9998; <!-- Pencil icon for notes -->
+                            &#9998; <!-- Pencil icon -->
                         </button>
                     </td>
                 `;
 
+                // Add daily attendance checkboxes
                 monthDates.forEach(dateInfo => {
-                    const isChecked = student.attendance[dateInfo.fullDate] || false; // Ensure it's false if undefined
+                    const isChecked = student.attendance[dateInfo.fullDate] || false;
                     rowContent += `
                         <td class="text-center">
                             <input type="checkbox" class="attendance-checkbox" data-student-index="${studentIndex}" data-date="${dateInfo.fullDate}" ${isChecked ? 'checked' : ''} disabled>
@@ -721,17 +810,17 @@
                 attendanceBody.appendChild(row);
             });
 
-            // Add event listeners for attendance inputs and checkboxes
+            // Add event listeners for dynamic elements
             attendanceBody.querySelectorAll('.student-name-input').forEach(input => {
                 input.addEventListener('change', (e) => {
                     const index = parseInt(e.target.dataset.index);
                     attendanceData[index].name = e.target.value;
-                    // Also update private contact data if name changes
+                    // Keep private contact data name in sync
                     if (privateContactData[index]) {
                         privateContactData[index].name = e.target.value;
                         renderPrivateContactInfo();
                     }
-                    renderOverallAttendance(); // Update summary when name changes
+                    renderOverallAttendance(); // Update summary if name changes
                 });
             });
 
@@ -740,51 +829,57 @@
                     const studentIndex = parseInt(e.target.dataset.studentIndex);
                     const date = e.target.dataset.date;
                     attendanceData[studentIndex].attendance[date] = e.target.checked;
-                    renderOverallAttendance(); // Update summary when attendance changes
+                    renderOverallAttendance(); // Update summary if attendance changes
                 });
             });
 
-            // Add event listeners for attendance notes
+            // Event listener for student-level notes button
             attendanceBody.querySelectorAll('.note-icon-btn[data-type="attendance-student"]').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const studentIndex = parseInt(e.target.dataset.studentIndex);
-                    activeNoteElement = attendanceData[studentIndex];
+                    activeNoteElement = attendanceData[studentIndex]; // The student object itself
                     activeNoteType = 'attendance-student';
-                    activeNoteIndices = { studentIndex: studentIndex };
+                    activeNoteIndices = { studentIndex: studentIndex }; // Store index for context
                     noteModalTitle.textContent = `Note for ${attendanceData[studentIndex].name}`;
-                    noteTextArea.value = attendanceData[studentIndex].studentNote || ''; // Use studentNote for overall student notes
-                    noteModal.style.display = 'flex';
+                    noteTextArea.value = attendanceData[studentIndex].studentNote || ''; // Load existing note
+                    noteModal.style.display = 'flex'; // Show the modal
                 });
             });
 
-            // Re-apply teacher mode state
+            // Apply the current teacher mode state to disable/enable checkboxes
             updateTeacherModeUI();
         }
 
-        // Render Timetable
+        /**
+         * Renders the Timetable table.
+         * Dynamically creates date headers for the selected month.
+         * Populates time slot rows with subject inputs, checkboxes, and note buttons.
+         */
         function renderTimetable() {
-            timetableBody.innerHTML = '';
+            timetableBody.innerHTML = ''; // Clear existing rows
             timetableHeaderRow.innerHTML = '<th class="w-1/6">Time Slot</th>'; // Reset header
 
-            // Add date headers
+            // Add date headers for the timetable
             monthDates.forEach(dateInfo => {
                 const th = document.createElement('th');
                 th.className = "text-center";
-                th.textContent = dateInfo.displayDate;
+                th.textContent = dateInfo.displayDate; // e.g., "Aug 1"
                 timetableHeaderRow.appendChild(th);
             });
 
+            // Render timetable rows
             timetableData.forEach((slot, slotIndex) => {
                 const row = document.createElement('tr');
                 let rowContent = `<td><input type="text" class="time-slot-input" data-index="${slotIndex}" value="${slot.time}"></td>`;
                 monthDates.forEach(dateInfo => {
-                    const subject = slot.dailySubjects[dateInfo.fullDate] || { name: "Tajweed", checked: false, note: "" }; // Default to Tajweed
+                    // Get subject data for the specific date, or use defaults
+                    const subject = slot.dailySubjects[dateInfo.fullDate] || { name: "Tajweed", checked: false, note: "" };
                     rowContent += `
                         <td>
                             <input type="text" class="subject-name-input" data-slot-index="${slotIndex}" data-date="${dateInfo.fullDate}" value="${subject.name}">
                             <input type="checkbox" class="timetable-checkbox mt-1" data-slot-index="${slotIndex}" data-date="${dateInfo.fullDate}" ${subject.checked ? 'checked' : ''}>
                             <button class="note-icon-btn" data-type="timetable" data-slot-index="${slotIndex}" data-date="${dateInfo.fullDate}">
-                                &#9998; <!-- Pencil icon for notes -->
+                                &#9998; <!-- Pencil icon -->
                             </button>
                         </td>
                     `;
@@ -793,7 +888,7 @@
                 timetableBody.appendChild(row);
             });
 
-            // Add event listeners for timetable inputs and checkboxes
+            // Add event listeners for dynamic elements
             timetableBody.querySelectorAll('.time-slot-input').forEach(input => {
                 input.addEventListener('change', (e) => {
                     const index = parseInt(e.target.dataset.index);
@@ -805,6 +900,7 @@
                 input.addEventListener('change', (e) => {
                     const slotIndex = parseInt(e.target.dataset.slotIndex);
                     const date = e.target.dataset.date;
+                    // Ensure the daily subject object exists before updating
                     if (!timetableData[slotIndex].dailySubjects[date]) {
                         timetableData[slotIndex].dailySubjects[date] = { name: "", checked: false, note: "" };
                     }
@@ -816,6 +912,7 @@
                 checkbox.addEventListener('change', (e) => {
                     const slotIndex = parseInt(e.target.dataset.slotIndex);
                     const date = e.target.dataset.date;
+                    // Ensure the daily subject object exists before updating
                     if (!timetableData[slotIndex].dailySubjects[date]) {
                         timetableData[slotIndex].dailySubjects[date] = { name: "", checked: false, note: "" };
                     }
@@ -823,24 +920,27 @@
                 });
             });
 
-            // Add event listeners for timetable notes
+            // Event listener for timetable notes button
             timetableBody.querySelectorAll('.note-icon-btn[data-type="timetable"]').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const slotIndex = parseInt(e.target.dataset.slotIndex);
                     const date = e.target.dataset.date;
-                    activeNoteElement = timetableData[slotIndex].dailySubjects[date];
+                    activeNoteElement = timetableData[slotIndex].dailySubjects[date]; // The subject object for that specific day/slot
                     activeNoteType = 'timetable';
-                    activeNoteIndices = { slotIndex: slotIndex, date: date };
-                    noteModalTitle.textContent = `Note for ${timetableData[slotIndex].time} on ${date}`;
-                    noteTextArea.value = activeNoteElement.note || '';
-                    noteModal.style.display = 'flex';
+                    activeNoteIndices = { slotIndex: slotIndex, date: date }; // Store indices for context
+                    noteModalTitle.textContent = `Note for ${timetableData[slotIndex].time} on ${dateInfo.displayDate}`;
+                    noteTextArea.value = activeNoteElement.note || ''; // Load existing note
+                    noteModal.style.display = 'flex'; // Show the modal
                 });
             });
         }
 
-        // Render Private Contact Information
+        /**
+         * Renders the private Student Contact Information table.
+         * This data is specific to the logged-in teacher.
+         */
         function renderPrivateContactInfo() {
-            privateContactBody.innerHTML = '';
+            privateContactBody.innerHTML = ''; // Clear existing rows
             privateContactData.forEach((contact, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -873,20 +973,24 @@
             });
         }
 
-        // Render Overall Attendance Summary
+        /**
+         * Renders the Overall Attendance Summary table.
+         * Calculates days attended and attendance percentage for each student.
+         * Includes a button to generate AI insights for each student.
+         */
         function renderOverallAttendance() {
-            overallAttendanceBody.innerHTML = '';
-            const totalPossibleAttendanceDays = monthDates.length; // Total days in selected month
+            overallAttendanceBody.innerHTML = ''; // Clear existing rows
+            const totalPossibleAttendanceDays = monthDates.length; // Total days in the selected month
 
             attendanceData.forEach((student, studentIndex) => {
                 let daysAttended = 0;
-                let allStudentNotes = [];
+                let allStudentDailyNotes = []; // Collect all daily notes for the student
                 for (const date in student.attendance) {
                     if (student.attendance[date]) {
                         daysAttended++;
                     }
                     if (student.notes[date] && student.notes[date].trim() !== "") {
-                        allStudentNotes.push(`On ${date}: ${student.notes[date]}`);
+                        allStudentDailyNotes.push(`On ${date}: ${student.notes[date]}`);
                     }
                 }
                 const percentage = totalPossibleAttendanceDays > 0 ? ((daysAttended / totalPossibleAttendanceDays) * 100).toFixed(2) : 0;
@@ -902,7 +1006,8 @@
                             data-student-name="${student.name}"
                             data-days-attended="${daysAttended}"
                             data-total-days="${totalPossibleAttendanceDays}"
-                            data-student-notes="${encodeURIComponent(JSON.stringify(allStudentNotes))}">
+                            data-student-notes="${encodeURIComponent(JSON.stringify(allStudentDailyNotes))}"
+                            data-student-overall-note="${encodeURIComponent(student.studentNote || '')}">
                             ✨ Get Insight
                         </button>
                     </td>
@@ -910,20 +1015,24 @@
                 overallAttendanceBody.appendChild(row);
             });
 
-            // Add event listeners for "Get Insight" buttons
+            // Add event listeners for "Get Insight" buttons (LLM call)
             overallAttendanceBody.querySelectorAll('.generate-insight-btn').forEach(button => {
                 button.addEventListener('click', async (e) => {
                     const studentName = e.target.dataset.studentName;
                     const daysAttended = e.target.dataset.daysAttended;
                     const totalDays = e.target.dataset.totalDays;
-                    const studentNotes = JSON.parse(decodeURIComponent(e.target.dataset.studentNotes));
+                    const studentDailyNotes = JSON.parse(decodeURIComponent(e.target.dataset.studentNotes));
+                    const studentOverallNote = decodeURIComponent(e.target.dataset.studentOverallNote);
 
-                    let notesString = "";
-                    if (studentNotes.length > 0) {
-                        notesString = "Here are some daily notes: " + studentNotes.join("; ") + ".";
+                    let notesContext = [];
+                    if (studentDailyNotes.length > 0) {
+                        notesContext.push(`Daily attendance notes: ${studentDailyNotes.join("; ")}.`);
+                    }
+                    if (studentOverallNote.trim() !== "") {
+                        notesContext.push(`Overall student note: ${studentOverallNote}.`);
                     }
 
-                    const prompt = `Given that ${studentName} attended ${daysAttended} out of ${totalDays} possible days this month. ${notesString} Provide a brief, encouraging insight or observation about their attendance, considering these notes if available. Keep it concise, under 50 words.`;
+                    const prompt = `Given that ${studentName} attended ${daysAttended} out of ${totalDays} possible days this month. ${notesContext.join(" ")} Provide a brief, encouraging insight or observation about their attendance and general progress, considering these notes if available. Keep it concise, under 50 words.`;
 
                     loadingOverlay.classList.remove('hidden');
                     try {
@@ -938,21 +1047,29 @@
             });
         }
 
-        // Add a new time slot to the timetable
+        // --- Event Listeners for Main Actions ---
+
+        /**
+         * Event listener for the "Add Time Slot" button.
+         * Adds a new row to the timetable with default subject and notes.
+         */
         addTimeSlotBtn.addEventListener('click', () => {
             const newDailySubjects = {};
             monthDates.forEach(dateInfo => {
-                newDailySubjects[dateInfo.fullDate] = { name: "Tajweed", checked: false, note: "" }; // Default to Tajweed
+                newDailySubjects[dateInfo.fullDate] = { name: "Tajweed", checked: false, note: "" };
             });
             const newSlot = {
                 time: `New Slot ${timetableData.length + 1}`,
                 dailySubjects: newDailySubjects
             };
             timetableData.push(newSlot);
-            renderTimetable();
+            renderTimetable(); // Re-render timetable to show the new slot
         });
 
-        // Generate Tajweed Lesson Idea
+        /**
+         * Event listener for the "Generate Tajweed Lesson Idea" button (LLM call).
+         * Prompts the Gemini API for a lesson idea.
+         */
         generateLessonIdeaBtn.addEventListener('click', async () => {
             const prompt = "Generate a short, creative lesson idea for a Tajweed class, focusing on a specific rule or concept. Include a brief activity. Keep it concise, under 100 words.";
 
@@ -967,12 +1084,17 @@
             }
         });
 
-        // Function to call Gemini API
+        /**
+         * Function to call the Gemini API for text generation.
+         * @param {string} prompt - The text prompt for the LLM.
+         * @returns {Promise<string>} A promise that resolves with the generated text.
+         */
         async function callGeminiAPI(prompt) {
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
             const payload = { contents: chatHistory };
-            const apiKey = ""; // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
+            // apiKey is intentionally left empty; Canvas will inject it at runtime for gemini-2.0-flash
+            const apiKey = "";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             const response = await fetch(apiUrl, {
@@ -992,16 +1114,19 @@
             }
         }
 
-        // Save all data to Firestore
+        /**
+         * Event listener for the "Save All Data" button.
+         * Saves both public (attendance, timetable) and private (contacts) data to Firestore.
+         */
         saveDataBtn.addEventListener('click', async () => {
             if (!isAuthReady) {
                 showMessageBox("Please wait, authentication is not ready yet.");
                 return;
             }
 
-            loadingOverlay.classList.remove('hidden'); // Show loading overlay
+            loadingOverlay.classList.remove('hidden'); // Show loading overlay during save
             try {
-                // Save Public Data
+                // Save Public Data (attendance and timetable)
                 const publicDocId = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
                 const publicDocRef = doc(db, `artifacts/${appId}/public/data/teacherWorksheetPublic`, publicDocId);
                 await setDoc(publicDocRef, {
@@ -1010,7 +1135,7 @@
                     lastUpdated: new Date()
                 });
 
-                // Save Private Data
+                // Save Private Data (student contacts)
                 const privateDocRef = doc(db, `artifacts/${appId}/users/${userId}/privateTeacherData`, 'studentContacts');
                 await setDoc(privateDocRef, {
                     contacts: privateContactData,
@@ -1023,36 +1148,49 @@
                 console.error("Error saving document: ", e);
                 showMessageBox("Error saving data: " + e.message);
             } finally {
-                loadingOverlay.classList.add('hidden'); // Hide loading overlay
+                loadingOverlay.classList.add('hidden'); // Hide loading overlay after save
             }
         });
 
-        // Save Note from Modal
+        /**
+         * Event listener for the "Save Note" button in the modal.
+         * Saves the note to the appropriate data structure (student or timetable subject).
+         */
         saveNoteBtn.addEventListener('click', () => {
             if (activeNoteElement && activeNoteType) {
                 if (activeNoteType === 'attendance-student') {
-                    activeNoteElement.studentNote = noteTextArea.value; // Save to studentNote
+                    // Save general student note
+                    activeNoteElement.studentNote = noteTextArea.value;
                 } else if (activeNoteType === 'timetable') {
+                    // Save note for specific timetable subject/day
                     activeNoteElement.note = noteTextArea.value;
                 }
-                noteModal.style.display = 'none';
+                noteModal.style.display = 'none'; // Hide the modal
             }
         });
 
-        // Print Worksheet
+        /**
+         * Event listener for the "Print Worksheet" button.
+         * Triggers the browser's print dialog.
+         */
         printWorksheetBtn.addEventListener('click', () => {
             window.print();
         });
 
-        // Teacher Mode Toggle
-        let isTeacherModeEnabled = false;
+        // --- Teacher Mode Logic ---
+        let isTeacherModeEnabled = false; // Tracks the state of teacher edit mode
 
+        /**
+         * Updates the UI state of attendance checkboxes based on `isTeacherModeEnabled`.
+         * Only affects attendance checkboxes; month/year selectors are always editable.
+         */
         function updateTeacherModeUI() {
             const checkboxes = attendanceBody.querySelectorAll('.attendance-checkbox');
             checkboxes.forEach(cb => {
-                cb.disabled = !isTeacherModeEnabled;
+                cb.disabled = !isTeacherModeEnabled; // Disable if mode is OFF, enable if mode is ON
             });
 
+            // Toggle visibility of enable/disable buttons
             if (isTeacherModeEnabled) {
                 enableTeacherModeBtn.classList.add('hidden');
                 disableTeacherModeBtn.classList.remove('hidden');
@@ -1062,20 +1200,28 @@
             }
         }
 
+        /**
+         * Event listener for "Enable Teacher Edit Mode" button.
+         * Sets `isTeacherModeEnabled` to true and updates UI.
+         */
         enableTeacherModeBtn.addEventListener('click', () => {
             isTeacherModeEnabled = true;
             updateTeacherModeUI();
             showMessageBox("Teacher Edit Mode Enabled. You can now edit attendance.");
         });
 
+        /**
+         * Event listener for "Disable Teacher Edit Mode" button.
+         * Sets `isTeacherModeEnabled` to false and updates UI.
+         */
         disableTeacherModeBtn.addEventListener('click', () => {
             isTeacherModeEnabled = false;
             updateTeacherModeUI();
             showMessageBox("Teacher Edit Mode Disabled.");
         });
 
-
-        // Initialize Firebase and set up the app
+        // --- Initial App Load ---
+        // Ensure Firebase initialization and app setup happens after the window is fully loaded
         window.onload = initializeFirebase;
 
     </script>
