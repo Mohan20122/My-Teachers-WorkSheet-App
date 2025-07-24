@@ -3,891 +3,978 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher's Worksheet</title>
+    <title>Quran Academy Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; color: #374151; }
-        .container { max-width: 1200px; margin: 2rem auto; padding: 2rem; background-color: #ffffff; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
-        table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 1rem; border-radius: 0.75rem; overflow: hidden; }
-        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid #e5e7eb; white-space: nowrap; }
-        th { background-color: #f9fafb; font-weight: 600; color: #1f2937; text-transform: uppercase; font-size: 0.875rem; }
-        tr:last-child td { border-bottom: none; }
-        tr:nth-child(odd) { background-color: #f9fafb; }
-        tr:nth-child(even) { background-color: #ffffff; }
-        input[type="text"], input[type="password"], input[type="email"] { padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; width: 100%; box-sizing: border-box; background-color: #f9fafb; transition: border-color 0.2s; }
-        input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
-        .btn { padding: 0.75rem 1.5rem; background-color: #2563eb; color: white; border-radius: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
-        .btn:hover { background-color: #1d4ed8; transform: translateY(-1px); }
-        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-        .message-box { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; padding: 2rem; border-radius: 0.75rem; box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); z-index: 1001; text-align: center; }
-        .modal { display: none; position: fixed; z-index: 1002; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); }
-        .modal-content { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 0.75rem; }
-        .login-container { max-width: 400px; margin: 5rem auto; padding: 2rem; background: white; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
-        .change-log { max-height: 200px; overflow-y: auto; border: 1px solid #e5e7eb; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem; }
-        .change-entry { padding: 0.5rem; border-bottom: 1px solid #e5e7eb; }
-        .change-entry:last-child { border-bottom: none; }
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 2rem; background: white; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 0.75rem; border: 1px solid #e5e7eb; text-align: left; }
+        th { background-color: #f9fafb; font-weight: 600; }
+        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); }
+        .modal-content { background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 600px; border-radius: 0.5rem; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .nav-tab { cursor: pointer; padding: 0.5rem 1rem; border-radius: 0.25rem; }
+        .nav-tab.active { background-color: #2563eb; color: white; }
     </style>
 </head>
 <body>
-    <!-- Login Screen (shown first) -->
-    <div id="loginScreen" class="login-container">
-        <h1 class="text-2xl font-bold text-center mb-6">Teacher's Worksheet Login</h1>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="container max-w-md">
+        <h1 class="text-2xl font-bold text-center mb-6">Quran Academy Login</h1>
         <div class="mb-4">
-            <label class="block text-gray-700 mb-2">Username</label>
-            <input type="text" id="loginUsername" class="w-full p-2 border rounded">
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 mb-2">Email</label>
+            <label class="block mb-2">Email</label>
             <input type="email" id="loginEmail" class="w-full p-2 border rounded">
         </div>
-        <div class="mb-6">
-            <label class="block text-gray-700 mb-2">Password</label>
+        <div class="mb-4">
+            <label class="block mb-2">Password</label>
             <input type="password" id="loginPassword" class="w-full p-2 border rounded">
         </div>
-        <button id="loginBtn" class="btn w-full">Login</button>
+        <button id="loginBtn" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Login</button>
         <p id="loginError" class="text-red-500 mt-2 text-center hidden">Invalid credentials</p>
+        <div class="mt-4 text-center">
+            <a href="#" id="forgotPassword" class="text-blue-600">Forgot password?</a>
+        </div>
     </div>
 
-    <!-- Main Application (hidden until login) -->
+    <!-- Main Application -->
     <div id="appContainer" class="container hidden">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">Teacher's Worksheet</h1>
+            <h1 class="text-2xl font-bold">Quran Academy Dashboard</h1>
             <div class="flex items-center space-x-4">
                 <span id="currentUser" class="font-medium"></span>
-                <button id="logoutBtn" class="btn bg-red-500 hover:bg-red-600">Logout</button>
+                <button id="logoutBtn" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
             </div>
         </div>
 
-        <!-- Change Log Section -->
-        <div class="mb-8 p-4 bg-yellow-50 rounded-lg">
-            <h2 class="text-xl font-semibold mb-2">Recent Changes</h2>
-            <div id="changeLog" class="change-log">
-                <!-- Changes will appear here -->
-                <p class="text-gray-500">No changes yet</p>
+        <!-- Navigation Tabs -->
+        <div class="flex space-x-2 mb-6 border-b">
+            <div class="nav-tab active" data-tab="dashboard">Dashboard</div>
+            <div class="nav-tab" data-tab="schedule">Schedule</div>
+            <div class="nav-tab" data-tab="students">Students</div>
+            <div class="nav-tab" data-tab="reports">Reports</div>
+            <div id="adminTab" class="nav-tab hidden" data-tab="admin">Admin</div>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="tab-content active" id="dashboardTab">
+            <h2 class="text-xl font-semibold mb-4">Upcoming Classes</h2>
+            <div id="upcomingClasses" class="bg-white p-4 rounded shadow">
+                <!-- Will be populated by JavaScript -->
+            </div>
+
+            <h2 class="text-xl font-semibold mt-6 mb-4">Recent Announcements</h2>
+            <div id="announcements" class="bg-white p-4 rounded shadow">
+                <!-- Will be populated by JavaScript -->
             </div>
         </div>
 
-        <!-- Month and Year Selectors -->
-        <div class="mb-6 flex items-center justify-center space-x-4">
-            <label for="monthSelect" class="font-medium text-gray-700">Month:</label>
-            <select id="monthSelect" class="p-2 border border-gray-300 rounded-md">
-                <!-- Options populated by JavaScript -->
-            </select>
-
-            <label for="yearSelect" class="font-medium text-gray-700">Year:</label>
-            <select id="yearSelect" class="p-2 border border-gray-300 rounded-md">
-                <!-- Options populated by JavaScript -->
-            </select>
+        <div class="tab-content" id="scheduleTab">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Class Schedule</h2>
+                <button id="addClassBtn" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 hidden">Add Class</button>
+            </div>
+            <table id="scheduleTable">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Days</th>
+                        <th>Time</th>
+                        <th>Lesson</th>
+                        <th class="actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
         </div>
 
-        <!-- Attendance Sheet Section -->
-        <div class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Attendance Sheet</h2>
-            <div id="attendanceTableContainer" class="overflow-x-auto rounded-lg shadow-md">
-                <table class="min-w-full bg-white">
-                    <thead>
-                        <tr id="attendanceHeaderWeekRow">
-                            <th class="w-1/6" rowspan="2">Student Name</th>
-                            <th rowspan="2">Notes</th>
-                            <!-- Week headers populated by JavaScript -->
-                        </tr>
-                        <tr id="attendanceHeaderDayRow">
-                            <!-- Day headers populated by JavaScript -->
-                        </tr>
-                    </thead>
-                    <tbody id="attendanceBody">
-                        <!-- Attendance rows populated by JavaScript -->
-                    </tbody>
-                </table>
+        <div class="tab-content" id="studentsTab">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Students</h2>
+                <button id="addStudentBtn" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 hidden">Add Student</button>
+            </div>
+            <table id="studentsTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Classes</th>
+                        <th>Attendance</th>
+                        <th class="actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-content" id="reportsTab">
+            <h2 class="text-xl font-semibold mb-4">Student Reports</h2>
+            <div class="flex space-x-4 mb-6">
+                <select id="reportStudent" class="p-2 border rounded">
+                    <option value="">Select Student</option>
+                </select>
+                <select id="reportPeriod" class="p-2 border rounded">
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="custom">Custom</option>
+                </select>
+                <button id="generateReportBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Generate Report</button>
+            </div>
+            <div id="reportOutput" class="bg-white p-4 rounded shadow">
+                <p class="text-gray-500">Select a student and period to generate report</p>
+            </div>
+            <div class="mt-4">
+                <button id="emailReportBtn" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 hidden">Email Report</button>
             </div>
         </div>
 
-        <!-- Timetable Section -->
-        <div class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Timetable</h2>
-            <div id="timetableTableContainer" class="overflow-x-auto rounded-lg shadow-md">
-                <table class="min-w-full bg-white">
-                    <thead>
-                        <tr id="timetableHeaderRow">
-                            <th class="w-1/6">Time Slot</th>
-                            <!-- Date headers populated by JavaScript -->
-                        </tr>
-                    </thead>
-                    <tbody id="timetableBody">
-                        <!-- Timetable rows populated by JavaScript -->
-                    </tbody>
-                </table>
+        <div class="tab-content" id="adminTabContent">
+            <h2 class="text-xl font-semibold mb-4">Admin Panel</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-4 rounded shadow">
+                    <h3 class="font-semibold mb-2">Create New Student</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block mb-1">Full Name</label>
+                            <input type="text" id="newStudentName" class="w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label class="block mb-1">Email</label>
+                            <input type="email" id="newStudentEmail" class="w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label class="block mb-1">Temporary Password</label>
+                            <input type="text" id="newStudentPassword" class="w-full p-2 border rounded" value="quran123">
+                        </div>
+                        <button id="createStudentBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Create Account</button>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded shadow">
+                    <h3 class="font-semibold mb-2">System Settings</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="emailReminders" class="mr-2" checked>
+                                <span>Enable Email Reminders</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="block mb-1">Reminder Time Before Class</label>
+                            <select id="reminderTime" class="w-full p-2 border rounded">
+                                <option value="15">15 minutes</option>
+                                <option value="30" selected>30 minutes</option>
+                                <option value="60">1 hour</option>
+                                <option value="1440">1 day</option>
+                            </select>
+                        </div>
+                        <button id="saveSettingsBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save Settings</button>
+                    </div>
+                </div>
             </div>
-            <div class="flex justify-start space-x-4 mt-4">
-                <button id="addTimeSlotBtn" class="btn">Add Time Slot</button>
-                <button id="generateLessonIdeaBtn" class="btn bg-pink-600 hover:bg-pink-700">✨ Tajweed Lesson Idea</button>
-            </div>
-        </div>
-
-        <!-- Student Contact Information Section -->
-        <div class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Student Contact Information</h2>
-            <div id="privateContactTableContainer" class="overflow-x-auto rounded-lg shadow-md">
-                <table class="min-w-full bg-white">
-                    <thead>
-                        <tr>
-                            <th class="w-1/4">Student Name</th>
-                            <th class="w-1/4">Phone Number</th>
-                            <th class="w-1/4">Email</th>
-                            <th class="w-1/4">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody id="privateContactBody">
-                        <!-- Private contact rows populated by JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Overall Attendance Summary Section -->
-        <div class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Overall Attendance Summary</h2>
-            <div id="overallAttendanceTableContainer" class="overflow-x-auto rounded-lg shadow-md">
-                <table class="min-w-full bg-white">
-                    <thead>
-                        <tr>
-                            <th class="w-1/3">Student Name</th>
-                            <th class="text-center">Days Attended</th>
-                            <th class="text-center">Attendance Percentage</th>
-                            <th>Insights</th>
-                        </tr>
-                    </thead>
-                    <tbody id="overallAttendanceBody">
-                        <!-- Overall attendance summary populated by JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="text-center mt-8 space-x-4">
-            <button id="saveDataBtn" class="btn">Save All Data</button>
-            <button id="printWorksheetBtn" class="btn bg-gray-600 hover:bg-gray-700">Print Worksheet</button>
         </div>
     </div>
 
-    <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="loading-overlay hidden">
-        <p>Loading data...</p>
-    </div>
-
-    <!-- Message Box -->
-    <div id="messageBox" class="message-box hidden">
-        <p id="messageText"></p>
-        <button onclick="document.getElementById('messageBox').style.display='none'" class="btn mt-4">OK</button>
-    </div>
-
-    <!-- Note Modal -->
-    <div id="noteModal" class="modal hidden">
+    <!-- Modals -->
+    <div id="classModal" class="modal">
         <div class="modal-content">
-            <span class="close-button" onclick="document.getElementById('noteModal').style.display='none'">&times;</span>
-            <h3 class="text-xl font-semibold mb-4" id="noteModalTitle">Add/Edit Note</h3>
-            <textarea id="noteTextArea" class="w-full"></textarea>
-            <button id="saveNoteBtn" class="btn mt-4">Save Note</button>
+            <span class="close float-right text-2xl cursor-pointer">&times;</span>
+            <h2 class="text-xl font-semibold mb-4">Add/Edit Class</h2>
+            <form id="classForm">
+                <input type="hidden" id="classId">
+                <div class="mb-4">
+                    <label class="block mb-1">Student</label>
+                    <select id="classStudent" class="w-full p-2 border rounded" required>
+                        <option value="">Select Student</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Days</label>
+                    <div class="flex flex-wrap gap-2">
+                        <label class="flex items-center"><input type="checkbox" name="days" value="MON" class="mr-1"> Mon</label>
+                        <label class="flex items-center"><input type="checkbox" name="days" value="TUE" class="mr-1"> Tue</label>
+                        <label class="flex items-center"><input type="checkbox" name="days" value="WED" class="mr-1"> Wed</label>
+                        <label class="flex items-center"><input type="checkbox" name="days" value="THU" class="mr-1"> Thu</label>
+                        <label class="flex items-center"><input type="checkbox" name="days" value="FRI" class="mr-1"> Fri</label>
+                        <label class="flex items-center"><input type="checkbox" name="days" value="SAT" class="mr-1"> Sat</label>
+                        <label class="flex items-center"><input type="checkbox" name="days" value="SUN" class="mr-1"> Sun</label>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Time</label>
+                    <input type="time" id="classTime" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Duration (minutes)</label>
+                    <input type="number" id="classDuration" class="w-full p-2 border rounded" value="60" min="30" max="120" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Lesson</label>
+                    <input type="text" id="classLesson" class="w-full p-2 border rounded" value="TAJWEED" required>
+                </div>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save Class</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close float-right text-2xl cursor-pointer">&times;</span>
+            <h2 class="text-xl font-semibold mb-4">Reset Password</h2>
+            <div class="mb-4">
+                <label class="block mb-1">Email</label>
+                <input type="email" id="resetEmail" class="w-full p-2 border rounded">
+            </div>
+            <button id="sendResetLinkBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Send Reset Link</button>
+            <p id="resetMessage" class="mt-2 text-green-500 hidden">Password reset link sent to your email</p>
         </div>
     </div>
 
     <script>
-        // Hardcoded login credentials
-        const VALID_USERNAME = "Mariam";
-        const VALID_EMAIL = "mariam208@gmail.com";
-        const VALID_PASSWORD = "teacher123"; // Simple password for demo purposes
+        // Database simulation (in a real app, use Firebase/Firestore or a backend)
+        let db = {
+            users: {
+                // Teacher account (admin)
+                "mariam208@gmail.com": {
+                    name: "Mariam",
+                    email: "mariam208@gmail.com",
+                    password: "teacher123", // In real app, store hashed passwords
+                    role: "teacher",
+                    createdAt: new Date().toISOString()
+                },
+                // Student accounts from your schedule
+                "najma@example.com": {
+                    name: "NAJMA ABSHIR",
+                    email: "najma@example.com",
+                    password: "student123",
+                    role: "student",
+                    createdAt: new Date().toISOString(),
+                    classes: ["class1"],
+                    attendance: {}
+                },
+                "hamda@example.com": {
+                    name: "HAMDA AHMED",
+                    email: "hamda@example.com",
+                    password: "student123",
+                    role: "student",
+                    createdAt: new Date().toISOString(),
+                    classes: ["class2"],
+                    attendance: {}
+                },
+                "asha@example.com": {
+                    name: "ASHA HASSAN",
+                    email: "asha@example.com",
+                    password: "student123",
+                    role: "student",
+                    createdAt: new Date().toISOString(),
+                    classes: ["class3"],
+                    attendance: {}
+                },
+                "khuluud@example.com": {
+                    name: "KHULUUD ABDIRAHMAN",
+                    email: "khuluud@example.com",
+                    password: "student123",
+                    role: "student",
+                    createdAt: new Date().toISOString(),
+                    classes: ["class4"],
+                    attendance: {}
+                },
+                "najma2@example.com": {
+                    name: "NAJMA ABDINASSIR",
+                    email: "najma2@example.com",
+                    password: "student123",
+                    role: "student",
+                    createdAt: new Date().toISOString(),
+                    classes: ["class5"],
+                    attendance: {}
+                },
+                "sahra@example.com": {
+                    name: "SAHRA ABDIRASHID",
+                    email: "sahra@example.com",
+                    password: "student123",
+                    role: "student",
+                    createdAt: new Date().toISOString(),
+                    classes: ["class6"],
+                    attendance: {}
+                }
+            },
+            classes: {
+                "class1": {
+                    id: "class1",
+                    student: "najma@example.com",
+                    days: ["MON", "FRI"],
+                    time: "14:30",
+                    duration: 60,
+                    lesson: "TAJWEED",
+                    createdAt: new Date().toISOString()
+                },
+                "class2": {
+                    id: "class2",
+                    student: "hamda@example.com",
+                    days: ["SAT", "SUN"],
+                    time: "13:00",
+                    duration: 60,
+                    lesson: "TAJWEED",
+                    createdAt: new Date().toISOString()
+                },
+                "class3": {
+                    id: "class3",
+                    student: "asha@example.com",
+                    days: ["WED", "SAT"],
+                    time: "14:00",
+                    duration: 60,
+                    lesson: "TAJWEED",
+                    createdAt: new Date().toISOString()
+                },
+                "class4": {
+                    id: "class4",
+                    student: "khuluud@example.com",
+                    days: ["MON", "FRI"],
+                    time: "21:00",
+                    duration: 60,
+                    lesson: "TAJWEED",
+                    createdAt: new Date().toISOString()
+                },
+                "class5": {
+                    id: "class5",
+                    student: "najma2@example.com",
+                    days: ["SAT", "SUN"],
+                    time: "09:00",
+                    duration: 60,
+                    lesson: "TAJWEED",
+                    createdAt: new Date().toISOString()
+                },
+                "class6": {
+                    id: "class6",
+                    student: "sahra@example.com",
+                    days: ["WED", "SUN"],
+                    time: "19:00",
+                    duration: 60,
+                    lesson: "TAJWEED",
+                    createdAt: new Date().toISOString()
+                }
+            },
+            settings: {
+                emailReminders: true,
+                reminderTime: 30
+            },
+            announcements: [
+                {
+                    id: "ann1",
+                    title: "Welcome to Quran Academy",
+                    content: "The new semester starts next week. Please check your schedules.",
+                    date: new Date().toISOString()
+                }
+            ]
+        };
 
-        // Application state
+        // Current user
         let currentUser = null;
-        let currentMonth = new Date().getMonth();
-        let currentYear = new Date().getFullYear();
-        let monthDates = [];
-        let changeLog = [];
-
-        // Student data
-        const studentNames = [
-            "NAJMA ABSHIR",
-            "HAMDA AHMED",
-            "ASHA HASSAN",
-            "KHULUUD ABDIRAHMAN",
-            "NAJMA ABDINASSIR",
-            "SAHRA ABDIRASHID"
-        ];
-
-        // Data structures
-        let attendanceData = [];
-        let timetableData = [];
-        let privateContactData = [];
-
-        // DOM elements
-        const loginScreen = document.getElementById('loginScreen');
-        const appContainer = document.getElementById('appContainer');
-        const loginBtn = document.getElementById('loginBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const loginUsername = document.getElementById('loginUsername');
-        const loginEmail = document.getElementById('loginEmail');
-        const loginPassword = document.getElementById('loginPassword');
-        const loginError = document.getElementById('loginError');
-        const currentUserDisplay = document.getElementById('currentUser');
-        const changeLogContainer = document.getElementById('changeLog');
 
         // Initialize the application
-        function initApp() {
+        document.addEventListener('DOMContentLoaded', function() {
             setupEventListeners();
-            checkLoginStatus();
-        }
+            checkRememberedUser();
+        });
 
-        // Check if user is already logged in (for page refresh)
-        function checkLoginStatus() {
-            const savedUser = localStorage.getItem('currentUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                showApp();
-            }
-        }
-
-        // Setup all event listeners
         function setupEventListeners() {
-            // Login button
-            loginBtn.addEventListener('click', handleLogin);
+            // Login
+            document.getElementById('loginBtn').addEventListener('click', handleLogin);
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+            document.getElementById('forgotPassword').addEventListener('click', showForgotPasswordModal);
+            document.getElementById('sendResetLinkBtn').addEventListener('click', sendResetLink);
             
-            // Logout button
-            logoutBtn.addEventListener('click', handleLogout);
+            // Navigation tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    switchTab(this.dataset.tab);
+                });
+            });
             
-            // Allow Enter key to submit login
-            loginPassword.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') handleLogin();
+            // Admin functions
+            document.getElementById('createStudentBtn').addEventListener('click', createStudentAccount);
+            document.getElementById('saveSettingsBtn').addEventListener('click', saveSettings);
+            
+            // Class management
+            document.getElementById('addClassBtn').addEventListener('click', showClassModal);
+            document.getElementById('classForm').addEventListener('submit', saveClass);
+            
+            // Reports
+            document.getElementById('generateReportBtn').addEventListener('click', generateReport);
+            document.getElementById('emailReportBtn').addEventListener('click', emailReport);
+            
+            // Modal close buttons
+            document.querySelectorAll('.modal .close').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('.modal').style.display = 'none';
+                });
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                }
             });
         }
 
-        // Handle login
-        function handleLogin() {
-            const username = loginUsername.value.trim();
-            const email = loginEmail.value.trim();
-            const password = loginPassword.value.trim();
-
-            if (username === VALID_USERNAME && 
-                email === VALID_EMAIL && 
-                password === VALID_PASSWORD) {
-                
-                currentUser = { username, email };
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        function checkRememberedUser() {
+            // In a real app, you would check for a valid session token
+            const rememberedUser = localStorage.getItem('currentUserEmail');
+            if (rememberedUser && db.users[rememberedUser]) {
+                currentUser = db.users[rememberedUser];
                 showApp();
-            } else {
-                loginError.classList.remove('hidden');
             }
         }
 
-        // Handle logout
-        function handleLogout() {
-            currentUser = null;
-            localStorage.removeItem('currentUser');
-            showLogin();
-            loginUsername.value = '';
-            loginEmail.value = '';
-            loginPassword.value = '';
-            loginError.classList.add('hidden');
-        }
-
-        // Show the main application
-        function showApp() {
-            loginScreen.classList.add('hidden');
-            appContainer.classList.remove('hidden');
-            currentUserDisplay.textContent = `Logged in as: ${currentUser.username} (${currentUser.email})`;
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
             
-            // Initialize the worksheet
-            populateMonthYearSelectors();
-            initializeData();
-            renderAll();
-        }
-
-        // Show the login screen
-        function showLogin() {
-            loginScreen.classList.remove('hidden');
-            appContainer.classList.add('hidden');
-        }
-
-        // Track changes made by students
-        function trackChange(changeDescription) {
-            const timestamp = new Date().toLocaleString();
-            changeLog.unshift({
-                timestamp,
-                user: currentUser.username,
-                change: changeDescription
-            });
-            
-            // Keep only the last 20 changes
-            if (changeLog.length > 20) {
-                changeLog.pop();
-            }
-            
-            renderChangeLog();
-            
-            // In a real app, you would send this to the server to notify the teacher
-            console.log(`Change detected: ${changeDescription} by ${currentUser.username}`);
-        }
-
-        // Render the change log
-        function renderChangeLog() {
-            if (changeLog.length === 0) {
-                changeLogContainer.innerHTML = '<p class="text-gray-500">No changes yet</p>';
+            if (!email || !password) {
+                showLoginError('Please enter both email and password');
                 return;
             }
             
-            changeLogContainer.innerHTML = changeLog.map(entry => `
-                <div class="change-entry">
-                    <div class="flex justify-between">
-                        <span class="font-medium">${entry.user}</span>
-                        <span class="text-gray-500 text-sm">${entry.timestamp}</span>
-                    </div>
-                    <p class="text-sm mt-1">${entry.change}</p>
-                </div>
-            `).join('');
-        }
-
-        // Initialize all data structures
-        function initializeData() {
-            monthDates = generateMonthDates(currentYear, currentMonth);
+            const user = db.users[email];
             
-            // Initialize attendance data
-            attendanceData = studentNames.map(name => {
-                const dailyAttendance = {};
-                const dailyNotes = {};
-                monthDates.forEach(dateInfo => {
-                    dailyAttendance[dateInfo.fullDate] = false;
-                    dailyNotes[dateInfo.fullDate] = "";
-                });
-                return {
-                    name,
-                    attendance: dailyAttendance,
-                    notes: dailyNotes,
-                    studentNote: ""
-                };
-            });
-            
-            // Initialize timetable data
-            timetableData = [
-                { time: "9:00 AM", dailySubjects: {} },
-                { time: "10:00 AM", dailySubjects: {} },
-                { time: "11:00 AM", dailySubjects: {} }
-            ].map(slot => {
-                const dailySubjects = {};
-                monthDates.forEach(dateInfo => {
-                    dailySubjects[dateInfo.fullDate] = { 
-                        name: "Tajweed", 
-                        checked: false, 
-                        note: "" 
-                    };
-                });
-                return {
-                    time: slot.time,
-                    dailySubjects
-                };
-            });
-            
-            // Initialize contact data
-            privateContactData = studentNames.map(name => ({
-                name,
-                phone: "",
-                email: "",
-                privateNotes: ""
-            }));
-        }
-
-        // Render all components
-        function renderAll() {
-            renderAttendance();
-            renderTimetable();
-            renderPrivateContactInfo();
-            renderOverallAttendance();
-            renderChangeLog();
-        }
-
-        // Generate dates for the selected month/year
-        function generateMonthDates(year, monthIndex) {
-            const dates = [];
-            const date = new Date(year, monthIndex, 1);
-            while (date.getMonth() === monthIndex) {
-                const yyyy = date.getFullYear();
-                const mm = String(date.getMonth() + 1).padStart(2, '0');
-                const dd = String(date.getDate()).padStart(2, '0');
-                const fullDate = `${yyyy}-${mm}-${dd}`;
-                const shortDay = date.toLocaleDateString('en-US', { weekday: 'short' }).substring(0,2).toUpperCase();
-                dates.push({
-                    fullDate,
-                    displayDate: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-                    shortDay
-                });
-                date.setDate(date.getDate() + 1);
-            }
-            return dates;
-        }
-
-        // Populate month/year selectors
-        function populateMonthYearSelectors() {
-            const monthSelect = document.getElementById('monthSelect');
-            const yearSelect = document.getElementById('yearSelect');
-            
-            monthSelect.innerHTML = '';
-            yearSelect.innerHTML = '';
-            
-            const months = [
-                "January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-            ];
-            
-            months.forEach((month, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                option.textContent = month;
-                monthSelect.appendChild(option);
-            });
-            
-            const currentYearFull = new Date().getFullYear();
-            for (let i = currentYearFull - 5; i <= currentYearFull + 5; i++) {
-                const option = document.createElement('option');
-                option.value = i;
-                option.textContent = i;
-                yearSelect.appendChild(option);
+            if (!user || user.password !== password) {
+                showLoginError('Invalid email or password');
+                return;
             }
             
-            monthSelect.value = currentMonth;
-            yearSelect.value = currentYear;
-            
-            monthSelect.addEventListener('change', () => {
-                currentMonth = parseInt(monthSelect.value);
-                monthDates = generateMonthDates(currentYear, currentMonth);
-                initializeData();
-                renderAll();
-                trackChange(`Changed month to ${months[currentMonth]}`);
-            });
-            
-            yearSelect.addEventListener('change', () => {
-                currentYear = parseInt(yearSelect.value);
-                monthDates = generateMonthDates(currentYear, currentMonth);
-                initializeData();
-                renderAll();
-                trackChange(`Changed year to ${currentYear}`);
-            });
+            currentUser = user;
+            localStorage.setItem('currentUserEmail', email);
+            showApp();
         }
 
-        // Render attendance table
-        function renderAttendance() {
-            const attendanceBody = document.getElementById('attendanceBody');
-            const attendanceHeaderWeekRow = document.getElementById('attendanceHeaderWeekRow');
-            const attendanceHeaderDayRow = document.getElementById('attendanceHeaderDayRow');
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('currentUserEmail');
+            showLogin();
+        }
+
+        function showLogin() {
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('appContainer').classList.add('hidden');
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('loginError').classList.add('hidden');
+        }
+
+        function showApp() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('appContainer').classList.remove('hidden');
             
-            attendanceBody.innerHTML = '';
-            attendanceHeaderWeekRow.innerHTML = '<th class="w-1/6" rowspan="2">Student Name</th><th rowspan="2">Notes</th>';
-            attendanceHeaderDayRow.innerHTML = '';
+            // Update UI based on user role
+            document.getElementById('currentUser').textContent = `${currentUser.name} (${currentUser.role})`;
             
-            // Group dates into weeks
-            const weeks = [];
-            let tempWeek = [];
-            monthDates.forEach((dateInfo, index) => {
-                tempWeek.push(dateInfo);
-                if ((index + 1) % 7 === 0 || index === monthDates.length - 1) {
-                    weeks.push(tempWeek);
-                    tempWeek = [];
+            if (currentUser.role === 'teacher') {
+                document.getElementById('adminTab').classList.remove('hidden');
+                document.getElementById('addClassBtn').classList.remove('hidden');
+                document.getElementById('addStudentBtn').classList.remove('hidden');
+                document.getElementById('emailReportBtn').classList.remove('hidden');
+            } else {
+                document.getElementById('adminTab').classList.add('hidden');
+                document.getElementById('addClassBtn').classList.add('hidden');
+                document.getElementById('addStudentBtn').classList.add('hidden');
+                document.getElementById('emailReportBtn').classList.add('hidden');
+            }
+            
+            // Load data
+            loadDashboard();
+            loadSchedule();
+            loadStudents();
+            loadReportStudents();
+            
+            // Start with dashboard tab
+            switchTab('dashboard');
+        }
+
+        function switchTab(tabId) {
+            // Update active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                if (tab.dataset.tab === tabId) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
                 }
             });
             
-            // Render week headers
-            weeks.forEach((week, weekIndex) => {
-                const weekTh = document.createElement('th');
-                weekTh.className = `text-center ${weekIndex % 2 === 0 ? 'bg-green-500' : 'bg-blue-500'} text-white rounded-t-lg`;
-                weekTh.colSpan = week.length;
-                weekTh.textContent = `Week ${weekIndex + 1}`;
-                attendanceHeaderWeekRow.appendChild(weekTh);
-                
-                // Render day headers
-                week.forEach(dateInfo => {
-                    const dayTh = document.createElement('th');
-                    dayTh.className = "text-center";
-                    dayTh.textContent = dateInfo.shortDay;
-                    attendanceHeaderDayRow.appendChild(dayTh);
-                });
-            });
-            
-            // Render student rows
-            attendanceData.forEach((student, studentIndex) => {
-                const row = document.createElement('tr');
-                let rowContent = `
-                    <td>
-                        <input type="text" class="student-name-input" data-index="${studentIndex}" value="${student.name}">
-                    </td>
-                    <td>
-                        <button class="note-icon-btn" data-type="student-note" data-index="${studentIndex}">
-                            &#9998;
-                        </button>
-                    </td>
-                `;
-                
-                // Add attendance checkboxes
-                monthDates.forEach(dateInfo => {
-                    const isChecked = student.attendance[dateInfo.fullDate] || false;
-                    rowContent += `
-                        <td class="text-center">
-                            <input type="checkbox" class="attendance-checkbox" 
-                                   data-student-index="${studentIndex}" 
-                                   data-date="${dateInfo.fullDate}" 
-                                   ${isChecked ? 'checked' : ''}>
-                        </td>
-                    `;
-                });
-                
-                row.innerHTML = rowContent;
-                attendanceBody.appendChild(row);
-            });
-            
-            // Add event listeners for student name changes
-            document.querySelectorAll('.student-name-input').forEach(input => {
-                input.addEventListener('change', (e) => {
-                    const index = e.target.dataset.index;
-                    const oldName = attendanceData[index].name;
-                    const newName = e.target.value;
-                    attendanceData[index].name = newName;
-                    privateContactData[index].name = newName;
-                    trackChange(`Changed student name from "${oldName}" to "${newName}"`);
-                    renderPrivateContactInfo();
-                    renderOverallAttendance();
-                });
-            });
-            
-            // Add event listeners for attendance checkboxes
-            document.querySelectorAll('.attendance-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', (e) => {
-                    const studentIndex = e.target.dataset.studentIndex;
-                    const date = e.target.dataset.date;
-                    const studentName = attendanceData[studentIndex].name;
-                    const newStatus = e.target.checked ? "present" : "absent";
-                    attendanceData[studentIndex].attendance[date] = e.target.checked;
-                    trackChange(`Marked ${studentName} as ${newStatus} on ${date}`);
-                    renderOverallAttendance();
-                });
-            });
-            
-            // Add event listeners for note buttons
-            document.querySelectorAll('.note-icon-btn[data-type="student-note"]').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const index = e.target.dataset.index;
-                    openNoteModal('student', index);
-                });
-            });
-        }
-
-        // Render timetable
-        function renderTimetable() {
-            const timetableBody = document.getElementById('timetableBody');
-            const timetableHeaderRow = document.getElementById('timetableHeaderRow');
-            
-            timetableBody.innerHTML = '';
-            timetableHeaderRow.innerHTML = '<th class="w-1/6">Time Slot</th>';
-            
-            // Add date headers
-            monthDates.forEach(dateInfo => {
-                const th = document.createElement('th');
-                th.className = "text-center";
-                th.textContent = dateInfo.displayDate;
-                timetableHeaderRow.appendChild(th);
-            });
-            
-            // Render timetable rows
-            timetableData.forEach((slot, slotIndex) => {
-                const row = document.createElement('tr');
-                let rowContent = `
-                    <td>
-                        <input type="text" class="time-slot-input" data-index="${slotIndex}" value="${slot.time}">
-                    </td>
-                `;
-                
-                // Add subject inputs and checkboxes
-                monthDates.forEach(dateInfo => {
-                    const subject = slot.dailySubjects[dateInfo.fullDate] || { 
-                        name: "Tajweed", 
-                        checked: false, 
-                        note: "" 
-                    };
-                    
-                    rowContent += `
-                        <td>
-                            <input type="text" class="subject-name-input" 
-                                   data-slot-index="${slotIndex}" 
-                                   data-date="${dateInfo.fullDate}" 
-                                   value="${subject.name}">
-                            <input type="checkbox" class="timetable-checkbox mt-1" 
-                                   data-slot-index="${slotIndex}" 
-                                   data-date="${dateInfo.fullDate}" 
-                                   ${subject.checked ? 'checked' : ''}>
-                            <button class="note-icon-btn" 
-                                    data-type="timetable-note" 
-                                    data-slot-index="${slotIndex}" 
-                                    data-date="${dateInfo.fullDate}">
-                                &#9998;
-                            </button>
-                        </td>
-                    `;
-                });
-                
-                row.innerHTML = rowContent;
-                timetableBody.appendChild(row);
-            });
-            
-            // Add event listeners for time slot changes
-            document.querySelectorAll('.time-slot-input').forEach(input => {
-                input.addEventListener('change', (e) => {
-                    const index = e.target.dataset.index;
-                    const oldTime = timetableData[index].time;
-                    const newTime = e.target.value;
-                    timetableData[index].time = newTime;
-                    trackChange(`Changed time slot from "${oldTime}" to "${newTime}"`);
-                });
-            });
-            
-            // Add event listeners for subject name changes
-            document.querySelectorAll('.subject-name-input').forEach(input => {
-                input.addEventListener('change', (e) => {
-                    const slotIndex = e.target.dataset.slotIndex;
-                    const date = e.target.dataset.date;
-                    const oldSubject = timetableData[slotIndex].dailySubjects[date].name;
-                    const newSubject = e.target.value;
-                    
-                    if (!timetableData[slotIndex].dailySubjects[date]) {
-                        timetableData[slotIndex].dailySubjects[date] = { 
-                            name: "", 
-                            checked: false, 
-                            note: "" 
-                        };
-                    }
-                    
-                    timetableData[slotIndex].dailySubjects[date].name = newSubject;
-                    trackChange(`Changed subject from "${oldSubject}" to "${newSubject}" on ${date}`);
-                });
-            });
-            
-            // Add event listeners for timetable checkboxes
-            document.querySelectorAll('.timetable-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', (e) => {
-                    const slotIndex = e.target.dataset.slotIndex;
-                    const date = e.target.dataset.date;
-                    const newStatus = e.target.checked ? "completed" : "not completed";
-                    
-                    if (!timetableData[slotIndex].dailySubjects[date]) {
-                        timetableData[slotIndex].dailySubjects[date] = { 
-                            name: "", 
-                            checked: false, 
-                            note: "" 
-                        };
-                    }
-                    
-                    timetableData[slotIndex].dailySubjects[date].checked = e.target.checked;
-                    trackChange(`Marked ${timetableData[slotIndex].time} on ${date} as ${newStatus}`);
-                });
-            });
-            
-            // Add event listeners for timetable note buttons
-            document.querySelectorAll('.note-icon-btn[data-type="timetable-note"]').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const slotIndex = e.target.dataset.slotIndex;
-                    const date = e.target.dataset.date;
-                    openNoteModal('timetable', slotIndex, date);
-                });
-            });
-            
-            // Add event listener for Add Time Slot button
-            document.getElementById('addTimeSlotBtn').addEventListener('click', () => {
-                const newSlot = {
-                    time: `New Slot ${timetableData.length + 1}`,
-                    dailySubjects: {}
-                };
-                
-                monthDates.forEach(dateInfo => {
-                    newSlot.dailySubjects[dateInfo.fullDate] = { 
-                        name: "Tajweed", 
-                        checked: false, 
-                        note: "" 
-                    };
-                });
-                
-                timetableData.push(newSlot);
-                trackChange(`Added new time slot: ${newSlot.time}`);
-                renderTimetable();
-            });
-            
-            // Add event listener for Generate Lesson Idea button
-            document.getElementById('generateLessonIdeaBtn').addEventListener('click', () => {
-                const ideas = [
-                    "Practice the rules of Noon Sakinah and Tanween with flash cards",
-                    "Focus on proper Makhaarij (articulation points) with mirror exercises",
-                    "Review the characteristics of letters (Sifaat) through group recitation",
-                    "Practice stopping rules (Waqf) with selected verses from Juz Amma",
-                    "Work on the rules of Meem Sakinah through call-and-response exercises"
-                ];
-                
-                const randomIdea = ideas[Math.floor(Math.random() * ideas.length)];
-                showMessage(`Lesson Idea: ${randomIdea}`);
-                trackChange(`Generated lesson idea: ${randomIdea}`);
-            });
-        }
-
-        // Render private contact info
-        function renderPrivateContactInfo() {
-            const privateContactBody = document.getElementById('privateContactBody');
-            privateContactBody.innerHTML = '';
-            
-            privateContactData.forEach((contact, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><input type="text" class="contact-name-input" data-index="${index}" value="${contact.name}"></td>
-                    <td><input type="text" class="contact-phone-input" data-index="${index}" value="${contact.phone}"></td>
-                    <td><input type="text" class="contact-email-input" data-index="${index}" value="${contact.email}"></td>
-                    <td><input type="text" class="contact-notes-input" data-index="${index}" value="${contact.privateNotes}"></td>
-                `;
-                privateContactBody.appendChild(row);
-            });
-            
-            // Add event listeners for contact info changes
-            document.querySelectorAll('.contact-name-input').forEach(input => {
-                input.addEventListener('change', (e) => {
-                    const index = e.target.dataset.index;
-                    const oldName = privateContactData[index].name;
-                    const newName = e.target.value;
-                    privateContactData[index].name = newName;
-                    attendanceData[index].name = newName;
-                    trackChange(`Changed contact name from "${oldName}" to "${newName}"`);
-                    renderAttendance();
-                    renderOverallAttendance();
-                });
-            });
-            
-            document.querySelectorAll('.contact-phone-input').forEach(input => {
-                input.addEventListener('change', (e) => {
-                    const index = e.target.dataset.index;
-                    const oldPhone = privateContactData[index].phone;
-                    const newPhone = e.target.value;
-                    privateContactData[index].phone = newPhone;
-                    trackChange(`Changed phone number for ${privateContactData[index].name} from "${oldPhone}" to "${newPhone}"`);
-                });
-            });
-            
-            document.querySelectorAll('.contact-email-input').forEach(input => {
-                input.addEventListener('change', (e) => {
-                    const index = e.target.dataset.index;
-                    const oldEmail = privateContactData[index].email;
-                    const newEmail = e.target.value;
-                    privateContactData[index].email = newEmail;
-                    trackChange(`Changed email for ${privateContactData[index].name} from "${oldEmail}" to "${newEmail}"`);
-                });
-            });
-            
-            document.querySelectorAll('.contact-notes-input').forEach(input => {
-                input.addEventListener('change', (e) => {
-                    const index = e.target.dataset.index;
-                    const oldNotes = privateContactData[index].privateNotes;
-                    const newNotes = e.target.value;
-                    privateContactData[index].privateNotes = newNotes;
-                    trackChange(`Updated private notes for ${privateContactData[index].name}`);
-                });
-            });
-        }
-
-        // Render overall attendance summary
-        function renderOverallAttendance() {
-            const overallAttendanceBody = document.getElementById('overallAttendanceBody');
-            overallAttendanceBody.innerHTML = '';
-            
-            const totalDays = monthDates.length;
-            
-            attendanceData.forEach((student, index) => {
-                let daysAttended = 0;
-                for (const date in student.attendance) {
-                    if (student.attendance[date]) daysAttended++;
+            // Show corresponding content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                if (content.id === `${tabId}Tab`) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
                 }
-                
-                const percentage = totalDays > 0 ? ((daysAttended / totalDays) * 100).toFixed(2) : 0;
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
+            });
+        }
+
+        function loadDashboard() {
+            // Upcoming classes
+            const upcomingClassesEl = document.getElementById('upcomingClasses');
+            const now = new Date();
+            const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+            
+            // Get all classes for the current user (or all classes if teacher)
+            let classes = [];
+            if (currentUser.role === 'student') {
+                classes = Object.values(db.classes).filter(c => c.student === currentUser.email);
+            } else {
+                classes = Object.values(db.classes);
+            }
+            
+            // Filter for upcoming classes in the next 7 days
+            const upcoming = classes.filter(c => {
+                // This is simplified - in a real app you'd calculate actual dates
+                return true;
+            }).slice(0, 5); // Show max 5 upcoming classes
+            
+            if (upcoming.length === 0) {
+                upcomingClassesEl.innerHTML = '<p class="text-gray-500">No upcoming classes</p>';
+            } else {
+                upcomingClassesEl.innerHTML = `
+                    <ul class="divide-y">
+                        ${upcoming.map(c => `
+                            <li class="py-2">
+                                <div class="font-medium">${db.users[c.student].name}</div>
+                                <div class="text-sm">${c.days.join(', ')} at ${formatTime(c.time)}</div>
+                                <div class="text-sm text-gray-500">${c.lesson}</div>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+            }
+            
+            // Announcements
+            const announcementsEl = document.getElementById('announcements');
+            if (db.announcements.length === 0) {
+                announcementsEl.innerHTML = '<p class="text-gray-500">No announcements</p>';
+            } else {
+                announcementsEl.innerHTML = `
+                    <ul class="divide-y">
+                        ${db.announcements.map(a => `
+                            <li class="py-2">
+                                <div class="font-medium">${a.title}</div>
+                                <div class="text-sm">${new Date(a.date).toLocaleDateString()}</div>
+                                <div class="mt-1">${a.content}</div>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+            }
+        }
+
+        function loadSchedule() {
+            const tbody = document.querySelector('#scheduleTable tbody');
+            tbody.innerHTML = '';
+            
+            // Get classes to display
+            let classes = Object.values(db.classes);
+            if (currentUser.role === 'student') {
+                classes = classes.filter(c => c.student === currentUser.email);
+            }
+            
+            // Populate table
+            classes.forEach(c => {
+                const student = db.users[c.student];
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
                     <td>${student.name}</td>
-                    <td class="text-center">${daysAttended} / ${totalDays}</td>
-                    <td class="text-center">${percentage}%</td>
-                    <td>
-                        <button class="btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm generate-insight-btn" data-index="${index}">
-                            ✨ Get Insight
-                        </button>
+                    <td>${c.days.join(' & ')}</td>
+                    <td>${formatTime(c.time)}</td>
+                    <td>${c.lesson}</td>
+                    <td class="actions">
+                        ${currentUser.role === 'teacher' ? `
+                            <button class="edit-class text-blue-500 mr-2" data-id="${c.id}">Edit</button>
+                            <button class="delete-class text-red-500" data-id="${c.id}">Delete</button>
+                        ` : ''}
                     </td>
                 `;
-                overallAttendanceBody.appendChild(row);
+                tbody.appendChild(tr);
             });
             
-            // Add event listeners for insight buttons
-            document.querySelectorAll('.generate-insight-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const index = e.target.dataset.index;
-                    const student = attendanceData[index];
-                    let daysAttended = 0;
-                    for (const date in student.attendance) {
-                        if (student.attendance[date]) daysAttended++;
-                    }
-                    
-                    const percentage = totalDays > 0 ? ((daysAttended / totalDays) * 100).toFixed(2) : 0;
-                    const insight = `Attendance for ${student.name}: ${daysAttended}/${totalDays} days (${percentage}%). ${percentage > 80 ? 'Excellent attendance!' : percentage > 50 ? 'Good attendance' : 'Needs improvement'}`;
-                    
-                    showMessage(insight);
-                    trackChange(`Generated insight for ${student.name}`);
+            // Add event listeners for edit/delete buttons
+            document.querySelectorAll('.edit-class').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    editClass(this.dataset.id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-class').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    deleteClass(this.dataset.id);
                 });
             });
         }
 
-        // Open note modal
-        function openNoteModal(type, index, date = null) {
-            const modal = document.getElementById('noteModal');
-            const title = document.getElementById('noteModalTitle');
-            const textarea = document.getElementById('noteTextArea');
-            const saveBtn = document.getElementById('saveNoteBtn');
+        function loadStudents() {
+            const tbody = document.querySelector('#studentsTable tbody');
+            tbody.innerHTML = '';
             
-            // Set modal content based on type
-            if (type === 'student') {
-                title.textContent = `Notes for ${attendanceData[index].name}`;
-                textarea.value = attendanceData[index].studentNote;
-                
-                saveBtn.onclick = () => {
-                    const oldNote = attendanceData[index].studentNote;
-                    const newNote = textarea.value;
-                    attendanceData[index].studentNote = newNote;
-                    trackChange(`Updated notes for ${attendanceData[index].name}`);
-                    modal.classList.add('hidden');
-                };
-            } else if (type === 'timetable') {
-                const slot = timetableData[index];
-                title.textContent = `Notes for ${slot.time} on ${date}`;
-                textarea.value = slot.dailySubjects[date].note || '';
-                
-                saveBtn.onclick = () => {
-                    const oldNote = slot.dailySubjects[date].note;
-                    const newNote = textarea.value;
-                    slot.dailySubjects[date].note = newNote;
-                    trackChange(`Updated notes for ${slot.time} on ${date}`);
-                    modal.classList.add('hidden');
-                };
+            // Get students to display (all for teacher, just self for student)
+            let students = Object.values(db.users).filter(u => u.role === 'student');
+            if (currentUser.role === 'student') {
+                students = students.filter(s => s.email === currentUser.email);
             }
             
-            modal.classList.remove('hidden');
-        }
-
-        // Show message
-        function showMessage(text) {
-            const messageBox = document.getElementById('messageBox');
-            const messageText = document.getElementById('messageText');
+            // Populate table
+            students.forEach(s => {
+                const classes = Object.values(db.classes).filter(c => c.student === s.email);
+                const attendanceCount = Object.values(s.attendance).filter(a => a.present).length;
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${s.name}</td>
+                    <td>${s.email}</td>
+                    <td>${classes.length}</td>
+                    <td>${attendanceCount}/${classes.length * 4} (${Math.round((attendanceCount / (classes.length * 4)) * 100 || 0}%)</td>
+                    <td class="actions">
+                        ${currentUser.role === 'teacher' ? `
+                            <button class="edit-student text-blue-500 mr-2" data-email="${s.email}">Edit</button>
+                            <button class="delete-student text-red-500" data-email="${s.email}">Delete</button>
+                        ` : `
+                            <button class="change-password text-blue-500" data-email="${s.email}">Change Password</button>
+                        `}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
             
-            messageText.textContent = text;
-            messageBox.classList.remove('hidden');
+            // Add event listeners
+            document.querySelectorAll('.edit-student').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    editStudent(this.dataset.email);
+                });
+            });
+            
+            document.querySelectorAll('.delete-student').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    deleteStudent(this.dataset.email);
+                });
+            });
+            
+            document.querySelectorAll('.change-password').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    changePassword(this.dataset.email);
+                });
+            });
         }
 
-        // Initialize the application when the page loads
-        window.addEventListener('DOMContentLoaded', initApp);
+        function loadReportStudents() {
+            const select = document.getElementById('reportStudent');
+            select.innerHTML = '<option value="">Select Student</option>';
+            
+            // Get students to display (all for teacher, just self for student)
+            let students = Object.values(db.users).filter(u => u.role === 'student');
+            if (currentUser.role === 'student') {
+                students = students.filter(s => s.email === currentUser.email);
+            }
+            
+            // Populate dropdown
+            students.forEach(s => {
+                const option = document.createElement('option');
+                option.value = s.email;
+                option.textContent = s.name;
+                select.appendChild(option);
+            });
+        }
+
+        function showClassModal() {
+            const modal = document.getElementById('classModal');
+            const form = document.getElementById('classForm');
+            const studentSelect = document.getElementById('classStudent');
+            
+            // Reset form
+            form.reset();
+            document.getElementById('classId').value = '';
+            
+            // Populate student dropdown
+            studentSelect.innerHTML = '<option value="">Select Student</option>';
+            Object.values(db.users)
+                .filter(u => u.role === 'student')
+                .forEach(s => {
+                    const option = document.createElement('option');
+                    option.value = s.email;
+                    option.textContent = s.name;
+                    studentSelect.appendChild(option);
+                });
+            
+            // Show modal
+            modal.style.display = 'block';
+        }
+
+        function editClass(classId) {
+            const modal = document.getElementById('classModal');
+            const form = document.getElementById('classForm');
+            const cls = db.classes[classId];
+            
+            if (!cls) return;
+            
+            // Fill form with class data
+            document.getElementById('classId').value = cls.id;
+            document.getElementById('classStudent').value = cls.student;
+            
+            // Check day checkboxes
+            document.querySelectorAll('input[name="days"]').forEach(checkbox => {
+                checkbox.checked = cls.days.includes(checkbox.value);
+            });
+            
+            document.getElementById('classTime').value = cls.time;
+            document.getElementById('classDuration').value = cls.duration;
+            document.getElementById('classLesson').value = cls.lesson;
+            
+            // Show modal
+            modal.style.display = 'block';
+        }
+
+        function saveClass(e) {
+            e.preventDefault();
+            
+            const form = document.getElementById('classForm');
+            const classId = document.getElementById('classId').value || `class${Date.now()}`;
+            const student = document.getElementById('classStudent').value;
+            const days = Array.from(document.querySelectorAll('input[name="days"]:checked')).map(c => c.value);
+            const time = document.getElementById('classTime').value;
+            const duration = document.getElementById('classDuration').value;
+            const lesson = document.getElementById('classLesson').value;
+            
+            if (!student || days.length === 0 || !time || !duration || !lesson) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            // Save class
+            db.classes[classId] = {
+                id: classId,
+                student,
+                days,
+                time,
+                duration: parseInt(duration),
+                lesson,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Close modal and refresh
+            document.getElementById('classModal').style.display = 'none';
+            loadSchedule();
+            loadDashboard();
+        }
+
+        function deleteClass(classId) {
+            if (confirm('Are you sure you want to delete this class?')) {
+                delete db.classes[classId];
+                loadSchedule();
+                loadDashboard();
+            }
+        }
+
+        function createStudentAccount() {
+            const name = document.getElementById('newStudentName').value.trim();
+            const email = document.getElementById('newStudentEmail').value.trim();
+            const password = document.getElementById('newStudentPassword').value;
+            
+            if (!name || !email || !password) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            if (db.users[email]) {
+                alert('A user with this email already exists');
+                return;
+            }
+            
+            // Create student
+            db.users[email] = {
+                name,
+                email,
+                password,
+                role: 'student',
+                createdAt: new Date().toISOString(),
+                classes: [],
+                attendance: {}
+            };
+            
+            // Clear form
+            document.getElementById('newStudentName').value = '';
+            document.getElementById('newStudentEmail').value = '';
+            
+            // Refresh students list
+            loadStudents();
+            loadReportStudents();
+            
+            alert(`Student account created for ${name}\nEmail: ${email}\nTemporary Password: ${password}`);
+        }
+
+        function editStudent(email) {
+            // In a real app, you would have a proper edit form
+            const newName = prompt('Enter new name:', db.users[email].name);
+            if (newName && newName !== db.users[email].name) {
+                db.users[email].name = newName;
+                loadStudents();
+                loadReportStudents();
+                loadSchedule();
+            }
+        }
+
+        function deleteStudent(email) {
+            if (confirm(`Are you sure you want to delete ${db.users[email].name}?`)) {
+                // Delete student's classes first
+                Object.values(db.classes).forEach(c => {
+                    if (c.student === email) {
+                        delete db.classes[c.id];
+                    }
+                });
+                
+                // Delete student
+                delete db.users[email];
+                
+                // Refresh
+                loadStudents();
+                loadReportStudents();
+                loadSchedule();
+            }
+        }
+
+        function changePassword(email) {
+            const currentPassword = prompt('Enter your current password:');
+            if (currentPassword !== db.users[email].password) {
+                alert('Incorrect current password');
+                return;
+            }
+            
+            const newPassword = prompt('Enter new password:');
+            const confirmPassword = prompt('Confirm new password:');
+            
+            if (newPassword && newPassword === confirmPassword) {
+                db.users[email].password = newPassword;
+                alert('Password changed successfully');
+            } else {
+                alert('Passwords do not match');
+            }
+        }
+
+        function saveSettings() {
+            db.settings = {
+                emailReminders: document.getElementById('emailReminders').checked,
+                reminderTime: parseInt(document.getElementById('reminderTime').value)
+            };
+            alert('Settings saved');
+        }
+
+        function generateReport() {
+            const studentEmail = document.getElementById('reportStudent').value;
+            const period = document.getElementById('reportPeriod').value;
+            
+            if (!studentEmail) {
+                alert('Please select a student');
+                return;
+            }
+            
+            const student = db.users[studentEmail];
+            if (!student) return;
+            
+            // Get student's classes
+            const classes = Object.values(db.classes).filter(c => c.student === studentEmail);
+            
+            // Calculate attendance
+            const attendanceCount = Object.values(student.attendance).filter(a => a.present).length;
+            const totalPossible = classes.length * 4; // Assuming 4 classes per month
+            
+            // Generate report HTML
+            let reportHTML = `
+                <h3 class="text-lg font-semibold mb-2">${student.name} - ${period} Report</h3>
+                <div class="mb-4">
+                    <h4 class="font-medium">Attendance Summary</h4>
+                    <p>Present: ${attendanceCount} / ${totalPossible} (${Math.round((attendanceCount / totalPossible) * 100)}%)</p>
+                </div>
+                <div class="mb-4">
+                    <h4 class="font-medium">Classes</h4>
+                    <ul class="list-disc pl-5">
+                        ${classes.map(c => `
+                            <li>${c.days.join(' & ')} at ${formatTime(c.time)} - ${c.lesson}</li>
+                        `).join('')}
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-medium">Recommendations</h4>
+                    <p>${generateRecommendations(student)}</p>
+                </div>
+            `;
+            
+            document.getElementById('reportOutput').innerHTML = reportHTML;
+        }
+
+        function generateRecommendations(student) {
+            const attendanceRate = Object.values(student.attendance).filter(a => a.present).length / 
+                                 (Object.values(student.attendance).length || 1);
+            
+            if (attendanceRate > 0.8) {
+                return "Excellent attendance! Focus on perfecting Tajweed rules and recitation fluency.";
+            } else if (attendanceRate > 0.5) {
+                return "Good progress. Try to attend more regularly to improve consistency.";
+            } else {
+                return "Needs improvement in attendance. Please make more effort to attend classes regularly.";
+            }
+        }
+
+        function emailReport() {
+            const reportContent = document.getElementById('reportOutput').innerText;
+            const studentEmail = document.getElementById('reportStudent').value;
+            const student = db.users[studentEmail];
+            
+            // In a real app, you would send this via email
+            alert(`Report for ${student.name} would be emailed to:\n${student.email}\n\nAnd to teacher: ${currentUser.email}`);
+            
+            console.log('Email content:', reportContent);
+        }
+
+        function showForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').style.display = 'block';
+            document.getElementById('resetMessage').classList.add('hidden');
+        }
+
+        function sendResetLink() {
+            const email = document.getElementById('resetEmail').value.trim();
+            
+            if (!email || !db.users[email]) {
+                alert('No account found with that email');
+                return;
+            }
+            
+            // In a real app, you would send an actual reset link
+            document.getElementById('resetMessage').classList.remove('hidden');
+            document.getElementById('resetEmail').value = '';
+            
+            console.log(`Password reset link would be sent to: ${email}`);
+        }
+
+        function showLoginError(message) {
+            const errorEl = document.getElementById('loginError');
+            errorEl.textContent = message;
+            errorEl.classList.remove('hidden');
+        }
+
+        function formatTime(timeString) {
+            // Convert "14:30" to "2:30 PM"
+            const [hours, minutes] = timeString.split(':');
+            const hour = parseInt(hours);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const hour12 = hour % 12 || 12;
+            return `${hour12}:${minutes} ${ampm}`;
+        }
+
+        // In a real app, you would have functions to:
+        // - Send actual email reminders
+        // - Handle proper password reset flows
+        // - Persist data to a database
+        // - Implement proper authentication
     </script>
 </body>
 </html>
