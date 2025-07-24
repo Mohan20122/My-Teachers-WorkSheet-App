@@ -4,305 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher's Worksheet</title>
-    <!-- Tailwind CSS CDN for modern styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts for 'Inter' font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Base styles for the body and container */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-            color: #374151;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background-color: #ffffff;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Table specific styles */
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin-top: 1rem;
-            border-radius: 0.75rem;
-            overflow: hidden;
-        }
-        th, td {
-            padding: 0.75rem 1rem;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-            white-space: nowrap;
-        }
-        th {
-            background-color: #f9fafb;
-            font-weight: 600;
-            color: #1f2937;
-            text-transform: uppercase;
-            font-size: 0.875rem;
-        }
-        tr:last-child td {
-            border-bottom: none;
-        }
-        tr:nth-child(odd) {
-            background-color: #f9fafb;
-        }
-        tr:nth-child(even) {
-            background-color: #ffffff;
-        }
-
-        /* Input field styling */
-        input[type="text"] {
-            padding: 0.5rem 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            width: 100%;
-            box-sizing: border-box;
-            background-color: #f9fafb;
-            transition: border-color 0.2s;
-        }
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-        }
-
-        /* Checkbox styling */
-        input[type="checkbox"] {
-            width: 1.25rem;
-            height: 1.25rem;
-            border-radius: 0.25rem;
-            border: 1px solid #9ca3af;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            cursor: pointer;
-            display: inline-block;
-            vertical-align: middle;
-            position: relative;
-            background-color: #ffffff;
-            transition: background-color 0.2s, border-color 0.2s;
-        }
-        input[type="checkbox"]:checked {
-            background-color: #2563eb;
-            border-color: #2563eb;
-        }
-        input[type="checkbox"]:checked::after {
-            content: '✔';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 0.75rem;
-            line-height: 1;
-        }
-        input[type="checkbox"]:disabled {
-            background-color: #e5e7eb;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        /* Button styling */
-        .btn {
-            padding: 0.75rem 1.5rem;
-            background-color: #2563eb;
-            color: white;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-            border: none;
-        }
-        .btn:hover {
-            background-color: #1d4ed8;
-            transform: translateY(-1px);
-        }
-        .btn:active {
-            transform: translateY(0);
-        }
-        .btn:disabled {
-            background-color: #9ca3af;
-            cursor: not-allowed;
-        }
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            font-size: 1.2rem;
-            color: #374151;
-            border-radius: 1rem;
-        }
-
-        /* Message Box (for alerts) */
-        .message-box {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-            z-index: 1001;
-            text-align: center;
-            display: none;
-        }
-        .message-box button {
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-        }
-
-        /* Modal for notes */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1002;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            position: relative;
-        }
-        .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            position: absolute;
-            top: 10px;
-            right: 20px;
-        }
-        .close-button:hover,
-        .close-button:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        textarea {
-            width: 100%;
-            min-height: 100px;
-            padding: 0.5rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            box-sizing: border-box;
-            margin-top: 0.5rem;
-            resize: vertical;
-        }
-        .note-icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            margin-left: 0.5rem;
-            vertical-align: middle;
-            font-size: 1.2rem;
-            color: #4b5563;
-        }
-        .note-icon-btn:hover {
-            color: #2563eb;
-        }
-
-        /* Print specific styles */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            .container, .container * {
-                visibility: visible;
-            }
-            .container {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                margin: 0;
-                padding: 0;
-                box-shadow: none;
-                border-radius: 0;
-            }
-            .btn, .mb-6.p-4, .add-time-slot-btn, .note-icon-btn, .teacher-mode-controls,
-            #generateLessonIdeaBtn, .generate-insight-btn {
-                display: none !important;
-            }
-            table, th, td {
-                border-color: #000 !important;
-            }
-            tr:nth-child(odd) {
-                background-color: #f0f0f0 !important;
-            }
-            tr:nth-child(even) {
-                background-color: #fff !important;
-            }
-            input[type="text"], input[type="checkbox"] {
-                border: none !important;
-                background-color: transparent !important;
-            }
-            input[type="checkbox"]:checked::after {
-                color: #000 !important;
-            }
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; color: #374151; }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 2rem; background-color: #ffffff; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 1rem; border-radius: 0.75rem; overflow: hidden; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid #e5e7eb; white-space: nowrap; }
+        th { background-color: #f9fafb; font-weight: 600; color: #1f2937; text-transform: uppercase; font-size: 0.875rem; }
+        tr:last-child td { border-bottom: none; }
+        tr:nth-child(odd) { background-color: #f9fafb; }
+        tr:nth-child(even) { background-color: #ffffff; }
+        input[type="text"], input[type="password"], input[type="email"] { padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; width: 100%; box-sizing: border-box; background-color: #f9fafb; transition: border-color 0.2s; }
+        input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
+        .btn { padding: 0.75rem 1.5rem; background-color: #2563eb; color: white; border-radius: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
+        .btn:hover { background-color: #1d4ed8; transform: translateY(-1px); }
+        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .message-box { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; padding: 2rem; border-radius: 0.75rem; box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); z-index: 1001; text-align: center; }
+        .modal { display: none; position: fixed; z-index: 1002; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); }
+        .modal-content { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 0.75rem; }
+        .login-container { max-width: 400px; margin: 5rem auto; padding: 2rem; background: white; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .change-log { max-height: 200px; overflow-y: auto; border: 1px solid #e5e7eb; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem; }
+        .change-entry { padding: 0.5rem; border-bottom: 1px solid #e5e7eb; }
+        .change-entry:last-child { border-bottom: none; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Teacher's Worksheet</h1>
+    <!-- Login Screen (shown first) -->
+    <div id="loginScreen" class="login-container">
+        <h1 class="text-2xl font-bold text-center mb-6">Teacher's Worksheet Login</h1>
+        <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Username</label>
+            <input type="text" id="loginUsername" class="w-full p-2 border rounded">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Email</label>
+            <input type="email" id="loginEmail" class="w-full p-2 border rounded">
+        </div>
+        <div class="mb-6">
+            <label class="block text-gray-700 mb-2">Password</label>
+            <input type="password" id="loginPassword" class="w-full p-2 border rounded">
+        </div>
+        <button id="loginBtn" class="btn w-full">Login</button>
+        <p id="loginError" class="text-red-500 mt-2 text-center hidden">Invalid credentials</p>
+    </div>
 
-        <!-- User ID Display -->
-        <div class="mb-6 p-4 bg-blue-50 rounded-lg shadow-inner">
-            <p class="text-sm text-blue-700">Your User ID: <span id="userIdDisplay" class="font-mono text-blue-900 break-all">Loading...</span></p>
-            <p class="text-xs text-blue-600 mt-1">This ID identifies your session. Data is shared publicly for this app.</p>
+    <!-- Main Application (hidden until login) -->
+    <div id="appContainer" class="container hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">Teacher's Worksheet</h1>
+            <div class="flex items-center space-x-4">
+                <span id="currentUser" class="font-medium"></span>
+                <button id="logoutBtn" class="btn bg-red-500 hover:bg-red-600">Logout</button>
+            </div>
+        </div>
+
+        <!-- Change Log Section -->
+        <div class="mb-8 p-4 bg-yellow-50 rounded-lg">
+            <h2 class="text-xl font-semibold mb-2">Recent Changes</h2>
+            <div id="changeLog" class="change-log">
+                <!-- Changes will appear here -->
+                <p class="text-gray-500">No changes yet</p>
+            </div>
         </div>
 
         <!-- Month and Year Selectors -->
         <div class="mb-6 flex items-center justify-center space-x-4">
             <label for="monthSelect" class="font-medium text-gray-700">Month:</label>
-            <select id="monthSelect" class="p-2 border border-gray-300 rounded-md" disabled>
-                <!-- Options will be dynamically populated by JavaScript -->
+            <select id="monthSelect" class="p-2 border border-gray-300 rounded-md">
+                <!-- Options populated by JavaScript -->
             </select>
 
             <label for="yearSelect" class="font-medium text-gray-700">Year:</label>
-            <select id="yearSelect" class="p-2 border border-gray-300 rounded-md" disabled>
-                <!-- Options will be dynamically populated by JavaScript -->
+            <select id="yearSelect" class="p-2 border border-gray-300 rounded-md">
+                <!-- Options populated by JavaScript -->
             </select>
-        </div>
-
-        <!-- Teacher Edit Mode Controls -->
-        <div class="mb-8 teacher-mode-controls text-center">
-            <button id="enableTeacherModeBtn" class="btn bg-purple-600 hover:bg-purple-700">Enable Teacher Edit Mode</button>
-            <button id="disableTeacherModeBtn" class="btn bg-gray-500 hover:bg-gray-600 hidden">Disable Teacher Edit Mode</button>
-            <p class="text-sm text-gray-600 mt-2">Attendance checkboxes are disabled for students. Use this button to enable them for editing.</p>
         </div>
 
         <!-- Attendance Sheet Section -->
@@ -314,14 +90,14 @@
                         <tr id="attendanceHeaderWeekRow">
                             <th class="w-1/6" rowspan="2">Student Name</th>
                             <th rowspan="2">Notes</th>
-                            <!-- Week headers will be dynamically inserted here by JavaScript -->
+                            <!-- Week headers populated by JavaScript -->
                         </tr>
                         <tr id="attendanceHeaderDayRow">
-                            <!-- Day headers will be dynamically inserted here by JavaScript -->
+                            <!-- Day headers populated by JavaScript -->
                         </tr>
                     </thead>
                     <tbody id="attendanceBody">
-                        <!-- Attendance rows will be dynamically inserted here by JavaScript -->
+                        <!-- Attendance rows populated by JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -335,23 +111,23 @@
                     <thead>
                         <tr id="timetableHeaderRow">
                             <th class="w-1/6">Time Slot</th>
-                            <!-- Date headers will be dynamically inserted here by JavaScript -->
+                            <!-- Date headers populated by JavaScript -->
                         </tr>
                     </thead>
                     <tbody id="timetableBody">
-                        <!-- Timetable rows will be dynamically inserted here by JavaScript -->
+                        <!-- Timetable rows populated by JavaScript -->
                     </tbody>
                 </table>
             </div>
             <div class="flex justify-start space-x-4 mt-4">
-                <button id="addTimeSlotBtn" class="btn" disabled>Add Time Slot</button>
-                <button id="generateLessonIdeaBtn" class="btn bg-pink-600 hover:bg-pink-700" disabled>✨ Tajweed Lesson Idea</button>
+                <button id="addTimeSlotBtn" class="btn">Add Time Slot</button>
+                <button id="generateLessonIdeaBtn" class="btn bg-pink-600 hover:bg-pink-700">✨ Tajweed Lesson Idea</button>
             </div>
         </div>
 
-        <!-- Student Contact Information Section (Teacher Private) -->
+        <!-- Student Contact Information Section -->
         <div class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Student Contact Information (Teacher Private)</h2>
+            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Student Contact Information</h2>
             <div id="privateContactTableContainer" class="overflow-x-auto rounded-lg shadow-md">
                 <table class="min-w-full bg-white">
                     <thead>
@@ -359,11 +135,11 @@
                             <th class="w-1/4">Student Name</th>
                             <th class="w-1/4">Phone Number</th>
                             <th class="w-1/4">Email</th>
-                            <th class="w-1/4">Private Notes</th>
+                            <th class="w-1/4">Notes</th>
                         </tr>
                     </thead>
                     <tbody id="privateContactBody">
-                        <!-- Private contact rows will be dynamically inserted here by JavaScript -->
+                        <!-- Private contact rows populated by JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -383,7 +159,7 @@
                         </tr>
                     </thead>
                     <tbody id="overallAttendanceBody">
-                        <!-- Overall attendance summary will be dynamically inserted here by JavaScript -->
+                        <!-- Overall attendance summary populated by JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -391,7 +167,7 @@
 
         <!-- Action Buttons -->
         <div class="text-center mt-8 space-x-4">
-            <button id="saveDataBtn" class="btn" disabled>Save All Data</button>
+            <button id="saveDataBtn" class="btn">Save All Data</button>
             <button id="printWorksheetBtn" class="btn bg-gray-600 hover:bg-gray-700">Print Worksheet</button>
         </div>
     </div>
@@ -401,14 +177,14 @@
         <p>Loading data...</p>
     </div>
 
-    <!-- Message Box for user feedback -->
-    <div id="messageBox" class="message-box">
+    <!-- Message Box -->
+    <div id="messageBox" class="message-box hidden">
         <p id="messageText"></p>
-        <button onclick="document.getElementById('messageBox').style.display='none'">OK</button>
+        <button onclick="document.getElementById('messageBox').style.display='none'" class="btn mt-4">OK</button>
     </div>
 
-    <!-- Note Modal for adding/editing notes -->
-    <div id="noteModal" class="modal flex">
+    <!-- Note Modal -->
+    <div id="noteModal" class="modal hidden">
         <div class="modal-content">
             <span class="close-button" onclick="document.getElementById('noteModal').style.display='none'">&times;</span>
             <h3 class="text-xl font-semibold mb-4" id="noteModalTitle">Add/Edit Note</h3>
@@ -417,30 +193,20 @@
         </div>
     </div>
 
-    <!-- Firebase SDKs - Imported as modules -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <script>
+        // Hardcoded login credentials
+        const VALID_USERNAME = "Mariam";
+        const VALID_EMAIL = "mariam208@gmail.com";
+        const VALID_PASSWORD = "teacher123"; // Simple password for demo purposes
 
-        // --- Firebase Configuration and Initialization ---
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-        let app;
-        let db;
-        let auth;
-        let userId = null;
-        let isAuthReady = false;
-        let isTeacherModeEnabled = false; // Track teacher mode state
-
-        // --- Date and Student Data Setup ---
+        // Application state
+        let currentUser = null;
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
         let monthDates = [];
+        let changeLog = [];
 
-        // Hardcoded student names
+        // Student data
         const studentNames = [
             "NAJMA ABSHIR",
             "HAMDA AHMED",
@@ -449,51 +215,224 @@
             "NAJMA ABDINASSIR",
             "SAHRA ABDIRASHID"
         ];
-        const numStudents = studentNames.length;
 
-        // --- Data Structures for Worksheet Content ---
+        // Data structures
         let attendanceData = [];
         let timetableData = [];
         let privateContactData = [];
 
-        // --- UI Element References ---
-        const monthSelect = document.getElementById('monthSelect');
-        const yearSelect = document.getElementById('yearSelect');
-        const attendanceBody = document.getElementById('attendanceBody');
-        const timetableBody = document.getElementById('timetableBody');
-        const privateContactBody = document.getElementById('privateContactBody');
-        const overallAttendanceBody = document.getElementById('overallAttendanceBody');
-        const attendanceHeaderWeekRow = document.getElementById('attendanceHeaderWeekRow');
-        const attendanceHeaderDayRow = document.getElementById('attendanceHeaderDayRow');
-        const timetableHeaderRow = document.getElementById('timetableHeaderRow');
-        const addTimeSlotBtn = document.getElementById('addTimeSlotBtn');
-        const generateLessonIdeaBtn = document.getElementById('generateLessonIdeaBtn');
-        const saveDataBtn = document.getElementById('saveDataBtn');
-        const printWorksheetBtn = document.getElementById('printWorksheetBtn');
-        const userIdDisplay = document.getElementById('userIdDisplay');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const messageBox = document.getElementById('messageBox');
-        const messageText = document.getElementById('messageText');
-        const noteModal = document.getElementById('noteModal');
-        const noteModalTitle = document.getElementById('noteModalTitle');
-        const noteTextArea = document.getElementById('noteTextArea');
-        const saveNoteBtn = document.getElementById('saveNoteBtn');
-        const enableTeacherModeBtn = document.getElementById('enableTeacherModeBtn');
-        const disableTeacherModeBtn = document.getElementById('disableTeacherModeBtn');
+        // DOM elements
+        const loginScreen = document.getElementById('loginScreen');
+        const appContainer = document.getElementById('appContainer');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const loginUsername = document.getElementById('loginUsername');
+        const loginEmail = document.getElementById('loginEmail');
+        const loginPassword = document.getElementById('loginPassword');
+        const loginError = document.getElementById('loginError');
+        const currentUserDisplay = document.getElementById('currentUser');
+        const changeLogContainer = document.getElementById('changeLog');
 
-        // Variables for handling the note modal's state
-        let activeNoteElement = null;
-        let activeNoteType = null;
-        let activeNoteIndices = {};
-
-        // --- Utility Functions ---
-
-        function showMessageBox(message) {
-            messageText.textContent = message;
-            messageBox.style.display = 'block';
+        // Initialize the application
+        function initApp() {
+            setupEventListeners();
+            checkLoginStatus();
         }
 
+        // Check if user is already logged in (for page refresh)
+        function checkLoginStatus() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showApp();
+            }
+        }
+
+        // Setup all event listeners
+        function setupEventListeners() {
+            // Login button
+            loginBtn.addEventListener('click', handleLogin);
+            
+            // Logout button
+            logoutBtn.addEventListener('click', handleLogout);
+            
+            // Allow Enter key to submit login
+            loginPassword.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleLogin();
+            });
+        }
+
+        // Handle login
+        function handleLogin() {
+            const username = loginUsername.value.trim();
+            const email = loginEmail.value.trim();
+            const password = loginPassword.value.trim();
+
+            if (username === VALID_USERNAME && 
+                email === VALID_EMAIL && 
+                password === VALID_PASSWORD) {
+                
+                currentUser = { username, email };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                showApp();
+            } else {
+                loginError.classList.remove('hidden');
+            }
+        }
+
+        // Handle logout
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            showLogin();
+            loginUsername.value = '';
+            loginEmail.value = '';
+            loginPassword.value = '';
+            loginError.classList.add('hidden');
+        }
+
+        // Show the main application
+        function showApp() {
+            loginScreen.classList.add('hidden');
+            appContainer.classList.remove('hidden');
+            currentUserDisplay.textContent = `Logged in as: ${currentUser.username} (${currentUser.email})`;
+            
+            // Initialize the worksheet
+            populateMonthYearSelectors();
+            initializeData();
+            renderAll();
+        }
+
+        // Show the login screen
+        function showLogin() {
+            loginScreen.classList.remove('hidden');
+            appContainer.classList.add('hidden');
+        }
+
+        // Track changes made by students
+        function trackChange(changeDescription) {
+            const timestamp = new Date().toLocaleString();
+            changeLog.unshift({
+                timestamp,
+                user: currentUser.username,
+                change: changeDescription
+            });
+            
+            // Keep only the last 20 changes
+            if (changeLog.length > 20) {
+                changeLog.pop();
+            }
+            
+            renderChangeLog();
+            
+            // In a real app, you would send this to the server to notify the teacher
+            console.log(`Change detected: ${changeDescription} by ${currentUser.username}`);
+        }
+
+        // Render the change log
+        function renderChangeLog() {
+            if (changeLog.length === 0) {
+                changeLogContainer.innerHTML = '<p class="text-gray-500">No changes yet</p>';
+                return;
+            }
+            
+            changeLogContainer.innerHTML = changeLog.map(entry => `
+                <div class="change-entry">
+                    <div class="flex justify-between">
+                        <span class="font-medium">${entry.user}</span>
+                        <span class="text-gray-500 text-sm">${entry.timestamp}</span>
+                    </div>
+                    <p class="text-sm mt-1">${entry.change}</p>
+                </div>
+            `).join('');
+        }
+
+        // Initialize all data structures
+        function initializeData() {
+            monthDates = generateMonthDates(currentYear, currentMonth);
+            
+            // Initialize attendance data
+            attendanceData = studentNames.map(name => {
+                const dailyAttendance = {};
+                const dailyNotes = {};
+                monthDates.forEach(dateInfo => {
+                    dailyAttendance[dateInfo.fullDate] = false;
+                    dailyNotes[dateInfo.fullDate] = "";
+                });
+                return {
+                    name,
+                    attendance: dailyAttendance,
+                    notes: dailyNotes,
+                    studentNote: ""
+                };
+            });
+            
+            // Initialize timetable data
+            timetableData = [
+                { time: "9:00 AM", dailySubjects: {} },
+                { time: "10:00 AM", dailySubjects: {} },
+                { time: "11:00 AM", dailySubjects: {} }
+            ].map(slot => {
+                const dailySubjects = {};
+                monthDates.forEach(dateInfo => {
+                    dailySubjects[dateInfo.fullDate] = { 
+                        name: "Tajweed", 
+                        checked: false, 
+                        note: "" 
+                    };
+                });
+                return {
+                    time: slot.time,
+                    dailySubjects
+                };
+            });
+            
+            // Initialize contact data
+            privateContactData = studentNames.map(name => ({
+                name,
+                phone: "",
+                email: "",
+                privateNotes: ""
+            }));
+        }
+
+        // Render all components
+        function renderAll() {
+            renderAttendance();
+            renderTimetable();
+            renderPrivateContactInfo();
+            renderOverallAttendance();
+            renderChangeLog();
+        }
+
+        // Generate dates for the selected month/year
+        function generateMonthDates(year, monthIndex) {
+            const dates = [];
+            const date = new Date(year, monthIndex, 1);
+            while (date.getMonth() === monthIndex) {
+                const yyyy = date.getFullYear();
+                const mm = String(date.getMonth() + 1).padStart(2, '0');
+                const dd = String(date.getDate()).padStart(2, '0');
+                const fullDate = `${yyyy}-${mm}-${dd}`;
+                const shortDay = date.toLocaleDateString('en-US', { weekday: 'short' }).substring(0,2).toUpperCase();
+                dates.push({
+                    fullDate,
+                    displayDate: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                    shortDay
+                });
+                date.setDate(date.getDate() + 1);
+            }
+            return dates;
+        }
+
+        // Populate month/year selectors
         function populateMonthYearSelectors() {
+            const monthSelect = document.getElementById('monthSelect');
+            const yearSelect = document.getElementById('yearSelect');
+            
+            monthSelect.innerHTML = '';
+            yearSelect.innerHTML = '';
+            
             const months = [
                 "January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"
@@ -505,7 +444,7 @@
                 option.textContent = month;
                 monthSelect.appendChild(option);
             });
-
+            
             const currentYearFull = new Date().getFullYear();
             for (let i = currentYearFull - 5; i <= currentYearFull + 5; i++) {
                 const option = document.createElement('option');
@@ -513,205 +452,38 @@
                 option.textContent = i;
                 yearSelect.appendChild(option);
             }
-
+            
             monthSelect.value = currentMonth;
             yearSelect.value = currentYear;
-
+            
             monthSelect.addEventListener('change', () => {
                 currentMonth = parseInt(monthSelect.value);
-                fetchAndRenderData();
+                monthDates = generateMonthDates(currentYear, currentMonth);
+                initializeData();
+                renderAll();
+                trackChange(`Changed month to ${months[currentMonth]}`);
             });
             
             yearSelect.addEventListener('change', () => {
                 currentYear = parseInt(yearSelect.value);
-                fetchAndRenderData();
+                monthDates = generateMonthDates(currentYear, currentMonth);
+                initializeData();
+                renderAll();
+                trackChange(`Changed year to ${currentYear}`);
             });
         }
 
-        function generateMonthDates(year, monthIndex) {
-            const dates = [];
-            const date = new Date(year, monthIndex, 1);
-            while (date.getMonth() === monthIndex) {
-                const yyyy = date.getFullYear();
-                const mm = String(date.getMonth() + 1).padStart(2, '0');
-                const dd = String(date.getDate()).padStart(2, '0');
-                const fullDate = `${yyyy}-${mm}-${dd}`;
-                const shortDay = date.toLocaleDateString('en-US', { weekday: 'short' }).substring(0,2).toUpperCase();
-                dates.push({
-                    fullDate: fullDate,
-                    displayDate: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-                    shortDay: shortDay
-                });
-                date.setDate(date.getDate() + 1);
-            }
-            return dates;
-        }
-
-        // --- Teacher Mode Functions ---
-
-        function updateTeacherModeUI() {
-            // Enable/disable all editable elements
-            const editableElements = [
-                ...attendanceBody.querySelectorAll('.student-name-input, .attendance-checkbox'),
-                ...privateContactBody.querySelectorAll('input'),
-                ...timetableBody.querySelectorAll('.time-slot-input, .subject-name-input, .timetable-checkbox'),
-                monthSelect,
-                yearSelect,
-                addTimeSlotBtn,
-                generateLessonIdeaBtn,
-                saveDataBtn
-            ];
-
-            editableElements.forEach(element => {
-                element.disabled = !isTeacherModeEnabled;
-            });
-
-            // Toggle buttons
-            enableTeacherModeBtn.classList.toggle('hidden', isTeacherModeEnabled);
-            disableTeacherModeBtn.classList.toggle('hidden', !isTeacherModeEnabled);
-        }
-
-        // --- Firebase Initialization and Data Fetching ---
-
-        function initializeFirebase() {
-            try {
-                app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        userIdDisplay.textContent = userId;
-                        isAuthReady = true;
-                        console.log("Firebase Auth Ready. User ID:", userId);
-                        populateMonthYearSelectors();
-                        setTimeout(() => {
-                            fetchAndRenderData();
-                        }, 100);
-                    } else {
-                        try {
-                            if (initialAuthToken) {
-                                await signInWithCustomToken(auth, initialAuthToken);
-                            } else {
-                                await signInAnonymously(auth);
-                            }
-                        } catch (error) {
-                            console.error("Firebase authentication failed:", error);
-                            showMessageBox("Authentication failed: " + error.message);
-                            userIdDisplay.textContent = "Error: Auth Failed";
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error("Firebase initialization failed:", error);
-                showMessageBox("Firebase initialization failed: " + error.message);
-            }
-        }
-
-        async function fetchAndRenderData() {
-            if (!isAuthReady) {
-                console.log("Auth not ready, delaying data fetch.");
-                return;
-            }
-
-            monthDates = generateMonthDates(currentYear, currentMonth);
-            loadingOverlay.classList.remove('hidden');
-
-            const publicDocId = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
-            const publicDocRef = doc(db, `artifacts/${appId}/public/data/teacherWorksheetPublic`, publicDocId);
-
-            onSnapshot(publicDocRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    attendanceData = data.attendance || initializeAttendanceData();
-                    timetableData = data.timetable || initializeTimetableData();
-                } else {
-                    attendanceData = initializeAttendanceData();
-                    timetableData = initializeTimetableData();
-                }
-                renderAttendance();
-                renderTimetable();
-                renderOverallAttendance();
-            }, (error) => {
-                console.error("Error fetching public document:", error);
-                showMessageBox("Error loading public data: " + error.message);
-            });
-
-            const privateDocRef = doc(db, `artifacts/${appId}/users/${userId}/privateTeacherData`, 'studentContacts');
-            
-            onSnapshot(privateDocRef, (docSnap) => {
-                loadingOverlay.classList.add('hidden');
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    privateContactData = data.contacts || initializePrivateContactData();
-                } else {
-                    privateContactData = initializePrivateContactData();
-                }
-                renderPrivateContactInfo();
-                updateTeacherModeUI(); // Initialize UI state after data loads
-            }, (error) => {
-                console.error("Error fetching private document:", error);
-                showMessageBox("Error loading private data: " + error.message);
-                loadingOverlay.classList.add('hidden');
-            });
-        }
-
-        // --- Data Initialization Functions ---
-
-        function initializeAttendanceData() {
-            const data = [];
-            studentNames.forEach(name => {
-                const dailyAttendance = {};
-                const dailyNotes = {};
-                monthDates.forEach(dateInfo => {
-                    dailyAttendance[dateInfo.fullDate] = false;
-                    dailyNotes[dateInfo.fullDate] = "";
-                });
-                data.push({
-                    name: name,
-                    attendance: dailyAttendance,
-                    notes: dailyNotes,
-                    studentNote: ""
-                });
-            });
-            return data;
-        }
-
-        function initializeTimetableData() {
-            const initialSlots = [
-                { time: "9:00 AM" },
-                { time: "10:00 AM" },
-                { time: "11:00 AM" }
-            ];
-            return initialSlots.map(slot => {
-                const dailySubjects = {};
-                monthDates.forEach(dateInfo => {
-                    dailySubjects[dateInfo.fullDate] = { name: "Tajweed", checked: false, note: "" };
-                });
-                return {
-                    time: slot.time,
-                    dailySubjects: dailySubjects
-                };
-            });
-        }
-
-        function initializePrivateContactData() {
-            return studentNames.map(name => ({
-                name: name,
-                phone: "",
-                email: "",
-                privateNotes: ""
-            }));
-        }
-
-        // --- Rendering Functions ---
-
+        // Render attendance table
         function renderAttendance() {
+            const attendanceBody = document.getElementById('attendanceBody');
+            const attendanceHeaderWeekRow = document.getElementById('attendanceHeaderWeekRow');
+            const attendanceHeaderDayRow = document.getElementById('attendanceHeaderDayRow');
+            
             attendanceBody.innerHTML = '';
             attendanceHeaderWeekRow.innerHTML = '<th class="w-1/6" rowspan="2">Student Name</th><th rowspan="2">Notes</th>';
             attendanceHeaderDayRow.innerHTML = '';
-
+            
+            // Group dates into weeks
             const weeks = [];
             let tempWeek = [];
             monthDates.forEach((dateInfo, index) => {
@@ -721,14 +493,16 @@
                     tempWeek = [];
                 }
             });
-
+            
+            // Render week headers
             weeks.forEach((week, weekIndex) => {
                 const weekTh = document.createElement('th');
                 weekTh.className = `text-center ${weekIndex % 2 === 0 ? 'bg-green-500' : 'bg-blue-500'} text-white rounded-t-lg`;
                 weekTh.colSpan = week.length;
                 weekTh.textContent = `Week ${weekIndex + 1}`;
                 attendanceHeaderWeekRow.appendChild(weekTh);
-
+                
+                // Render day headers
                 week.forEach(dateInfo => {
                     const dayTh = document.createElement('th');
                     dayTh.className = "text-center";
@@ -736,358 +510,384 @@
                     attendanceHeaderDayRow.appendChild(dayTh);
                 });
             });
-
+            
+            // Render student rows
             attendanceData.forEach((student, studentIndex) => {
                 const row = document.createElement('tr');
-                let rowContent = `<td><input type="text" class="student-name-input" data-index="${studentIndex}" value="${student.name}" ${!isTeacherModeEnabled ? 'disabled' : ''}></td>`;
-
-                rowContent += `
+                let rowContent = `
                     <td>
-                        <button class="note-icon-btn" data-type="attendance-student" data-student-index="${studentIndex}" ${!isTeacherModeEnabled ? 'disabled' : ''}>
+                        <input type="text" class="student-name-input" data-index="${studentIndex}" value="${student.name}">
+                    </td>
+                    <td>
+                        <button class="note-icon-btn" data-type="student-note" data-index="${studentIndex}">
                             &#9998;
                         </button>
                     </td>
                 `;
-
+                
+                // Add attendance checkboxes
                 monthDates.forEach(dateInfo => {
                     const isChecked = student.attendance[dateInfo.fullDate] || false;
                     rowContent += `
                         <td class="text-center">
-                            <input type="checkbox" class="attendance-checkbox" data-student-index="${studentIndex}" data-date="${dateInfo.fullDate}" ${isChecked ? 'checked' : ''} ${!isTeacherModeEnabled ? 'disabled' : ''}>
+                            <input type="checkbox" class="attendance-checkbox" 
+                                   data-student-index="${studentIndex}" 
+                                   data-date="${dateInfo.fullDate}" 
+                                   ${isChecked ? 'checked' : ''}>
                         </td>
                     `;
                 });
+                
                 row.innerHTML = rowContent;
                 attendanceBody.appendChild(row);
             });
-
-            attendanceBody.querySelectorAll('.student-name-input').forEach(input => {
+            
+            // Add event listeners for student name changes
+            document.querySelectorAll('.student-name-input').forEach(input => {
                 input.addEventListener('change', (e) => {
-                    const index = parseInt(e.target.dataset.index);
-                    attendanceData[index].name = e.target.value;
-                    if (privateContactData[index]) {
-                        privateContactData[index].name = e.target.value;
-                        renderPrivateContactInfo();
-                    }
+                    const index = e.target.dataset.index;
+                    const oldName = attendanceData[index].name;
+                    const newName = e.target.value;
+                    attendanceData[index].name = newName;
+                    privateContactData[index].name = newName;
+                    trackChange(`Changed student name from "${oldName}" to "${newName}"`);
+                    renderPrivateContactInfo();
                     renderOverallAttendance();
                 });
             });
-
-            attendanceBody.querySelectorAll('.attendance-checkbox').forEach(checkbox => {
+            
+            // Add event listeners for attendance checkboxes
+            document.querySelectorAll('.attendance-checkbox').forEach(checkbox => {
                 checkbox.addEventListener('change', (e) => {
-                    const studentIndex = parseInt(e.target.dataset.studentIndex);
+                    const studentIndex = e.target.dataset.studentIndex;
                     const date = e.target.dataset.date;
+                    const studentName = attendanceData[studentIndex].name;
+                    const newStatus = e.target.checked ? "present" : "absent";
                     attendanceData[studentIndex].attendance[date] = e.target.checked;
+                    trackChange(`Marked ${studentName} as ${newStatus} on ${date}`);
                     renderOverallAttendance();
                 });
             });
-
-            attendanceBody.querySelectorAll('.note-icon-btn[data-type="attendance-student"]').forEach(button => {
+            
+            // Add event listeners for note buttons
+            document.querySelectorAll('.note-icon-btn[data-type="student-note"]').forEach(button => {
                 button.addEventListener('click', (e) => {
-                    const studentIndex = parseInt(e.target.dataset.studentIndex);
-                    activeNoteElement = attendanceData[studentIndex];
-                    activeNoteType = 'attendance-student';
-                    activeNoteIndices = { studentIndex: studentIndex };
-                    noteModalTitle.textContent = `Note for ${attendanceData[studentIndex].name}`;
-                    noteTextArea.value = activeNoteElement.studentNote || '';
-                    noteModal.style.display = 'flex';
+                    const index = e.target.dataset.index;
+                    openNoteModal('student', index);
                 });
             });
         }
 
+        // Render timetable
         function renderTimetable() {
+            const timetableBody = document.getElementById('timetableBody');
+            const timetableHeaderRow = document.getElementById('timetableHeaderRow');
+            
             timetableBody.innerHTML = '';
             timetableHeaderRow.innerHTML = '<th class="w-1/6">Time Slot</th>';
-
+            
+            // Add date headers
             monthDates.forEach(dateInfo => {
                 const th = document.createElement('th');
                 th.className = "text-center";
                 th.textContent = dateInfo.displayDate;
                 timetableHeaderRow.appendChild(th);
             });
-
+            
+            // Render timetable rows
             timetableData.forEach((slot, slotIndex) => {
                 const row = document.createElement('tr');
-                let rowContent = `<td><input type="text" class="time-slot-input" data-index="${slotIndex}" value="${slot.time}" ${!isTeacherModeEnabled ? 'disabled' : ''}></td>`;
+                let rowContent = `
+                    <td>
+                        <input type="text" class="time-slot-input" data-index="${slotIndex}" value="${slot.time}">
+                    </td>
+                `;
+                
+                // Add subject inputs and checkboxes
                 monthDates.forEach(dateInfo => {
-                    const subject = slot.dailySubjects[dateInfo.fullDate] || { name: "Tajweed", checked: false, note: "" };
+                    const subject = slot.dailySubjects[dateInfo.fullDate] || { 
+                        name: "Tajweed", 
+                        checked: false, 
+                        note: "" 
+                    };
+                    
                     rowContent += `
                         <td>
-                            <input type="text" class="subject-name-input" data-slot-index="${slotIndex}" data-date="${dateInfo.fullDate}" value="${subject.name}" ${!isTeacherModeEnabled ? 'disabled' : ''}>
-                            <input type="checkbox" class="timetable-checkbox mt-1" data-slot-index="${slotIndex}" data-date="${dateInfo.fullDate}" ${subject.checked ? 'checked' : ''} ${!isTeacherModeEnabled ? 'disabled' : ''}>
-                            <button class="note-icon-btn" data-type="timetable" data-slot-index="${slotIndex}" data-date="${dateInfo.fullDate}" ${!isTeacherModeEnabled ? 'disabled' : ''}>
+                            <input type="text" class="subject-name-input" 
+                                   data-slot-index="${slotIndex}" 
+                                   data-date="${dateInfo.fullDate}" 
+                                   value="${subject.name}">
+                            <input type="checkbox" class="timetable-checkbox mt-1" 
+                                   data-slot-index="${slotIndex}" 
+                                   data-date="${dateInfo.fullDate}" 
+                                   ${subject.checked ? 'checked' : ''}>
+                            <button class="note-icon-btn" 
+                                    data-type="timetable-note" 
+                                    data-slot-index="${slotIndex}" 
+                                    data-date="${dateInfo.fullDate}">
                                 &#9998;
                             </button>
                         </td>
                     `;
                 });
+                
                 row.innerHTML = rowContent;
                 timetableBody.appendChild(row);
             });
-
-            timetableBody.querySelectorAll('.time-slot-input').forEach(input => {
+            
+            // Add event listeners for time slot changes
+            document.querySelectorAll('.time-slot-input').forEach(input => {
                 input.addEventListener('change', (e) => {
-                    const index = parseInt(e.target.dataset.index);
-                    timetableData[index].time = e.target.value;
+                    const index = e.target.dataset.index;
+                    const oldTime = timetableData[index].time;
+                    const newTime = e.target.value;
+                    timetableData[index].time = newTime;
+                    trackChange(`Changed time slot from "${oldTime}" to "${newTime}"`);
                 });
             });
-
-            timetableBody.querySelectorAll('.subject-name-input').forEach(input => {
+            
+            // Add event listeners for subject name changes
+            document.querySelectorAll('.subject-name-input').forEach(input => {
                 input.addEventListener('change', (e) => {
-                    const slotIndex = parseInt(e.target.dataset.slotIndex);
+                    const slotIndex = e.target.dataset.slotIndex;
                     const date = e.target.dataset.date;
+                    const oldSubject = timetableData[slotIndex].dailySubjects[date].name;
+                    const newSubject = e.target.value;
+                    
                     if (!timetableData[slotIndex].dailySubjects[date]) {
-                        timetableData[slotIndex].dailySubjects[date] = { name: "", checked: false, note: "" };
+                        timetableData[slotIndex].dailySubjects[date] = { 
+                            name: "", 
+                            checked: false, 
+                            note: "" 
+                        };
                     }
-                    timetableData[slotIndex].dailySubjects[date].name = e.target.value;
+                    
+                    timetableData[slotIndex].dailySubjects[date].name = newSubject;
+                    trackChange(`Changed subject from "${oldSubject}" to "${newSubject}" on ${date}`);
                 });
             });
-
-            timetableBody.querySelectorAll('.timetable-checkbox').forEach(checkbox => {
+            
+            // Add event listeners for timetable checkboxes
+            document.querySelectorAll('.timetable-checkbox').forEach(checkbox => {
                 checkbox.addEventListener('change', (e) => {
-                    const slotIndex = parseInt(e.target.dataset.slotIndex);
+                    const slotIndex = e.target.dataset.slotIndex;
                     const date = e.target.dataset.date;
+                    const newStatus = e.target.checked ? "completed" : "not completed";
+                    
                     if (!timetableData[slotIndex].dailySubjects[date]) {
-                        timetableData[slotIndex].dailySubjects[date] = { name: "", checked: false, note: "" };
+                        timetableData[slotIndex].dailySubjects[date] = { 
+                            name: "", 
+                            checked: false, 
+                            note: "" 
+                        };
                     }
+                    
                     timetableData[slotIndex].dailySubjects[date].checked = e.target.checked;
+                    trackChange(`Marked ${timetableData[slotIndex].time} on ${date} as ${newStatus}`);
                 });
             });
-
-            timetableBody.querySelectorAll('.note-icon-btn[data-type="timetable"]').forEach(button => {
+            
+            // Add event listeners for timetable note buttons
+            document.querySelectorAll('.note-icon-btn[data-type="timetable-note"]').forEach(button => {
                 button.addEventListener('click', (e) => {
-                    const slotIndex = parseInt(e.target.dataset.slotIndex);
+                    const slotIndex = e.target.dataset.slotIndex;
                     const date = e.target.dataset.date;
-                    activeNoteElement = timetableData[slotIndex].dailySubjects[date];
-                    activeNoteType = 'timetable';
-                    activeNoteIndices = { slotIndex: slotIndex, date: date };
-                    noteModalTitle.textContent = `Note for ${timetableData[slotIndex].time} on ${date}`;
-                    noteTextArea.value = activeNoteElement.note || '';
-                    noteModal.style.display = 'flex';
+                    openNoteModal('timetable', slotIndex, date);
                 });
+            });
+            
+            // Add event listener for Add Time Slot button
+            document.getElementById('addTimeSlotBtn').addEventListener('click', () => {
+                const newSlot = {
+                    time: `New Slot ${timetableData.length + 1}`,
+                    dailySubjects: {}
+                };
+                
+                monthDates.forEach(dateInfo => {
+                    newSlot.dailySubjects[dateInfo.fullDate] = { 
+                        name: "Tajweed", 
+                        checked: false, 
+                        note: "" 
+                    };
+                });
+                
+                timetableData.push(newSlot);
+                trackChange(`Added new time slot: ${newSlot.time}`);
+                renderTimetable();
+            });
+            
+            // Add event listener for Generate Lesson Idea button
+            document.getElementById('generateLessonIdeaBtn').addEventListener('click', () => {
+                const ideas = [
+                    "Practice the rules of Noon Sakinah and Tanween with flash cards",
+                    "Focus on proper Makhaarij (articulation points) with mirror exercises",
+                    "Review the characteristics of letters (Sifaat) through group recitation",
+                    "Practice stopping rules (Waqf) with selected verses from Juz Amma",
+                    "Work on the rules of Meem Sakinah through call-and-response exercises"
+                ];
+                
+                const randomIdea = ideas[Math.floor(Math.random() * ideas.length)];
+                showMessage(`Lesson Idea: ${randomIdea}`);
+                trackChange(`Generated lesson idea: ${randomIdea}`);
             });
         }
 
+        // Render private contact info
         function renderPrivateContactInfo() {
+            const privateContactBody = document.getElementById('privateContactBody');
             privateContactBody.innerHTML = '';
+            
             privateContactData.forEach((contact, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td><input type="text" class="private-contact-name-input" data-index="${index}" value="${contact.name}" ${!isTeacherModeEnabled ? 'disabled' : ''}></td>
-                    <td><input type="text" class="private-contact-phone-input" data-index="${index}" value="${contact.phone}" ${!isTeacherModeEnabled ? 'disabled' : ''}></td>
-                    <td><input type="text" class="private-contact-email-input" data-index="${index}" value="${contact.email}" ${!isTeacherModeEnabled ? 'disabled' : ''}></td>
-                    <td><input type="text" class="private-contact-notes-input" data-index="${index}" value="${contact.privateNotes}" ${!isTeacherModeEnabled ? 'disabled' : ''}></td>
+                    <td><input type="text" class="contact-name-input" data-index="${index}" value="${contact.name}"></td>
+                    <td><input type="text" class="contact-phone-input" data-index="${index}" value="${contact.phone}"></td>
+                    <td><input type="text" class="contact-email-input" data-index="${index}" value="${contact.email}"></td>
+                    <td><input type="text" class="contact-notes-input" data-index="${index}" value="${contact.privateNotes}"></td>
                 `;
                 privateContactBody.appendChild(row);
             });
-
-            privateContactBody.querySelectorAll('.private-contact-phone-input').forEach(input => {
+            
+            // Add event listeners for contact info changes
+            document.querySelectorAll('.contact-name-input').forEach(input => {
                 input.addEventListener('change', (e) => {
-                    const index = parseInt(e.target.dataset.index);
-                    privateContactData[index].phone = e.target.value;
+                    const index = e.target.dataset.index;
+                    const oldName = privateContactData[index].name;
+                    const newName = e.target.value;
+                    privateContactData[index].name = newName;
+                    attendanceData[index].name = newName;
+                    trackChange(`Changed contact name from "${oldName}" to "${newName}"`);
+                    renderAttendance();
+                    renderOverallAttendance();
                 });
             });
             
-            privateContactBody.querySelectorAll('.private-contact-email-input').forEach(input => {
+            document.querySelectorAll('.contact-phone-input').forEach(input => {
                 input.addEventListener('change', (e) => {
-                    const index = parseInt(e.target.dataset.index);
-                    privateContactData[index].email = e.target.value;
+                    const index = e.target.dataset.index;
+                    const oldPhone = privateContactData[index].phone;
+                    const newPhone = e.target.value;
+                    privateContactData[index].phone = newPhone;
+                    trackChange(`Changed phone number for ${privateContactData[index].name} from "${oldPhone}" to "${newPhone}"`);
                 });
             });
             
-            privateContactBody.querySelectorAll('.private-contact-notes-input').forEach(input => {
+            document.querySelectorAll('.contact-email-input').forEach(input => {
                 input.addEventListener('change', (e) => {
-                    const index = parseInt(e.target.dataset.index);
-                    privateContactData[index].privateNotes = e.target.value;
+                    const index = e.target.dataset.index;
+                    const oldEmail = privateContactData[index].email;
+                    const newEmail = e.target.value;
+                    privateContactData[index].email = newEmail;
+                    trackChange(`Changed email for ${privateContactData[index].name} from "${oldEmail}" to "${newEmail}"`);
+                });
+            });
+            
+            document.querySelectorAll('.contact-notes-input').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const index = e.target.dataset.index;
+                    const oldNotes = privateContactData[index].privateNotes;
+                    const newNotes = e.target.value;
+                    privateContactData[index].privateNotes = newNotes;
+                    trackChange(`Updated private notes for ${privateContactData[index].name}`);
                 });
             });
         }
 
+        // Render overall attendance summary
         function renderOverallAttendance() {
+            const overallAttendanceBody = document.getElementById('overallAttendanceBody');
             overallAttendanceBody.innerHTML = '';
-            const totalPossibleAttendanceDays = monthDates.length;
-
-            attendanceData.forEach((student, studentIndex) => {
+            
+            const totalDays = monthDates.length;
+            
+            attendanceData.forEach((student, index) => {
                 let daysAttended = 0;
-                let allStudentDailyNotes = [];
                 for (const date in student.attendance) {
-                    if (student.attendance[date]) {
-                        daysAttended++;
-                    }
-                    if (student.notes[date] && student.notes[date].trim() !== "") {
-                        allStudentDailyNotes.push(`On ${date}: ${student.notes[date]}`);
-                    }
+                    if (student.attendance[date]) daysAttended++;
                 }
-                const percentage = totalPossibleAttendanceDays > 0 ? ((daysAttended / totalPossibleAttendanceDays) * 100).toFixed(2) : 0;
-
+                
+                const percentage = totalDays > 0 ? ((daysAttended / totalDays) * 100).toFixed(2) : 0;
+                
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${student.name}</td>
-                    <td class="text-center">${daysAttended} / ${totalPossibleAttendanceDays}</td>
+                    <td class="text-center">${daysAttended} / ${totalDays}</td>
                     <td class="text-center">${percentage}%</td>
                     <td>
-                        <button class="btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm generate-insight-btn"
-                            data-student-index="${studentIndex}"
-                            data-student-name="${student.name}"
-                            data-days-attended="${daysAttended}"
-                            data-total-days="${totalPossibleAttendanceDays}"
-                            data-student-notes="${encodeURIComponent(JSON.stringify(allStudentDailyNotes))}"
-                            data-student-overall-note="${encodeURIComponent(student.studentNote || '')}"
-                            ${!isTeacherModeEnabled ? 'disabled' : ''}>
+                        <button class="btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm generate-insight-btn" data-index="${index}">
                             ✨ Get Insight
                         </button>
                     </td>
                 `;
                 overallAttendanceBody.appendChild(row);
             });
-
-            overallAttendanceBody.querySelectorAll('.generate-insight-btn').forEach(button => {
-                button.addEventListener('click', async (e) => {
-                    const studentName = e.target.dataset.studentName;
-                    const daysAttended = e.target.dataset.daysAttended;
-                    const totalDays = e.target.dataset.totalDays;
-                    const studentDailyNotes = JSON.parse(decodeURIComponent(e.target.dataset.studentNotes));
-                    const studentOverallNote = decodeURIComponent(e.target.dataset.studentOverallNote);
-
-                    let notesContext = [];
-                    if (studentDailyNotes.length > 0) {
-                        notesContext.push(`Daily attendance notes: ${studentDailyNotes.join("; ")}.`);
+            
+            // Add event listeners for insight buttons
+            document.querySelectorAll('.generate-insight-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = e.target.dataset.index;
+                    const student = attendanceData[index];
+                    let daysAttended = 0;
+                    for (const date in student.attendance) {
+                        if (student.attendance[date]) daysAttended++;
                     }
-                    if (studentOverallNote.trim() !== "") {
-                        notesContext.push(`Overall student note: ${studentOverallNote}.`);
-                    }
-
-                    const prompt = `Given that ${studentName} attended ${daysAttended} out of ${totalDays} possible days this month. ${notesContext.join(" ")} Provide a brief, encouraging insight or observation about their attendance and general progress, considering these notes if available. Keep it concise, under 50 words.`;
-
-                    loadingOverlay.classList.remove('hidden');
-                    try {
-                        const insight = await callGeminiAPI(prompt);
-                        showMessageBox(`Insight for ${studentName}:\n\n${insight}`);
-                    } catch (error) {
-                        showMessageBox("Failed to generate insight: " + error.message);
-                    } finally {
-                        loadingOverlay.classList.add('hidden');
-                    }
+                    
+                    const percentage = totalDays > 0 ? ((daysAttended / totalDays) * 100).toFixed(2) : 0;
+                    const insight = `Attendance for ${student.name}: ${daysAttended}/${totalDays} days (${percentage}%). ${percentage > 80 ? 'Excellent attendance!' : percentage > 50 ? 'Good attendance' : 'Needs improvement'}`;
+                    
+                    showMessage(insight);
+                    trackChange(`Generated insight for ${student.name}`);
                 });
             });
         }
 
-        // --- Event Listeners for Main Actions ---
-
-        addTimeSlotBtn.addEventListener('click', () => {
-            const newDailySubjects = {};
-            monthDates.forEach(dateInfo => {
-                newDailySubjects[dateInfo.fullDate] = { name: "Tajweed", checked: false, note: "" };
-            });
-            const newSlot = {
-                time: `New Slot ${timetableData.length + 1}`,
-                dailySubjects: newDailySubjects
-            };
-            timetableData.push(newSlot);
-            renderTimetable();
-        });
-
-        generateLessonIdeaBtn.addEventListener('click', async () => {
-            const prompt = "Generate a short, creative lesson idea for a Tajweed class, focusing on a specific rule or concept. Include a brief activity. Keep it concise, under 100 words.";
-
-            loadingOverlay.classList.remove('hidden');
-            try {
-                const lessonIdea = await callGeminiAPI(prompt);
-                showMessageBox(`Tajweed Lesson Idea:\n\n${lessonIdea}`);
-            } catch (error) {
-                showMessageBox("Failed to generate lesson idea: " + error.message);
-            } finally {
-                loadingOverlay.classList.add('hidden');
+        // Open note modal
+        function openNoteModal(type, index, date = null) {
+            const modal = document.getElementById('noteModal');
+            const title = document.getElementById('noteModalTitle');
+            const textarea = document.getElementById('noteTextArea');
+            const saveBtn = document.getElementById('saveNoteBtn');
+            
+            // Set modal content based on type
+            if (type === 'student') {
+                title.textContent = `Notes for ${attendanceData[index].name}`;
+                textarea.value = attendanceData[index].studentNote;
+                
+                saveBtn.onclick = () => {
+                    const oldNote = attendanceData[index].studentNote;
+                    const newNote = textarea.value;
+                    attendanceData[index].studentNote = newNote;
+                    trackChange(`Updated notes for ${attendanceData[index].name}`);
+                    modal.classList.add('hidden');
+                };
+            } else if (type === 'timetable') {
+                const slot = timetableData[index];
+                title.textContent = `Notes for ${slot.time} on ${date}`;
+                textarea.value = slot.dailySubjects[date].note || '';
+                
+                saveBtn.onclick = () => {
+                    const oldNote = slot.dailySubjects[date].note;
+                    const newNote = textarea.value;
+                    slot.dailySubjects[date].note = newNote;
+                    trackChange(`Updated notes for ${slot.time} on ${date}`);
+                    modal.classList.add('hidden');
+                };
             }
-        });
-
-        async function callGeminiAPI(prompt) {
-            let chatHistory = [];
-            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-            const payload = { contents: chatHistory };
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            const result = await response.json();
-            if (result.candidates && result.candidates.length > 0 &&
-                result.candidates[0].content && result.candidates[0].content.parts &&
-                result.candidates[0].content.parts.length > 0) {
-                return result.candidates[0].content.parts[0].text;
-            } else {
-                console.error("Gemini API response structure unexpected:", result);
-                throw new Error("Could not get a valid response from the AI.");
-            }
+            
+            modal.classList.remove('hidden');
         }
 
-        saveDataBtn.addEventListener('click', async () => {
-            if (!isAuthReady) {
-                showMessageBox("Please wait, authentication is not ready yet.");
-                return;
-            }
+        // Show message
+        function showMessage(text) {
+            const messageBox = document.getElementById('messageBox');
+            const messageText = document.getElementById('messageText');
+            
+            messageText.textContent = text;
+            messageBox.classList.remove('hidden');
+        }
 
-            loadingOverlay.classList.remove('hidden');
-            try {
-                const publicDocId = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
-                const publicDocRef = doc(db, `artifacts/${appId}/public/data/teacherWorksheetPublic`, publicDocId);
-                await setDoc(publicDocRef, {
-                    attendance: attendanceData,
-                    timetable: timetableData,
-                    lastUpdated: new Date()
-                });
-
-                const privateDocRef = doc(db, `artifacts/${appId}/users/${userId}/privateTeacherData`, 'studentContacts');
-                await setDoc(privateDocRef, {
-                    contacts: privateContactData,
-                    lastUpdated: new Date()
-                });
-
-                showMessageBox("All data saved successfully!");
-                console.log("Data saved to Firestore.");
-            } catch (e) {
-                console.error("Error saving document: ", e);
-                showMessageBox("Error saving data: " + e.message);
-            } finally {
-                loadingOverlay.classList.add('hidden');
-            }
-        });
-
-        saveNoteBtn.addEventListener('click', () => {
-            if (activeNoteElement && activeNoteType) {
-                if (activeNoteType === 'attendance-student') {
-                    activeNoteElement.studentNote = noteTextArea.value;
-                } else if (activeNoteType === 'timetable') {
-                    activeNoteElement.note = noteTextArea.value;
-                }
-                noteModal.style.display = 'none';
-            }
-        });
-
-        printWorksheetBtn.addEventListener('click', () => {
-            window.print();
-        });
-
-        // --- Teacher Mode Event Listeners ---
-
-        enableTeacherModeBtn.addEventListener('click', () => {
-            isTeacherModeEnabled = true;
-            updateTeacherModeUI();
-            showMessageBox("Teacher Edit Mode Enabled. You can now edit all fields.");
-        });
-
-        disableTeacherModeBtn.addEventListener('click', () => {
-            isTeacherModeEnabled = false;
-            updateTeacherModeUI();
-            showMessageBox("Teacher Edit Mode Disabled.");
-        });
-
-        // --- Initial App Load ---
-        window.onload = initializeFirebase;
+        // Initialize the application when the page loads
+        window.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
