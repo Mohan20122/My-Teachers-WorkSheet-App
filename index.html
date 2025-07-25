@@ -20,6 +20,9 @@
         th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
         th { background-color: #f9fafb; font-weight: 600; }
         .pending-user { background-color: #fffaf0; }
+        .audio-player { width: 100%; margin-top: 0.5rem; }
+        .homework-item { padding: 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; margin-bottom: 1rem; }
+        .report-card { border: 1px solid #e5e7eb; padding: 1rem; margin-bottom: 1rem; border-radius: 0.5rem; }
     </style>
 </head>
 <body>
@@ -37,6 +40,7 @@
             </div>
             <button id="loginBtn" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 mb-2">Login</button>
             <p class="text-center">Don't have an account? <a href="#" id="showRegister" class="text-blue-600">Register</a></p>
+            <p class="text-center"><a href="#" id="showForgotPassword" class="text-blue-600">Forgot password?</a></p>
             <p id="loginError" class="text-red-500 mt-2 text-center hidden"></p>
         </div>
 
@@ -58,6 +62,32 @@
             <p class="text-center">Already have an account? <a href="#" id="showLogin" class="text-blue-600">Login</a></p>
             <p id="registerError" class="text-red-500 mt-2 text-center hidden"></p>
         </div>
+
+        <div id="forgotPasswordScreen" class="hidden">
+            <h1 class="text-2xl font-bold text-center mb-6">Reset Password</h1>
+            <div class="mb-4">
+                <label class="block mb-2">Email</label>
+                <input type="email" id="forgotPasswordEmail" class="w-full p-2 border rounded" placeholder="Your registered email">
+            </div>
+            <button id="sendResetLinkBtn" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 mb-2">Send Reset Link</button>
+            <p class="text-center"><a href="#" id="showLoginFromForgot" class="text-blue-600">Back to login</a></p>
+            <p id="forgotPasswordError" class="text-red-500 mt-2 text-center hidden"></p>
+            <p id="forgotPasswordSuccess" class="text-green-500 mt-2 text-center hidden"></p>
+        </div>
+
+        <div id="resetPasswordScreen" class="hidden">
+            <h1 class="text-2xl font-bold text-center mb-6">Set New Password</h1>
+            <div class="mb-4">
+                <label class="block mb-2">New Password</label>
+                <input type="password" id="resetPasswordNew" class="w-full p-2 border rounded" placeholder="••••••••">
+            </div>
+            <div class="mb-4">
+                <label class="block mb-2">Confirm Password</label>
+                <input type="password" id="resetPasswordConfirm" class="w-full p-2 border rounded" placeholder="••••••••">
+            </div>
+            <button id="resetPasswordBtn" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 mb-2">Update Password</button>
+            <p id="resetPasswordError" class="text-red-500 mt-2 text-center hidden"></p>
+        </div>
     </div>
 
     <!-- Main Application -->
@@ -78,8 +108,10 @@
         <div class="flex space-x-2 mb-6 border-b">
             <div class="nav-tab active" data-tab="dashboard">Dashboard</div>
             <div class="nav-tab" data-tab="schedule">Schedule</div>
+            <div id="homeworkTabNav" class="nav-tab" data-tab="homework">Homework</div>
             <div id="studentsTabNav" class="nav-tab hidden" data-tab="students">Students</div>
             <div id="adminTabNav" class="nav-tab hidden" data-tab="admin">Admin</div>
+            <div id="reportsTabNav" class="nav-tab hidden" data-tab="reports">Reports</div>
         </div>
 
         <!-- Tab Contents -->
@@ -109,12 +141,58 @@
                         <th>Time</th>
                         <th>Lesson</th>
                         <th>Status</th>
+                        <th id="enrollmentHeader" class="hidden">Enrollment</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Filled by JavaScript -->
                 </tbody>
             </table>
+        </div>
+
+        <div class="tab-content" id="homeworkTab">
+            <div id="studentHomeworkView" class="hidden">
+                <h2 class="text-xl font-semibold mb-4">Your Homework</h2>
+                <div id="homeworkList">
+                    <!-- Filled by JavaScript -->
+                </div>
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold mb-2">Submit Recording</h3>
+                    <div class="mb-2">
+                        <label class="block mb-1">Select Homework</label>
+                        <select id="homeworkSelect" class="w-full p-2 border rounded">
+                            <option value="">-- Select Homework --</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label class="block mb-1">Recording (MP3)</label>
+                        <input type="file" id="homeworkRecording" accept="audio/mp3" class="w-full p-2 border rounded">
+                    </div>
+                    <div class="mb-2">
+                        <label class="block mb-1">Notes</label>
+                        <textarea id="homeworkNotes" class="w-full p-2 border rounded" rows="3" placeholder="Any notes about your submission..."></textarea>
+                    </div>
+                    <button id="submitHomeworkBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit</button>
+                </div>
+            </div>
+
+            <div id="teacherHomeworkView" class="hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold">Manage Homework</h2>
+                    <button id="addHomeworkBtn" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add Homework</button>
+                </div>
+                
+                <div id="homeworkAssignments">
+                    <!-- Filled by JavaScript -->
+                </div>
+                
+                <div id="submissionsView" class="mt-6 hidden">
+                    <h3 class="text-lg font-semibold mb-2">Student Submissions</h3>
+                    <div id="homeworkSubmissions">
+                        <!-- Filled by JavaScript -->
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="tab-content" id="studentsTab">
@@ -150,6 +228,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Classes</th>
+                            <th>Attendance</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -186,6 +265,10 @@
                             <label class="block mb-1">Lesson</label>
                             <input type="text" id="newClassLesson" class="w-full p-2 border rounded" value="TAJWEED">
                         </div>
+                        <div>
+                            <label class="block mb-1">Max Students</label>
+                            <input type="number" id="newClassMaxStudents" class="w-full p-2 border rounded" value="5" min="1">
+                        </div>
                         <button id="addClassBtn" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Add Class</button>
                     </div>
                 </div>
@@ -213,6 +296,40 @@
                 </div>
             </div>
         </div>
+
+        <div class="tab-content" id="reportsTab">
+            <h2 class="text-xl font-semibold mb-4">Student Reports</h2>
+            
+            <div class="mb-4">
+                <label class="block mb-1">Select Student</label>
+                <select id="reportStudentSelect" class="w-full p-2 border rounded">
+                    <option value="">-- Select Student --</option>
+                </select>
+            </div>
+            
+            <div id="reportContainer" class="hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="reportStudentName" class="text-lg font-semibold"></h3>
+                    <button id="printReportBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Print Report</button>
+                </div>
+                
+                <div class="report-card">
+                    <h4 class="font-medium mb-2">Attendance Summary</h4>
+                    <div id="attendanceSummary"></div>
+                </div>
+                
+                <div class="report-card">
+                    <h4 class="font-medium mb-2">Homework Progress</h4>
+                    <div id="homeworkProgress"></div>
+                </div>
+                
+                <div class="report-card">
+                    <h4 class="font-medium mb-2">Teacher Notes</h4>
+                    <textarea id="teacherNotes" class="w-full p-2 border rounded" rows="4" placeholder="Enter notes about this student..."></textarea>
+                    <button id="saveNotesBtn" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Save Notes</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modals -->
@@ -233,8 +350,84 @@
         </div>
     </div>
 
+    <div id="addHomeworkModal" class="modal">
+        <div class="modal-content">
+            <h2 class="text-xl font-semibold mb-4">Add Homework Assignment</h2>
+            <div class="mb-4">
+                <label class="block mb-1">Title</label>
+                <input type="text" id="homeworkTitle" class="w-full p-2 border rounded" placeholder="Homework title">
+            </div>
+            <div class="mb-4">
+                <label class="block mb-1">Description</label>
+                <textarea id="homeworkDescription" class="w-full p-2 border rounded" rows="3" placeholder="Homework description"></textarea>
+            </div>
+            <div class="mb-4">
+                <label class="block mb-1">Due Date</label>
+                <input type="date" id="homeworkDueDate" class="w-full p-2 border rounded">
+            </div>
+            <div class="mb-4">
+                <label class="block mb-1">Assigned Class</label>
+                <select id="homeworkClass" class="w-full p-2 border rounded">
+                    <option value="">-- Select Class --</option>
+                </select>
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button id="cancelHomeworkBtn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
+                <button id="saveHomeworkBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="enrollStudentsModal" class="modal">
+        <div class="modal-content">
+            <h2 class="text-xl font-semibold mb-4">Enroll Students</h2>
+            <h3 id="enrollClassTitle" class="text-lg mb-2"></h3>
+            <div class="max-h-96 overflow-y-auto mb-4">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Enrolled</th>
+                        </tr>
+                    </thead>
+                    <tbody id="enrollStudentsList">
+                        <!-- Filled by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button id="cancelEnrollBtn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
+                <button id="saveEnrollmentsBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="attendanceModal" class="modal">
+        <div class="modal-content">
+            <h2 class="text-xl font-semibold mb-4">Mark Attendance</h2>
+            <h3 id="attendanceClassTitle" class="text-lg mb-2"></h3>
+            <div class="max-h-96 overflow-y-auto mb-4">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendanceStudentsList">
+                        <!-- Filled by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button id="cancelAttendanceBtn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
+                <button id="saveAttendanceBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Database simulation (in real app, use Firebase/Firestore)
+        // Enhanced Database simulation with all new features
         let db = {
             // Hardcoded teacher account
             users: {
@@ -255,6 +448,9 @@
             // Verification tokens
             verificationTokens: {},
             
+            // Password reset tokens
+            resetTokens: {},
+            
             classes: [
                 {
                     id: "class1",
@@ -262,7 +458,9 @@
                     time: "14:30",
                     duration: 60,
                     lesson: "TAJWEED",
-                    students: ["najma@example.com"]
+                    maxStudents: 5,
+                    students: ["najma@example.com"],
+                    attendance: {}
                 },
                 {
                     id: "class2",
@@ -270,9 +468,39 @@
                     time: "13:00",
                     duration: 60,
                     lesson: "TAJWEED",
-                    students: ["hamda@example.com"]
+                    maxStudents: 5,
+                    students: ["hamda@example.com"],
+                    attendance: {}
                 }
             ],
+            
+            homework: [
+                {
+                    id: "hw1",
+                    title: "Surah Al-Fatihah Recitation",
+                    description: "Practice and record your recitation of Surah Al-Fatihah with proper tajweed rules.",
+                    classId: "class1",
+                    dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    createdAt: new Date().toISOString()
+                }
+            ],
+            
+            submissions: {
+                "hw1": {
+                    "najma@example.com": {
+                        recordingUrl: "audio/recording1.mp3",
+                        notes: "I practiced this surah many times",
+                        submittedAt: new Date().toISOString(),
+                        feedback: "",
+                        graded: false
+                    }
+                }
+            },
+            
+            studentNotes: {
+                "najma@example.com": "Najma is making good progress with tajweed rules but needs to work on makharij.",
+                "hamda@example.com": "Hamda needs to practice more to improve fluency."
+            },
             
             settings: {
                 emailNotifications: true,
@@ -283,6 +511,8 @@
         // Current user session
         let currentUser = null;
         let authToken = null;
+        let currentClassForEnrollment = null;
+        let currentClassForAttendance = null;
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
@@ -294,16 +524,26 @@
             // Auth screen toggles
             document.getElementById('showRegister').addEventListener('click', showRegisterScreen);
             document.getElementById('showLogin').addEventListener('click', showLoginScreen);
+            document.getElementById('showForgotPassword').addEventListener('click', showForgotPasswordScreen);
+            document.getElementById('showLoginFromForgot').addEventListener('click', showLoginScreen);
             
             // Auth actions
             document.getElementById('loginBtn').addEventListener('click', handleLogin);
             document.getElementById('registerBtn').addEventListener('click', handleRegister);
+            document.getElementById('sendResetLinkBtn').addEventListener('click', handleForgotPassword);
+            document.getElementById('resetPasswordBtn').addEventListener('click', handleResetPassword);
             document.getElementById('logoutBtn').addEventListener('click', handleLogout);
             
             // Modals
             document.getElementById('confirmationClose').addEventListener('click', closeModal);
             document.getElementById('messageClose').addEventListener('click', closeModal);
             document.getElementById('resendConfirmation').addEventListener('click', resendConfirmation);
+            document.getElementById('cancelHomeworkBtn').addEventListener('click', closeModal);
+            document.getElementById('saveHomeworkBtn').addEventListener('click', saveHomework);
+            document.getElementById('cancelEnrollBtn').addEventListener('click', closeModal);
+            document.getElementById('saveEnrollmentsBtn').addEventListener('click', saveEnrollments);
+            document.getElementById('cancelAttendanceBtn').addEventListener('click', closeModal);
+            document.getElementById('saveAttendanceBtn').addEventListener('click', saveAttendance);
             
             // Navigation tabs
             document.querySelectorAll('.nav-tab').forEach(tab => {
@@ -316,10 +556,33 @@
             document.getElementById('addClassBtn').addEventListener('click', addNewClass);
             document.getElementById('saveSettingsBtn').addEventListener('click', saveSettings);
             document.getElementById('refreshStudentsBtn').addEventListener('click', loadStudents);
+            
+            // Homework functions
+            document.getElementById('addHomeworkBtn').addEventListener('click', showAddHomeworkModal);
+            document.getElementById('submitHomeworkBtn').addEventListener('click', submitHomework);
+            
+            // Report functions
+            document.getElementById('reportStudentSelect').addEventListener('change', loadStudentReport);
+            document.getElementById('saveNotesBtn').addEventListener('click', saveStudentNotes);
+            document.getElementById('printReportBtn').addEventListener('click', printReport);
         }
 
         function checkSession() {
-            // In a real app, check for valid session token
+            // Check URL for password reset token
+            const urlParams = new URLSearchParams(window.location.search);
+            const resetToken = urlParams.get('resetToken');
+            
+            if (resetToken) {
+                const email = db.resetTokens[resetToken];
+                if (email) {
+                    showResetPasswordScreen(email);
+                    // Clean up the URL
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    return;
+                }
+            }
+            
+            // Check for regular session
             const session = localStorage.getItem('quranAcademySession');
             if (session) {
                 try {
@@ -339,6 +602,8 @@
             if (e) e.preventDefault();
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('registerScreen').classList.add('hidden');
+            document.getElementById('forgotPasswordScreen').classList.add('hidden');
+            document.getElementById('resetPasswordScreen').classList.add('hidden');
             document.getElementById('loginError').classList.add('hidden');
         }
 
@@ -346,7 +611,30 @@
             if (e) e.preventDefault();
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('registerScreen').classList.remove('hidden');
+            document.getElementById('forgotPasswordScreen').classList.add('hidden');
+            document.getElementById('resetPasswordScreen').classList.add('hidden');
             document.getElementById('registerError').classList.add('hidden');
+        }
+
+        function showForgotPasswordScreen(e) {
+            if (e) e.preventDefault();
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('registerScreen').classList.add('hidden');
+            document.getElementById('forgotPasswordScreen').classList.remove('hidden');
+            document.getElementById('resetPasswordScreen').classList.add('hidden');
+            document.getElementById('forgotPasswordError').classList.add('hidden');
+            document.getElementById('forgotPasswordSuccess').classList.add('hidden');
+        }
+
+        function showResetPasswordScreen(email) {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('registerScreen').classList.add('hidden');
+            document.getElementById('forgotPasswordScreen').classList.add('hidden');
+            document.getElementById('resetPasswordScreen').classList.remove('hidden');
+            document.getElementById('resetPasswordError').classList.add('hidden');
+            
+            // Store email in a data attribute for later use
+            document.getElementById('resetPasswordScreen').dataset.email = email;
         }
 
         function handleLogin() {
@@ -433,6 +721,63 @@
             console.log(`Would send verification email to ${email} with token ${verificationToken}`);
         }
 
+        function handleForgotPassword() {
+            const email = document.getElementById('forgotPasswordEmail').value.trim();
+            
+            if (!email) {
+                showError('forgotPasswordError', 'Please enter your email');
+                return;
+            }
+            
+            if (!db.users[email]) {
+                showError('forgotPasswordError', 'No account found with this email');
+                return;
+            }
+            
+            // Generate reset token
+            const resetToken = generateResetToken();
+            db.resetTokens[resetToken] = email;
+            
+            // In real app, send email with reset link
+            console.log(`Would send password reset email to ${email} with token ${resetToken}`);
+            
+            // Show success message
+            document.getElementById('forgotPasswordSuccess').textContent = 'Password reset link sent to your email';
+            document.getElementById('forgotPasswordSuccess').classList.remove('hidden');
+            document.getElementById('forgotPasswordError').classList.add('hidden');
+        }
+
+        function handleResetPassword() {
+            const email = document.getElementById('resetPasswordScreen').dataset.email;
+            const newPassword = document.getElementById('resetPasswordNew').value;
+            const confirmPassword = document.getElementById('resetPasswordConfirm').value;
+            
+            if (!newPassword || !confirmPassword) {
+                showError('resetPasswordError', 'Please fill both fields');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showError('resetPasswordError', 'Passwords do not match');
+                return;
+            }
+            
+            // Update password
+            db.users[email].password = newPassword;
+            
+            // Clean up reset token
+            for (let token in db.resetTokens) {
+                if (db.resetTokens[token] === email) {
+                    delete db.resetTokens[token];
+                    break;
+                }
+            }
+            
+            // Show success message and return to login
+            showMessage('Password Updated', 'Your password has been successfully updated. Please login with your new password.');
+            showLoginScreen();
+        }
+
         function verifyEmail(token) {
             const email = db.verificationTokens[token];
             if (!email || !db.pendingRegistrations[email]) {
@@ -491,9 +836,22 @@
             if (currentUser.role === 'teacher') {
                 document.getElementById('adminTabNav').classList.remove('hidden');
                 document.getElementById('studentsTabNav').classList.remove('hidden');
+                document.getElementById('reportsTabNav').classList.remove('hidden');
+                document.querySelector('#scheduleTable #enrollmentHeader').classList.remove('hidden');
             } else {
                 document.getElementById('adminTabNav').classList.add('hidden');
                 document.getElementById('studentsTabNav').classList.add('hidden');
+                document.getElementById('reportsTabNav').classList.add('hidden');
+                document.querySelector('#scheduleTable #enrollmentHeader').classList.add('hidden');
+            }
+            
+            // Show appropriate homework view
+            if (currentUser.role === 'teacher') {
+                document.getElementById('teacherHomeworkView').classList.remove('hidden');
+                document.getElementById('studentHomeworkView').classList.add('hidden');
+            } else {
+                document.getElementById('teacherHomeworkView').classList.add('hidden');
+                document.getElementById('studentHomeworkView').classList.remove('hidden');
             }
             
             // Load initial data
@@ -528,11 +886,17 @@
                 case 'schedule':
                     loadSchedule();
                     break;
+                case 'homework':
+                    loadHomework();
+                    break;
                 case 'students':
                     loadStudents();
                     break;
                 case 'admin':
                     loadAdminPanel();
+                    break;
+                case 'reports':
+                    loadReports();
                     break;
             }
         }
@@ -541,10 +905,42 @@
             if (currentUser.role === 'teacher') {
                 // Teacher dashboard
                 document.getElementById('upcomingClasses').innerHTML = `
-                    <p class="text-gray-500">Teacher dashboard overview coming soon</p>
+                    <div class="space-y-2">
+                        <div class="font-medium">Today's Classes</div>
+                        <ul class="divide-y">
+                            ${getTodaysClasses().map(c => `
+                                <li class="py-2">
+                                    <div class="font-medium">${getDayName(c.day)} at ${formatTime(c.time)}</div>
+                                    <div class="text-sm text-gray-600">${c.lesson} (${c.students.length}/${c.maxStudents} students)</div>
+                                    <button class="mark-attendance mt-1 text-sm text-blue-600" data-class="${c.id}">Mark Attendance</button>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
                 `;
+                
+                // Add event listeners for attendance buttons
+                document.querySelectorAll('.mark-attendance').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        showAttendanceModal(this.dataset.class);
+                    });
+                });
+                
                 document.getElementById('studentProgress').innerHTML = `
-                    <p class="text-gray-500">Student progress analytics coming soon</p>
+                    <div class="space-y-2">
+                        <div>
+                            <span class="font-medium">Pending Approvals:</span>
+                            <span>${Object.keys(db.pendingRegistrations).length}</span>
+                        </div>
+                        <div>
+                            <span class="font-medium">Total Students:</span>
+                            <span>${Object.values(db.users).filter(u => u.role === 'student' && u.verified).length}</span>
+                        </div>
+                        <div>
+                            <span class="font-medium">Pending Homework Reviews:</span>
+                            <span>${countPendingSubmissions()}</span>
+                        </div>
+                    </div>
                 `;
             } else {
                 // Student dashboard
@@ -561,6 +957,7 @@
                                 <li class="py-2">
                                     <div class="font-medium">${getDayName(c.day)} at ${formatTime(c.time)}</div>
                                     <div class="text-sm text-gray-600">${c.lesson}</div>
+                                    <div class="text-sm">Attendance: ${getAttendanceStatus(c, currentUser.email)}</div>
                                 </li>
                             `).join('')}
                         </ul>
@@ -570,16 +967,16 @@
                 document.getElementById('studentProgress').innerHTML = `
                     <div class="space-y-2">
                         <div>
-                            <span class="font-medium">Attendance:</span>
-                            <span>85% (good)</span>
+                            <span class="font-medium">Attendance Rate:</span>
+                            <span>${calculateAttendanceRate(currentUser.email)}%</span>
                         </div>
                         <div>
                             <span class="font-medium">Current Lesson:</span>
                             <span>TAJWEED - Rules of Noon Sakinah</span>
                         </div>
                         <div>
-                            <span class="font-medium">Teacher Feedback:</span>
-                            <span>"Good progress, focus on makharij"</span>
+                            <span class="font-medium">Pending Homework:</span>
+                            <span>${getPendingHomeworkCount(currentUser.email)}</span>
                         </div>
                     </div>
                 `;
@@ -601,7 +998,7 @@
             if (classesToShow.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="4" class="text-center py-4 text-gray-500">
+                        <td colspan="5" class="text-center py-4 text-gray-500">
                             No classes scheduled
                         </td>
                     </tr>
@@ -611,18 +1008,155 @@
             
             classesToShow.forEach(c => {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${getDayName(c.day)}</td>
-                    <td>${formatTime(c.time)}</td>
-                    <td>${c.lesson}</td>
-                    <td>
-                        ${c.students.includes(currentUser.email) ? 
-                          '<span class="text-green-600">Enrolled</span>' : 
-                          '<span class="text-gray-500">Not enrolled</span>'}
-                    </td>
-                `;
+                
+                if (currentUser.role === 'teacher') {
+                    tr.innerHTML = `
+                        <td>${getDayName(c.day)}</td>
+                        <td>${formatTime(c.time)}</td>
+                        <td>${c.lesson}</td>
+                        <td>${c.students.length}/${c.maxStudents} students</td>
+                        <td>
+                            <button class="enroll-students text-blue-600" data-class="${c.id}">Manage</button>
+                        </td>
+                    `;
+                } else {
+                    tr.innerHTML = `
+                        <td>${getDayName(c.day)}</td>
+                        <td>${formatTime(c.time)}</td>
+                        <td>${c.lesson}</td>
+                        <td>
+                            ${c.students.includes(currentUser.email) ? 
+                              '<span class="text-green-600">Enrolled</span>' : 
+                              '<span class="text-gray-500">Not enrolled</span>'}
+                        </td>
+                    `;
+                }
+                
                 tbody.appendChild(tr);
             });
+            
+            // Add event listeners for enrollment buttons (teacher only)
+            if (currentUser.role === 'teacher') {
+                document.querySelectorAll('.enroll-students').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        showEnrollStudentsModal(this.dataset.class);
+                    });
+                });
+            }
+        }
+
+        function loadHomework() {
+            if (currentUser.role === 'teacher') {
+                // Teacher homework view
+                const homeworkContainer = document.getElementById('homeworkAssignments');
+                homeworkContainer.innerHTML = '';
+                
+                if (db.homework.length === 0) {
+                    homeworkContainer.innerHTML = '<p class="text-gray-500">No homework assignments yet</p>';
+                    return;
+                }
+                
+                db.homework.forEach(hw => {
+                    const classInfo = db.classes.find(c => c.id === hw.classId);
+                    const dueDate = new Date(hw.dueDate);
+                    
+                    const hwElement = document.createElement('div');
+                    hwElement.className = 'homework-item';
+                    hwElement.innerHTML = `
+                        <div class="flex justify-between">
+                            <h3 class="font-medium">${hw.title}</h3>
+                            <span class="text-sm text-gray-600">Due: ${dueDate.toLocaleDateString()}</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">For: ${classInfo ? getDayName(classInfo.day) + ' ' + formatTime(classInfo.time) : 'Unknown Class'}</p>
+                        <p class="mb-2">${hw.description}</p>
+                        <div class="flex justify-between items-center">
+                            <button class="view-submissions text-blue-600 text-sm" data-hw="${hw.id}">
+                                View Submissions (${db.submissions[hw.id] ? Object.keys(db.submissions[hw.id]).length : 0})
+                            </button>
+                            <button class="delete-homework text-red-600 text-sm" data-hw="${hw.id}">Delete</button>
+                        </div>
+                    `;
+                    
+                    homeworkContainer.appendChild(hwElement);
+                });
+                
+                // Add event listeners
+                document.querySelectorAll('.view-submissions').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        viewHomeworkSubmissions(this.dataset.hw);
+                    });
+                });
+                
+                document.querySelectorAll('.delete-homework').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        deleteHomework(this.dataset.hw);
+                    });
+                });
+            } else {
+                // Student homework view
+                const homeworkList = document.getElementById('homeworkList');
+                const homeworkSelect = document.getElementById('homeworkSelect');
+                
+                homeworkList.innerHTML = '';
+                homeworkSelect.innerHTML = '<option value="">-- Select Homework --</option>';
+                
+                // Get classes the student is enrolled in
+                const studentClasses = db.classes.filter(c => c.students.includes(currentUser.email));
+                const classIds = studentClasses.map(c => c.id);
+                
+                // Get homework for these classes
+                const studentHomework = db.homework.filter(hw => classIds.includes(hw.classId));
+                
+                if (studentHomework.length === 0) {
+                    homeworkList.innerHTML = '<p class="text-gray-500">No homework assignments yet</p>';
+                    return;
+                }
+                
+                studentHomework.forEach(hw => {
+                    const classInfo = db.classes.find(c => c.id === hw.classId);
+                    const dueDate = new Date(hw.dueDate);
+                    const submission = db.submissions[hw.id] && db.submissions[hw.id][currentUser.email];
+                    
+                    const hwElement = document.createElement('div');
+                    hwElement.className = 'homework-item';
+                    hwElement.innerHTML = `
+                        <div class="flex justify-between">
+                            <h3 class="font-medium">${hw.title}</h3>
+                            <span class="text-sm ${isPastDue(hw.dueDate) ? 'text-red-600' : 'text-gray-600'}">
+                                Due: ${dueDate.toLocaleDateString()} ${isPastDue(hw.dueDate) ? '(Past Due)' : ''}
+                            </span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">For: ${classInfo ? getDayName(classInfo.day) + ' ' + formatTime(classInfo.time) : 'Unknown Class'}</p>
+                        <p class="mb-2">${hw.description}</p>
+                        ${submission ? `
+                            <div class="mt-2 p-2 bg-gray-50 rounded">
+                                <p class="font-medium">Your Submission:</p>
+                                <p class="text-sm">${submission.notes || 'No notes provided'}</p>
+                                <audio controls class="audio-player">
+                                    <source src="${submission.recordingUrl}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                                ${submission.feedback ? `
+                                    <div class="mt-2 p-2 bg-blue-50 rounded">
+                                        <p class="font-medium">Teacher Feedback:</p>
+                                        <p>${submission.feedback}</p>
+                                    </div>
+                                ` : '<p class="text-sm text-gray-500 mt-2">No feedback yet</p>'}
+                            </div>
+                        ` : '<p class="text-sm text-red-500">Not submitted yet</p>'}
+                    `;
+                    
+                    homeworkList.appendChild(hwElement);
+                    
+                    // Add to select dropdown if not submitted
+                    if (!submission) {
+                        const option = document.createElement('option');
+                        option.value = hw.id;
+                        option.textContent = hw.title;
+                        homeworkSelect.appendChild(option);
+                    }
+                });
+            }
         }
 
         function loadStudents() {
@@ -680,7 +1214,7 @@
             if (approvedStudents.length === 0) {
                 approvedTbody.innerHTML = `
                     <tr>
-                        <td colspan="4" class="text-center py-4 text-gray-500">
+                        <td colspan="5" class="text-center py-4 text-gray-500">
                             No approved students yet
                         </td>
                     </tr>
@@ -688,12 +1222,14 @@
             } else {
                 approvedStudents.forEach(student => {
                     const classCount = db.classes.filter(c => c.students.includes(student.email)).length;
+                    const attendanceRate = calculateAttendanceRate(student.email);
                     
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
                         <td>${student.name}</td>
                         <td>${student.email}</td>
                         <td>${classCount}</td>
+                        <td>${attendanceRate}%</td>
                         <td>
                             <button class="view-student text-blue-600 mr-2" data-email="${student.email}">View</button>
                             <button class="remove-student text-red-600" data-email="${student.email}">Remove</button>
@@ -721,6 +1257,401 @@
             // Load settings
             document.getElementById('emailNotifications').checked = db.settings.emailNotifications;
             document.getElementById('reminderTime').value = db.settings.reminderTime;
+        }
+
+        function loadReports() {
+            const studentSelect = document.getElementById('reportStudentSelect');
+            studentSelect.innerHTML = '<option value="">-- Select Student --</option>';
+            
+            // Only show for teachers
+            if (currentUser.role !== 'teacher') {
+                document.getElementById('reportContainer').classList.add('hidden');
+                return;
+            }
+            
+            // Populate student dropdown
+            const students = Object.values(db.users).filter(u => u.role === 'student' && u.verified);
+            students.forEach(student => {
+                const option = document.createElement('option');
+                option.value = student.email;
+                option.textContent = `${student.name} (${student.email})`;
+                studentSelect.appendChild(option);
+            });
+        }
+
+        function loadStudentReport() {
+            const studentEmail = this.value;
+            const reportContainer = document.getElementById('reportContainer');
+            
+            if (!studentEmail) {
+                reportContainer.classList.add('hidden');
+                return;
+            }
+            
+            const student = db.users[studentEmail];
+            if (!student) {
+                reportContainer.classList.add('hidden');
+                return;
+            }
+            
+            // Update report header
+            document.getElementById('reportStudentName').textContent = `${student.name}'s Report`;
+            
+            // Attendance summary
+            const attendanceSummary = document.getElementById('attendanceSummary');
+            const attendanceRate = calculateAttendanceRate(studentEmail);
+            
+            attendanceSummary.innerHTML = `
+                <div class="mb-2">
+                    <span class="font-medium">Overall Attendance Rate:</span>
+                    <span>${attendanceRate}%</span>
+                </div>
+                <div>
+                    <span class="font-medium">Classes Enrolled:</span>
+                    <span>${db.classes.filter(c => c.students.includes(studentEmail)).length}</span>
+                </div>
+            `;
+            
+            // Homework progress
+            const homeworkProgress = document.getElementById('homeworkProgress');
+            const studentClasses = db.classes.filter(c => c.students.includes(studentEmail));
+            const classIds = studentClasses.map(c => c.id);
+            const homeworkAssigned = db.homework.filter(hw => classIds.includes(hw.classId)).length;
+            const homeworkCompleted = db.homework.filter(hw => 
+                classIds.includes(hw.classId) && 
+                db.submissions[hw.id] && 
+                db.submissions[hw.id][studentEmail]
+            ).length;
+            
+            homeworkProgress.innerHTML = `
+                <div class="mb-2">
+                    <span class="font-medium">Homework Assigned:</span>
+                    <span>${homeworkAssigned}</span>
+                </div>
+                <div>
+                    <span class="font-medium">Homework Completed:</span>
+                    <span>${homeworkCompleted}</span>
+                </div>
+            `;
+            
+            // Teacher notes
+            document.getElementById('teacherNotes').value = db.studentNotes[studentEmail] || '';
+            
+            // Show the report container
+            reportContainer.classList.remove('hidden');
+        }
+
+        function showAddHomeworkModal() {
+            const classSelect = document.getElementById('homeworkClass');
+            classSelect.innerHTML = '<option value="">-- Select Class --</option>';
+            
+            // Populate class dropdown
+            db.classes.forEach(c => {
+                const option = document.createElement('option');
+                option.value = c.id;
+                option.textContent = `${getDayName(c.day)} ${formatTime(c.time)} - ${c.lesson}`;
+                classSelect.appendChild(option);
+            });
+            
+            // Set default due date to 7 days from now
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 7);
+            document.getElementById('homeworkDueDate').value = dueDate.toISOString().split('T')[0];
+            
+            // Show the modal
+            document.getElementById('addHomeworkModal').style.display = 'block';
+        }
+
+        function saveHomework() {
+            const title = document.getElementById('homeworkTitle').value.trim();
+            const description = document.getElementById('homeworkDescription').value.trim();
+            const dueDate = document.getElementById('homeworkDueDate').value;
+            const classId = document.getElementById('homeworkClass').value;
+            
+            if (!title || !description || !dueDate || !classId) {
+                showMessage('Error', 'Please fill all fields');
+                return;
+            }
+            
+            // Create new homework
+            const newHomework = {
+                id: `hw${Date.now()}`,
+                title,
+                description,
+                classId,
+                dueDate,
+                createdAt: new Date().toISOString()
+            };
+            
+            db.homework.push(newHomework);
+            
+            // Initialize submissions object
+            if (!db.submissions[newHomework.id]) {
+                db.submissions[newHomework.id] = {};
+            }
+            
+            // Close modal and refresh
+            closeModal();
+            loadHomework();
+            showMessage('Homework Added', 'The new homework assignment has been created');
+        }
+
+        function submitHomework() {
+            const homeworkId = document.getElementById('homeworkSelect').value;
+            const recordingFile = document.getElementById('homeworkRecording').files[0];
+            const notes = document.getElementById('homeworkNotes').value.trim();
+            
+            if (!homeworkId) {
+                showMessage('Error', 'Please select a homework assignment');
+                return;
+            }
+            
+            if (!recordingFile) {
+                showMessage('Error', 'Please upload your recording');
+                return;
+            }
+            
+            // In a real app, we would upload the file to a server
+            // For this demo, we'll just simulate it with a fake URL
+            const recordingUrl = URL.createObjectURL(recordingFile);
+            
+            // Save submission
+            if (!db.submissions[homeworkId]) {
+                db.submissions[homeworkId] = {};
+            }
+            
+            db.submissions[homeworkId][currentUser.email] = {
+                recordingUrl,
+                notes,
+                submittedAt: new Date().toISOString(),
+                feedback: "",
+                graded: false
+            };
+            
+            // Clear form
+            document.getElementById('homeworkSelect').value = '';
+            document.getElementById('homeworkRecording').value = '';
+            document.getElementById('homeworkNotes').value = '';
+            
+            // Refresh homework view
+            loadHomework();
+            showMessage('Submission Successful', 'Your homework has been submitted successfully');
+        }
+
+        function viewHomeworkSubmissions(homeworkId) {
+            const homework = db.homework.find(hw => hw.id === homeworkId);
+            if (!homework) return;
+            
+            const submissions = db.submissions[homeworkId] || {};
+            const submissionsContainer = document.getElementById('homeworkSubmissions');
+            
+            submissionsContainer.innerHTML = '';
+            
+            if (Object.keys(submissions).length === 0) {
+                submissionsContainer.innerHTML = '<p class="text-gray-500">No submissions yet</p>';
+            } else {
+                Object.entries(submissions).forEach(([email, submission]) => {
+                    const student = db.users[email];
+                    if (!student) return;
+                    
+                    const submissionElement = document.createElement('div');
+                    submissionElement.className = 'homework-item mb-4';
+                    submissionElement.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-medium">${student.name}</h3>
+                            <span class="text-sm text-gray-600">
+                                Submitted: ${new Date(submission.submittedAt).toLocaleDateString()}
+                            </span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">${student.email}</p>
+                        ${submission.notes ? `<p class="mb-2">${submission.notes}</p>` : ''}
+                        <audio controls class="audio-player">
+                            <source src="${submission.recordingUrl}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="mt-2">
+                            <label class="block mb-1">Feedback</label>
+                            <textarea class="w-full p-2 border rounded homework-feedback" data-email="${email}" rows="3" 
+                                placeholder="Enter your feedback...">${submission.feedback || ''}</textarea>
+                            <button class="save-feedback mt-1 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600" 
+                                data-hw="${homeworkId}" data-email="${email}">
+                                Save Feedback
+                            </button>
+                        </div>
+                    `;
+                    
+                    submissionsContainer.appendChild(submissionElement);
+                });
+                
+                // Add event listeners for feedback buttons
+                document.querySelectorAll('.save-feedback').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const homeworkId = this.dataset.hw;
+                        const email = this.dataset.email;
+                        const feedback = document.querySelector(`.homework-feedback[data-email="${email}"]`).value;
+                        
+                        if (db.submissions[homeworkId] && db.submissions[homeworkId][email]) {
+                            db.submissions[homeworkId][email].feedback = feedback;
+                            db.submissions[homeworkId][email].graded = true;
+                            showMessage('Feedback Saved', 'Your feedback has been saved successfully');
+                        }
+                    });
+                });
+            }
+            
+            // Show the submissions view
+            document.getElementById('submissionsView').classList.remove('hidden');
+        }
+
+        function deleteHomework(homeworkId) {
+            if (confirm('Are you sure you want to delete this homework assignment? This cannot be undone.')) {
+                // Remove from homework array
+                db.homework = db.homework.filter(hw => hw.id !== homeworkId);
+                
+                // Remove submissions
+                delete db.submissions[homeworkId];
+                
+                // Refresh view
+                loadHomework();
+                showMessage('Homework Deleted', 'The homework assignment has been removed');
+            }
+        }
+
+        function showEnrollStudentsModal(classId) {
+            const classInfo = db.classes.find(c => c.id === classId);
+            if (!classInfo) return;
+            
+            currentClassForEnrollment = classId;
+            
+            // Set modal title
+            document.getElementById('enrollClassTitle').textContent = 
+                `${getDayName(classInfo.day)} ${formatTime(classInfo.time)} - ${classInfo.lesson}`;
+            
+            // Populate students list
+            const studentsList = document.getElementById('enrollStudentsList');
+            studentsList.innerHTML = '';
+            
+            const allStudents = Object.values(db.users).filter(u => u.role === 'student' && u.verified);
+            
+            if (allStudents.length === 0) {
+                studentsList.innerHTML = `
+                    <tr>
+                        <td colspan="2" class="text-center py-4 text-gray-500">
+                            No students available
+                        </td>
+                    </tr>
+                `;
+            } else {
+                allStudents.forEach(student => {
+                    const isEnrolled = classInfo.students.includes(student.email);
+                    
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${student.name} (${student.email})</td>
+                        <td>
+                            <input type="checkbox" ${isEnrolled ? 'checked' : ''} 
+                                data-email="${student.email}" class="enrollment-checkbox">
+                        </td>
+                    `;
+                    studentsList.appendChild(tr);
+                });
+            }
+            
+            // Show the modal
+            document.getElementById('enrollStudentsModal').style.display = 'block';
+        }
+
+        function saveEnrollments() {
+            if (!currentClassForEnrollment) return;
+            
+            const classInfo = db.classes.find(c => c.id === currentClassForEnrollment);
+            if (!classInfo) return;
+            
+            // Get all checked students
+            const checkboxes = document.querySelectorAll('.enrollment-checkbox:checked');
+            const enrolledStudents = Array.from(checkboxes).map(cb => cb.dataset.email);
+            
+            // Update class enrollment
+            classInfo.students = enrolledStudents;
+            
+            // Close modal and refresh
+            closeModal();
+            loadSchedule();
+            showMessage('Enrollments Updated', 'Student enrollments have been saved successfully');
+        }
+
+        function showAttendanceModal(classId) {
+            const classInfo = db.classes.find(c => c.id === classId);
+            if (!classInfo) return;
+            
+            currentClassForAttendance = classId;
+            
+            // Set modal title
+            document.getElementById('attendanceClassTitle').textContent = 
+                `${getDayName(classInfo.day)} ${formatTime(classInfo.time)} - ${classInfo.lesson}`;
+            
+            // Populate students list
+            const studentsList = document.getElementById('attendanceStudentsList');
+            studentsList.innerHTML = '';
+            
+            if (classInfo.students.length === 0) {
+                studentsList.innerHTML = `
+                    <tr>
+                        <td colspan="2" class="text-center py-4 text-gray-500">
+                            No students enrolled
+                        </td>
+                    </tr>
+                `;
+            } else {
+                classInfo.students.forEach(email => {
+                    const student = db.users[email];
+                    if (!student) return;
+                    
+                    const attendanceStatus = classInfo.attendance[email] || 'absent';
+                    
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${student.name} (${student.email})</td>
+                        <td>
+                            <select class="attendance-status" data-email="${email}">
+                                <option value="present" ${attendanceStatus === 'present' ? 'selected' : ''}>Present</option>
+                                <option value="absent" ${attendanceStatus === 'absent' ? 'selected' : ''}>Absent</option>
+                                <option value="late" ${attendanceStatus === 'late' ? 'selected' : ''}>Late</option>
+                            </select>
+                        </td>
+                    `;
+                    studentsList.appendChild(tr);
+                });
+            }
+            
+            // Show the modal
+            document.getElementById('attendanceModal').style.display = 'block';
+        }
+
+        function saveAttendance() {
+            if (!currentClassForAttendance) return;
+            
+            const classInfo = db.classes.find(c => c.id === currentClassForAttendance);
+            if (!classInfo) return;
+            
+            // Get all attendance statuses
+            const statusSelects = document.querySelectorAll('.attendance-status');
+            
+            statusSelects.forEach(select => {
+                const email = select.dataset.email;
+                const status = select.value;
+                
+                // Update attendance record
+                if (!classInfo.attendance) {
+                    classInfo.attendance = {};
+                }
+                classInfo.attendance[email] = status;
+            });
+            
+            // Close modal and refresh
+            closeModal();
+            loadDashboard();
+            showMessage('Attendance Saved', 'Attendance records have been updated successfully');
         }
 
         function approveStudent(email) {
@@ -767,12 +1698,14 @@
             if (!student) return;
             
             const studentClasses = db.classes.filter(c => c.students.includes(email));
+            const attendanceRate = calculateAttendanceRate(email);
             
             showMessage(
                 `Student: ${student.name}`,
                 `Email: ${student.email}\n\n` +
-                `Classes: ${studentClasses.length}\n` +
-                `Last Active: ${new Date(student.createdAt).toLocaleDateString()}`
+                `Classes Enrolled: ${studentClasses.length}\n` +
+                `Attendance Rate: ${attendanceRate}%\n` +
+                `Registered: ${new Date(student.createdAt).toLocaleDateString()}`
             );
         }
 
@@ -786,19 +1719,56 @@
                     c.students = c.students.filter(s => s !== email);
                 });
                 
+                // Remove homework submissions
+                for (let hwId in db.submissions) {
+                    if (db.submissions[hwId][email]) {
+                        delete db.submissions[hwId][email];
+                    }
+                }
+                
+                // Remove student notes
+                if (db.studentNotes[email]) {
+                    delete db.studentNotes[email];
+                }
+                
                 // Delete user
                 delete db.users[email];
                 
                 // Show message and refresh
                 showMessage('Student Removed', `${student.name} has been removed from the system`);
                 loadStudents();
+                if (document.getElementById('reportsTab').classList.contains('active')) {
+                    loadReports();
+                }
             }
+        }
+
+        function saveStudentNotes() {
+            const studentEmail = document.getElementById('reportStudentSelect').value;
+            const notes = document.getElementById('teacherNotes').value.trim();
+            
+            if (!studentEmail) return;
+            
+            if (notes) {
+                db.studentNotes[studentEmail] = notes;
+            } else {
+                delete db.studentNotes[studentEmail];
+            }
+            
+            showMessage('Notes Saved', 'Your notes have been saved successfully');
+        }
+
+        function printReport() {
+            // In a real app, this would generate a proper printable report
+            // For this demo, we'll just show a message
+            showMessage('Print Report', 'This would generate a printable report with all student data and progress');
         }
 
         function addNewClass() {
             const day = document.getElementById('newClassDay').value;
             const time = document.getElementById('newClassTime').value;
             const lesson = document.getElementById('newClassLesson').value.trim();
+            const maxStudents = parseInt(document.getElementById('newClassMaxStudents').value) || 5;
             
             if (!day || !time || !lesson) {
                 showMessage('Error', 'Please fill all fields');
@@ -812,7 +1782,9 @@
                 time,
                 duration: 60,
                 lesson,
-                students: []
+                maxStudents,
+                students: [],
+                attendance: {}
             };
             
             db.classes.push(newClass);
@@ -850,6 +1822,8 @@
             document.querySelectorAll('.modal').forEach(modal => {
                 modal.style.display = 'none';
             });
+            currentClassForEnrollment = null;
+            currentClassForAttendance = null;
         }
 
         function generateAuthToken() {
@@ -858,6 +1832,10 @@
 
         function generateVerificationToken() {
             return `verify-${Math.random().toString(36).substr(2, 16)}`;
+        }
+
+        function generateResetToken() {
+            return `reset-${Math.random().toString(36).substr(2, 16)}`;
         }
 
         function validateEmail(email) {
@@ -886,12 +1864,72 @@
             return days[dayCode] || dayCode;
         }
 
-        // In a real app, you would also need:
-        // - Password reset functionality
-        // - Email service integration
-        // - Proper database persistence
-        // - Session management
-        // - Security headers and CSRF protection
+        function getTodaysClasses() {
+            const today = new Date();
+            const dayCodes = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+            const todayCode = dayCodes[today.getDay()];
+            
+            return db.classes.filter(c => c.day === todayCode);
+        }
+
+        function getAttendanceStatus(classInfo, email) {
+            if (!classInfo.attendance || !classInfo.attendance[email]) {
+                return 'Not marked';
+            }
+            
+            return classInfo.attendance[email].charAt(0).toUpperCase() + classInfo.attendance[email].slice(1);
+        }
+
+        function calculateAttendanceRate(email) {
+            const studentClasses = db.classes.filter(c => c.students.includes(email));
+            
+            if (studentClasses.length === 0) return 0;
+            
+            let presentCount = 0;
+            let totalClasses = 0;
+            
+            studentClasses.forEach(c => {
+                if (c.attendance && c.attendance[email]) {
+                    totalClasses++;
+                    if (c.attendance[email] === 'present' || c.attendance[email] === 'late') {
+                        presentCount++;
+                    }
+                }
+            });
+            
+            return totalClasses > 0 ? Math.round((presentCount / totalClasses) * 100) : 0;
+        }
+
+        function countPendingSubmissions() {
+            let count = 0;
+            
+            for (let hwId in db.submissions) {
+                for (let email in db.submissions[hwId]) {
+                    if (!db.submissions[hwId][email].graded) {
+                        count++;
+                    }
+                }
+            }
+            
+            return count;
+        }
+
+        function getPendingHomeworkCount(email) {
+            const studentClasses = db.classes.filter(c => c.students.includes(email));
+            const classIds = studentClasses.map(c => c.id);
+            
+            return db.homework.filter(hw => 
+                classIds.includes(hw.classId) && 
+                (!db.submissions[hw.id] || !db.submissions[hw.id][email])
+            ).length;
+        }
+
+        function isPastDue(dueDateString) {
+            const dueDate = new Date(dueDateString);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            return dueDate < today;
+        }
     </script>
 </body>
 </html>
